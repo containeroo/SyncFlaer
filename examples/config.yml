@@ -1,0 +1,34 @@
+---
+rootDomain: example.com
+
+ipProviders:
+  - https://ifconfig.me/ip
+  - https://ipecho.net/plain
+  - https://myip.is/ip
+
+notifications:
+  slack:
+    webhookURL: https://hooks.slack.com/services/abc/def
+    username: ""
+    channel: ""
+    iconURL: ""
+
+traefik:
+  url: https://traefik.example.com
+  username: ""
+  password: ""
+  ignoredRules:
+    - local.example.com
+    - dev.example.com
+
+additionalRecords:
+  - name: vpn.example.com
+    ttl: 120
+
+cloudflare:
+  email: mail@example.com
+  apiKey: abc
+  defaults:
+    type: CNAME
+    proxied: true
+    ttl: 1

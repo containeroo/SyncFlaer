@@ -1,0 +1,4 @@
+.idea/
+.vscode/
+config.yml
+!examples/config.yml
