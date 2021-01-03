@@ -10,20 +10,23 @@ Synchronize Traefik host rules with Cloudflare.
 
 ## Contents
 
-- [Usage](#usage)
-  * [Simple](#simple)
-  * [Kubernetes](#kubernetes)
-- [Configuration](#configuration)
-  * [Overview](#overview)
-    + [Minimal Config File](#minimal-config-file)
-    + [Full Config File](#full-config-file)
-    + [Environment Variables](#environment-variables)
-    + [Defaults](#defaults)
-  * [Additional Records](#additional-records)
-    + [A Record](#a-record)
-    + [CNAME Record](#cname-record)
-- [Copyright](#copyright)
-- [License](#license)
+- [SyncFlaer](#syncflaer)
+  - [Why?](#why)
+  - [Contents](#contents)
+  - [Usage](#usage)
+    - [Simple](#simple)
+    - [Kubernetes](#kubernetes)
+  - [Configuration](#configuration)
+    - [Overview](#overview)
+      - [Minimal Config File](#minimal-config-file)
+      - [Full Config File](#full-config-file)
+      - [Environment Variables](#environment-variables)
+      - [Defaults](#defaults)
+    - [Additional Records](#additional-records)
+      - [A Record](#a-record)
+      - [CNAME Record](#cname-record)
+  - [Copyright](#copyright)
+  - [License](#license)
 
 ## Usage
 
@@ -163,7 +166,7 @@ You can specify additional DNS records that are not configured as a Traefik host
 
 ## Copyright
 
-2020 Containeroo
+2021 Containeroo
 
 ## License
 

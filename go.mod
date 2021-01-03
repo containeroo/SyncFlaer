@@ -1,4 +1,4 @@
-module syncflaer
+module github.com/containeroo/syncflaer
 
 go 1.15
 

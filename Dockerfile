@@ -1,12 +1,12 @@
 FROM golang:1.15-alpine as builder
 
-RUN mkdir -p /go/src/syncflaer
-WORKDIR /go/src/syncflaer
+RUN mkdir -p /go/src/github.com/containeroo/syncflaer
+WORKDIR /go/src/github.com/containeroo/syncflaer
 
 RUN apk add --no-cache git
 
-ADD . /go/src/syncflaer
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -installsuffix nocgo -o /syncflaer syncflaer/cmd
+ADD . /go/src/github.com/containeroo/syncflaer
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -installsuffix nocgo -o /syncflaer github.com/containeroo/syncflaer/cmd
 
 
 FROM scratch

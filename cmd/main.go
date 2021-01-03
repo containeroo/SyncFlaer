@@ -4,12 +4,12 @@ import (
 	"github.com/cloudflare/cloudflare-go"
 	"os"
 
-	internal "syncflaer/internal"
+	internal "github.com/containeroo/syncflaer/internal"
 
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "1.0.0"
+const version string = "1.0.1"
 
 func main() {
 	log.SetOutput(os.Stdout)
