@@ -88,7 +88,7 @@ func GetConfig(configFilePath string) {
 		config.Cloudflare.Defaults.TTL = 1
 	}
 	if config.IPProviders == nil {
-		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip")
+		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/")
 	}
 	if config.Notifications.Slack.Username == "" {
 		config.Notifications.Slack.Username = "SyncFlaer"
