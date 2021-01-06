@@ -63,6 +63,9 @@ func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord 
 	if err != nil {
 		log.Fatalf("Unable to get Traefik rules: %s", err)
 	}
+	if resp.StatusCode != 200 {
+		log.Fatalf("Unable to get Traefik rules: http status code %d", resp.StatusCode)
+	}
 
 	respData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
