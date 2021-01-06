@@ -2,6 +2,10 @@
 
 Synchronize Traefik host rules with Cloudflare.
 
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/containeroo/syncflaer?sort=semver)
+![Docker Pulls](https://img.shields.io/docker/pulls/containeroo/syncflaer)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/containeroo/syncflaer)
+
 ## Why?
 
 - Dynamically create, update or delete Cloudflare DNS records based on Traefik http rules

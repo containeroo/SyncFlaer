@@ -28,7 +28,7 @@ func GetCurrentIP() {
 			continue
 		}
 		if resp.StatusCode != 200 {
-			log.Errorf("Unable to get public ip from %s: got http status code %d", provider, resp.StatusCode)
+			log.Errorf("Unable to get public ip from %s: http status code %d", provider, resp.StatusCode)
 			continue
 		}
 		ip, err := ioutil.ReadAll(resp.Body)
