@@ -6,7 +6,7 @@ WORKDIR /go/src/github.com/containeroo/syncflaer
 RUN apk add --no-cache git
 
 ADD . /go/src/github.com/containeroo/syncflaer
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -installsuffix nocgo -o /syncflaer github.com/containeroo/syncflaer/cmd
+RUN CGO_ENABLED=0 GO111MODULE=on go build -a -installsuffix nocgo -o /syncflaer github.com/containeroo/syncflaer/cmd
 
 
 FROM scratch
