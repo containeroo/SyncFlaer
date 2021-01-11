@@ -141,7 +141,7 @@ If not specified, the following config applies:
 | `cloudflare.defaults.proxied`  | `false`                                                                        |
 | `cloudflare.defaults.ttl`      | `1`                                                                            |
 | `notifications.slack.username` | `SyncFlaer`                                                                    |
-| `notifications.slack.iconURL`  | `https://to-be-defined.com`                                                    |
+| `notifications.slack.iconURL`  | `https://www.cloudflare.com/img/cf-facebook-card.png`                          |
 
 ### Additional Records
 
