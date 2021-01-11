@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.5](https://github.com/containeroo/SyncFlaer/tree/v1.0.5) (2021-01-11)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.4...v1.0.5)
+
+**Bug fixes:**
+
+- print new line when using `-version`
+
 ## [v1.0.4](https://github.com/containeroo/SyncFlaer/tree/v1.0.4) (2021-01-11)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.3...v1.0.4)

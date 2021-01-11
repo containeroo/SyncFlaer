@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "1.0.4"
+const version string = "1.0.5"
 
 func main() {
 	log.SetOutput(os.Stdout)
@@ -21,7 +21,7 @@ func main() {
 	configFilePath, printVersion, debug := internal.ParseFlags()
 
 	if printVersion {
-		fmt.Printf(version)
+		fmt.Println(version)
 		os.Exit(0)
 	}
 
