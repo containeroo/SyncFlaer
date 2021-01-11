@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.3](https://github.com/containeroo/SyncFlaer/tree/v1.0.3) (2021-01-11)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.2...v1.0.3)
+
+**Bug fixes:**
+
+- add Cloudflare logo to Slack message (#2)
+
 ## [v1.0.2](https://github.com/containeroo/SyncFlaer/tree/v1.0.2) (2021-01-06)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.1...v1.0.2)
