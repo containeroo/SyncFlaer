@@ -94,6 +94,6 @@ func GetConfig(configFilePath string) {
 		config.Notifications.Slack.Username = "SyncFlaer"
 	}
 	if config.Notifications.Slack.IconURL == "" {
-		// config.Notifications.Slack.IconURL = "https://placeholder.url.for.icon"
+		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
 	}
 }

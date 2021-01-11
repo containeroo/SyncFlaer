@@ -1,6 +1,6 @@
 # SyncFlaer
 
-Synchronize Traefik host rules with Cloudflare.
+Synchronize Traefik host rules with Cloudflare®.
 
 ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/containeroo/syncflaer?sort=semver)
 ![Docker Pulls](https://img.shields.io/docker/pulls/containeroo/syncflaer)
@@ -8,7 +8,7 @@ Synchronize Traefik host rules with Cloudflare.
 
 ## Why?
 
-- Dynamically create, update or delete Cloudflare DNS records based on Traefik http rules
+- Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
 - Update DNS records when public IP changes
 - Supports configuring additional DNS records that are not in Traefik
 
@@ -172,6 +172,9 @@ You can specify additional DNS records that are not configured as a Traefik host
 
 2021 Containeroo
 
+Cloudflare and the Cloudflare Logo are registred trademarks owned by Cloudflare Inc.
+This project is not affiliated with Cloudflare®.
+
 ## License
 
-TBD
+[GNU GPLv3](https://github.com/containeroo/SyncFlaer/blob/master/LICENSE)
