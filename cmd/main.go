@@ -25,10 +25,10 @@ func main() {
 		os.Exit(0)
 	}
 
-	if !debug {
-		log.SetLevel(log.InfoLevel)
-	} else {
+	if debug {
 		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
 	}
 
 	log.Debugf("SyncFlaer %s", version)
