@@ -44,10 +44,13 @@ syncflaer -config-path /opt/syncflaer.yml
 Flags:
 
 ```text
+Usage of SyncFlaer:
   -config-path string
     	Path to config file (default "config.yml")
   -debug
     	Enable debug mode
+  -version
+    	Print the current version and exit
 ```
 
 ### Kubernetes

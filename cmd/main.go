@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/cloudflare/cloudflare-go"
 	"os"
 
@@ -9,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "1.0.3"
+const version string = "1.0.4"
 
 func main() {
 	log.SetOutput(os.Stdout)
@@ -17,12 +18,17 @@ func main() {
 		FullTimestamp: true,
 	})
 
-	configFilePath, debug := internal.ParseFlags()
+	configFilePath, printVersion, debug := internal.ParseFlags()
 
-	if !debug {
-		log.SetLevel(log.InfoLevel)
-	} else {
+	if printVersion {
+		fmt.Printf(version)
+		os.Exit(0)
+	}
+
+	if debug {
 		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
 	}
 
 	log.Debugf("SyncFlaer %s", version)
