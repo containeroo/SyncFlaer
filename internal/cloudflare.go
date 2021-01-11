@@ -112,8 +112,8 @@ func UpdateCloudflareDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, use
 	}
 }
 
-// CheckMissingDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
-func CheckMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+// GetMissingDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
+func GetMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var missingRecords []cloudflare.DNSRecord
 
 	for _, userRecord := range userRecords {
@@ -130,8 +130,8 @@ func CheckMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRec
 	return missingRecords
 }
 
-// CheckOrphanedDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
-func CheckOrphanedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+// GetOrphanedDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
+func GetOrphanedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var orphanedRecords []cloudflare.DNSRecord
 
 	for _, cloudflareDNSRecord := range cloudflareDNSRecords {
