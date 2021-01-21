@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.6](https://github.com/containeroo/SyncFlaer/tree/v1.0.6) (2021-01-21)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.5...v1.0.6)
+
+**Improvements:**
+
+- Improve Slack messages
+
 ## [v1.0.5](https://github.com/containeroo/SyncFlaer/tree/v1.0.5) (2021-01-11)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.4...v1.0.5)
