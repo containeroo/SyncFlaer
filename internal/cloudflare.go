@@ -67,8 +67,8 @@ func CreateCloudflareDNSRecord(record cloudflare.DNSRecord) {
 		return
 	}
 
-	addSlackMessage(fmt.Sprintf("Created: %s IN %s %s, proxied %t, ttl %d", newDNSRecord.Name, newDNSRecord.Type, newDNSRecord.Content, newDNSRecord.Proxied, newDNSRecord.TTL), "good")
-	log.Infof("Created: %s IN %s %s, proxied %t, ttl %d", newDNSRecord.Name, newDNSRecord.Type, newDNSRecord.Content, newDNSRecord.Proxied, newDNSRecord.TTL)
+	addSlackMessage(fmt.Sprintf("Created: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", newDNSRecord.Name, newDNSRecord.Type, newDNSRecord.Content, newDNSRecord.Proxied, newDNSRecord.TTL), "good")
+	log.Infof("Created: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", newDNSRecord.Name, newDNSRecord.Type, newDNSRecord.Content, newDNSRecord.Proxied, newDNSRecord.TTL)
 }
 
 // DeleteCloudflareDNSRecord is a wrapper function to delete a DNS record
@@ -106,14 +106,14 @@ func UpdateCloudflareDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, use
 				log.Errorf("Unable to update DNS record %s: %s", dnsRecord.Name, err)
 				continue
 			}
-			addSlackMessage(fmt.Sprintf("Updated: %s IN %s %s, proxied %t, ttl %d", dnsRecord.Name, updatedDNSRecord.Type, updatedDNSRecord.Content, updatedDNSRecord.Proxied, updatedDNSRecord.TTL), "good")
-			log.Infof("Updated: %s IN %s %s, proxied %t, ttl %d", dnsRecord.Name, updatedDNSRecord.Type, updatedDNSRecord.Content, updatedDNSRecord.Proxied, updatedDNSRecord.TTL)
+			addSlackMessage(fmt.Sprintf("Updated: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", dnsRecord.Name, updatedDNSRecord.Type, updatedDNSRecord.Content, updatedDNSRecord.Proxied, updatedDNSRecord.TTL), "good")
+			log.Infof("Updated: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", dnsRecord.Name, updatedDNSRecord.Type, updatedDNSRecord.Content, updatedDNSRecord.Proxied, updatedDNSRecord.TTL)
 		}
 	}
 }
 
-// CheckMissingDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
-func CheckMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+// GetMissingDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
+func GetMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var missingRecords []cloudflare.DNSRecord
 
 	for _, userRecord := range userRecords {
@@ -130,8 +130,8 @@ func CheckMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRec
 	return missingRecords
 }
 
-// CheckOrphanedDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
-func CheckOrphanedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+// GetOrphanedDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
+func GetOrphanedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var orphanedRecords []cloudflare.DNSRecord
 
 	for _, cloudflareDNSRecord := range cloudflareDNSRecords {

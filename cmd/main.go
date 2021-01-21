@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "1.0.5"
+const version string = "1.0.6"
 
 func main() {
 	log.SetOutput(os.Stdout)
@@ -46,7 +46,7 @@ func main() {
 	userRecords = internal.GetTraefikRules(userRecords)
 	userRecords = internal.GetAdditionalRecords(userRecords)
 
-	missingRecords := internal.CheckMissingDNSRecords(cloudflareDNSRecords, userRecords)
+	missingRecords := internal.GetMissingDNSRecords(cloudflareDNSRecords, userRecords)
 	if missingRecords != nil {
 		for _, missingRecord := range missingRecords {
 			internal.CreateCloudflareDNSRecord(missingRecord)
@@ -55,7 +55,7 @@ func main() {
 		log.Debug("No missing DNS records")
 	}
 
-	orphanedRecords := internal.CheckOrphanedDNSRecords(cloudflareDNSRecords, userRecords)
+	orphanedRecords := internal.GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords)
 	if orphanedRecords != nil {
 		for _, orphanedRecord := range orphanedRecords {
 			internal.DeleteCloudflareDNSRecord(orphanedRecord)

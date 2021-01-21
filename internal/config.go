@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var config *Configuration
+var config Configuration
 
 // Configuration is a struct to store the script's configuration
 type Configuration struct {
