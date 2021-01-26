@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.0.7](https://github.com/containeroo/SyncFlaer/tree/v1.0.7) (2021-01-26)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.6...v1.0.7)
+
+**Dependencies:**
+
+- Update module cloudflare/cloudflare-go to v0.13.7 (#13)
+- Update module slack-go/slack to v0.8.0 (#14)
+
 ## [v1.0.6](https://github.com/containeroo/SyncFlaer/tree/v1.0.6) (2021-01-21)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.5...v1.0.6)
