@@ -6,7 +6,7 @@
 
 **New features:**
 
-- add `cloudflare.deleteGrace` option to prevent DNS records from disappearing too quickly
+- add `cloudflare.deleteGrace` config to prevent DNS records from disappearing too quickly
 - add `cloudflare.zoneName` config to replace `rootDomain`
 
 **Deprecations:**
