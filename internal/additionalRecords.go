@@ -24,7 +24,7 @@ func GetAdditionalRecords(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRe
 				additionalRecord.Content = currentIP
 			}
 			if additionalRecord.Type == "CNAME" {
-				additionalRecord.Content = config.RootDomain
+				additionalRecord.Content = config.Cloudflare.ZoneName
 			}
 		}
 		if additionalRecord.TTL == 0 {
@@ -35,7 +35,7 @@ func GetAdditionalRecords(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRe
 	}
 	rootDNSRecord := cloudflare.DNSRecord{
 		Type:    "A",
-		Name:    config.RootDomain,
+		Name:    config.Cloudflare.ZoneName,
 		Content: currentIP,
 		Proxied: config.Cloudflare.Defaults.Proxied,
 		TTL:     config.Cloudflare.Defaults.TTL,

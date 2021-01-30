@@ -22,7 +22,7 @@ func SetupCloudflareClient() {
 // GetCloudflareZoneID creates a global var containing the zone id
 func GetCloudflareZoneID() {
 	var err error
-	zoneID, err = cf.ZoneIDByName(config.RootDomain)
+	zoneID, err = cf.ZoneIDByName(config.Cloudflare.ZoneName)
 	if err != nil {
 		log.Fatalf("Unable to get Cloudflare zone id: %s", err)
 	}

@@ -68,22 +68,19 @@ SyncFlaer is configurable via a YAML config file as well as some [environment va
 
 ```yaml
 ---
-rootDomain: example.com
-
 traefik:
   url: https://traefik.example.com
 
 cloudflare:
   email: mail@example.com
   apiKey: abc
+  zoneName: example.com
 ```
 
 #### Full Config File
 
 ```yaml
 ---
-rootDomain: example.com
-
 ipProviders:
   - https://ifconfig.me/ip
   - https://ipecho.net/plain
@@ -115,6 +112,8 @@ additionalRecords:
 cloudflare:
   email: mail@example.com
   apiKey: abc
+  zoneName: example.com
+  deleteGrace: 5
   defaults:
     type: CNAME
     proxied: true
@@ -135,11 +134,12 @@ The following environment variables are configurable:
 
 #### Defaults
 
-If not specified, the following config applies:
+If not specified, the following defaults apply:
 
 | Name                           | Default Value                                                                  |
 |--------------------------------|--------------------------------------------------------------------------------|
 | `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip"]` |
+| `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                 |
 | `cloudflare.defaults.type`     | `CNAME`                                                                        |
 | `cloudflare.defaults.proxied`  | `false`                                                                        |
 | `cloudflare.defaults.ttl`      | `1`                                                                            |
@@ -167,14 +167,14 @@ You can specify additional DNS records that are not configured as a Traefik host
 | `name`    | `vpn.example.com` | none                       | yes      |
 | `type`    | `CNAME`           | `cloudflare.defaults.type` | no       |
 | `ttl`     | `120`             | `cloudflare.defaults.ttl`  | no       |
-| `content` | `mysite.com`      | `rootDomain`               | no       |
+| `content` | `mysite.com`      | `cloudflare.zoneName`      | no       |
 | `proxied` | `false`           | `false`                    | no       |
 
 ## Copyright
 
 2021 Containeroo
 
-Cloudflare and the Cloudflare Logo are registred trademarks owned by Cloudflare Inc.
+Cloudflare and the Cloudflare Logo are registered trademarks owned by Cloudflare Inc.
 This project is not affiliated with Cloudflare®.
 
 ## License

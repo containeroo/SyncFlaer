@@ -1,6 +1,4 @@
 ---
-rootDomain: example.com
-
 ipProviders:
   - https://ifconfig.me/ip
   - https://ipecho.net/plain
@@ -28,6 +26,8 @@ additionalRecords:
 cloudflare:
   email: mail@example.com
   apiKey: abc
+  zoneName: example.com
+  deleteGrace: 5
   defaults:
     type: CNAME
     proxied: true
