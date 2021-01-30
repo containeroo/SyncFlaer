@@ -45,7 +45,7 @@ type Configuration struct {
 }
 
 // GetConfig creates a global var holding the configuration
-func GetConfig(configFilePath string) {
+func GetConfig(configFilePath string) Configuration {
 	log.Debugf("Loading config file %s", configFilePath)
 	configFile, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
@@ -104,4 +104,5 @@ func GetConfig(configFilePath string) {
 	if config.Notifications.Slack.IconURL == "" {
 		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
 	}
+	return config
 }
