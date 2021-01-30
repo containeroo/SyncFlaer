@@ -9,33 +9,30 @@ Synchronize Traefik host rules with Cloudflare®.
 
 - Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
 - Update DNS records when public IP changes
-- Supports configuring additional DNS records that are not in Traefik
+- Supports configuring additional DNS records for services outside Traefik (i.e. vpn server)
 
 ## Contents
 
-- [SyncFlaer](#syncflaer)
-  - [Why?](#why)
-  - [Contents](#contents)
-  - [Usage](#usage)
-    - [Simple](#simple)
-    - [Kubernetes](#kubernetes)
-  - [Configuration](#configuration)
-    - [Overview](#overview)
-      - [Minimal Config File](#minimal-config-file)
-      - [Full Config File](#full-config-file)
-      - [Environment Variables](#environment-variables)
-      - [Defaults](#defaults)
-    - [Additional Records](#additional-records)
-      - [A Record](#a-record)
-      - [CNAME Record](#cname-record)
-  - [Copyright](#copyright)
-  - [License](#license)
+- [Usage](#usage)
+  - [Simple](#simple)
+  - [Kubernetes](#kubernetes)
+- [Configuration](#configuration)
+  - [Overview](#overview)
+    - [Minimal Config File](#minimal-config-file)
+    - [Full Config File](#full-config-file)
+    - [Environment Variables](#environment-variables)
+    - [Defaults](#defaults)
+  - [Additional Records](#additional-records)
+    - [Example A Record](#example-a-record)
+    - [Example CNAME Record](#example-cname-record)
+- [Copyright](#copyright)
+- [License](#license)
 
 ## Usage
 
 ### Simple
 
-Create a config file based on the example `examples/config.yml` located in this repository.
+Create a config file based on the example located at `examples/config.yml`.
 
 ```shell
 syncflaer -config-path /opt/syncflaer.yml
@@ -55,16 +52,17 @@ Usage of SyncFlaer:
 
 ### Kubernetes
 
-SyncFlaer can also run as a Kubernetes CronJob.
-Please refer to the `examples/deploy` directory of this repository.
+You can run SyncFlaer as a Kubernetes CronJob. For an example manifest, please refer to the files located at `examples/deploy`.
 
 ## Configuration
 
 ### Overview
 
-SyncFlaer is configurable via a YAML config file as well as some [environment variables](#environment-variables).
+SyncFlaer is configurable via a YAML config file and some specific [environment variables](#environment-variables).
 
 #### Minimal Config File
+
+The following configuration is required.
 
 ```yaml
 ---
@@ -73,7 +71,7 @@ traefik:
 
 cloudflare:
   email: mail@example.com
-  apiKey: abc
+  apiKey: abc  # can also be set via CLOUDFLARE_APIKEY env variable
   zoneName: example.com
 ```
 
@@ -81,26 +79,34 @@ cloudflare:
 
 ```yaml
 ---
+# a list of services that return the public IP
 ipProviders:
   - https://ifconfig.me/ip
   - https://ipecho.net/plain
   - https://myip.is/ip
 
+# configure Slack notifications for SyncFlaer
 notifications:
   slack:
-    webhookURL: https://hooks.slack.com/services/abc/def
+    # Slack webhook URL
+    webhookURL: https://hooks.slack.com/services/abc/def  # can also be set via SLACK_WEBHOOK env variable
     username: SyncFlaer
     channel: "#syncflaer"
     iconURL: https://url.to/image.png
 
 traefik:
+  # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
   url: https://traefik.example.com
+  # HTTP basic auth credentials for Traefik
   username: admin
-  password: supersecure
+  password: supersecure  # can also be set via TRAEFIK_PASSWORD env variable
+  # a list of rules which will be ignored
+  # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
   ignoredRules:
     - local.example.com
     - dev.example.com
 
+# specify additional DNS records for services absent in Traefik (i.e. vpn server)
 additionalRecords:
   - name: vpn.example.com
     ttl: 120
@@ -110,10 +116,16 @@ additionalRecords:
     contents: 1.1.1.1
 
 cloudflare:
+  # your Cloudflare account email
   email: mail@example.com
+  # global Cloudflare API key
   apiKey: abc
+  # essentially the root domain of your services
   zoneName: example.com
+  # define how many skips should happen until a DNS record gets deleted
+  # every run of SyncFlaer counts as a skip
   deleteGrace: 5
+  # define a set of defaults applied to all Traefik rules
   defaults:
     type: CNAME
     proxied: true
@@ -123,8 +135,6 @@ cloudflare:
 #### Environment Variables
 
 **Note:** Environment variables have a higher precedence than the config file!
-
-The following environment variables are configurable:
 
 | Name                | Description                                      |
 |---------------------|--------------------------------------------------|
@@ -148,9 +158,9 @@ If not specified, the following defaults apply:
 
 ### Additional Records
 
-You can specify additional DNS records that are not configured as a Traefik host.
+You can specify additional DNS records which are not configured as Traefik hosts.
 
-#### A Record
+#### Example A Record
 
 | Key       | Example         | Default Value              | Required |
 |-----------|-----------------|----------------------------|----------|
@@ -160,7 +170,7 @@ You can specify additional DNS records that are not configured as a Traefik host
 | `content` | `1.1.1.1`       | `current public IP`        | no       |
 | `proxied` | `true`          | `false`                    | no       |
 
-#### CNAME Record
+#### Example CNAME Record
 
 | Key       | Example           | Default Value              | Required |
 |-----------|-------------------|----------------------------|----------|
