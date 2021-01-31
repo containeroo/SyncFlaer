@@ -1,33 +1,51 @@
 ---
-rootDomain: example.com
-
+# a list of services that return the public IP
 ipProviders:
   - https://ifconfig.me/ip
   - https://ipecho.net/plain
   - https://myip.is/ip
 
+# configure Slack notifications for SyncFlaer
 notifications:
   slack:
-    webhookURL: https://hooks.slack.com/services/abc/def
-    username: ""
-    channel: ""
-    iconURL: ""
+    # Slack webhook URL
+    webhookURL: https://hooks.slack.com/services/abc/def  # can also be set using SLACK_WEBHOOK env variable
+    username: SyncFlaer
+    channel: "#syncflaer"
+    iconURL: https://url.to/image.png
 
 traefik:
+  # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
   url: https://traefik.example.com
-  username: ""
-  password: ""
+  # HTTP basic auth credentials for Traefik
+  username: admin
+  password: supersecure  # can also be set using TRAEFIK_PASSWORD env variable
+  # a list of rules which will be ignored
+  # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
   ignoredRules:
     - local.example.com
     - dev.example.com
 
+# specify additional DNS records for services absent in Traefik (i.e. vpn server)
 additionalRecords:
   - name: vpn.example.com
     ttl: 120
+  - name: a.example.com
+    proxied: true
+    type: A
+    contents: 1.1.1.1
 
 cloudflare:
+  # your Cloudflare account email
   email: mail@example.com
-  apiKey: abc
+  # global Cloudflare API key
+  apiKey: abc  # can also be set using CLOUDFLARE_APIKEY env variable
+  # essentially the root domain of your services
+  zoneName: example.com
+  # define how many skips should happen until a DNS record gets deleted
+  # every run of SyncFlaer counts as a skip
+  deleteGrace: 5
+  # define a set of defaults applied to all Traefik rules
   defaults:
     type: CNAME
     proxied: true

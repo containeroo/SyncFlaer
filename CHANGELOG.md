@@ -1,5 +1,23 @@
 # Changelog
 
+## [v1.1.0](https://github.com/containeroo/SyncFlaer/tree/v1.1.0) (2021-01-31)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.7...v1.1.0)
+
+**New features:**
+
+- add `cloudflare.deleteGrace` config to prevent DNS records from getting deleted too quickly
+- add `cloudflare.zoneName` config to replace `rootDomain`
+- windows/amd64 builds are now available in GitHub releases
+
+**Deprecations:**
+
+- `rootDomain` is deprecated and will be removed in a future release, use `cloudflare.zoneName` instead
+
+**Dependencies:**
+
+- Update module cloudflare/cloudflare-go to v0.13.8 (#17)
+
 ## [v1.0.7](https://github.com/containeroo/SyncFlaer/tree/v1.0.7) (2021-01-26)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.6...v1.0.7)

@@ -82,7 +82,7 @@ func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord 
 
 	var content string
 	if config.Cloudflare.Defaults.Type == "CNAME" {
-		content = config.RootDomain
+		content = config.Cloudflare.ZoneName
 	}
 	if config.Cloudflare.Defaults.Type == "A" {
 		content = currentIP

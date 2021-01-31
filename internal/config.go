@@ -14,7 +14,7 @@ var config Configuration
 
 // Configuration is a struct to store the script's configuration
 type Configuration struct {
-	RootDomain    string   `yaml:"rootDomain"`
+	RootDomain    string   `yaml:"rootDomain,omitempty"`
 	IPProviders   []string `yaml:"ipProviders"`
 	Notifications struct {
 		Slack struct {
@@ -32,9 +32,11 @@ type Configuration struct {
 	} `yaml:"traefik"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
-		Email    string `yaml:"email"`
-		APIKey   string `yaml:"apiKey"`
-		Defaults struct {
+		Email       string `yaml:"email"`
+		APIKey      string `yaml:"apiKey"`
+		DeleteGrace int    `yaml:"deleteGrace"`
+		ZoneName    string `yaml:"zoneName"`
+		Defaults    struct {
 			Type    string `yaml:"type"`
 			Proxied bool   `yaml:"proxied"`
 			TTL     int    `yaml:"ttl"`
@@ -43,7 +45,7 @@ type Configuration struct {
 }
 
 // GetConfig creates a global var holding the configuration
-func GetConfig(configFilePath string) {
+func GetConfig(configFilePath string) Configuration {
 	log.Debugf("Loading config file %s", configFilePath)
 	configFile, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
@@ -66,9 +68,15 @@ func GetConfig(configFilePath string) {
 		config.Cloudflare.APIKey = os.Getenv("CLOUDFLARE_APIKEY")
 	}
 
+	// Backwards compatibility
+	if config.RootDomain != "" {
+		config.Cloudflare.ZoneName = config.RootDomain
+		log.Warn("rootDomain is deprecated and will be removed in a future release, use cloudflare.zoneName instead")
+	}
+
 	// Validate config
-	if config.RootDomain == "" {
-		log.Fatal("rootDomain cannot be empty")
+	if config.Cloudflare.ZoneName == "" {
+		log.Fatal("Cloudflare zone name cannot be empty")
 	}
 	if config.Traefik.URL == "" {
 		log.Fatal("Traefik URL cannot be empty")
@@ -96,4 +104,5 @@ func GetConfig(configFilePath string) {
 	if config.Notifications.Slack.IconURL == "" {
 		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
 	}
+	return config
 }
