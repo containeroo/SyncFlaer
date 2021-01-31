@@ -8,7 +8,7 @@
 
 - add `cloudflare.deleteGrace` config to prevent DNS records from getting deleted too quickly
 - add `cloudflare.zoneName` config to replace `rootDomain`
-- windows/amd64 build is now available in GitHub releases
+- windows/amd64 builds are now available in GitHub releases
 
 **Deprecations:**
 
