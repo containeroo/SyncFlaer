@@ -62,11 +62,9 @@ func main() {
 		for _, orphanedRecord := range orphanedRecords {
 			if config.Cloudflare.DeleteGrace == 0 {
 				internal.DeleteCloudflareDNSRecord(orphanedRecord)
-				if deleteGraceRecords != nil {
-					for _, deleteGraceRecord := range deleteGraceRecords {
-						internal.DeleteCloudflareDNSRecord(deleteGraceRecord)
-						log.Infof("Cleaning up delete grace DNS record for %s", strings.TrimPrefix(deleteGraceRecord.Name, "_syncflaer._deletegrace."))
-					}
+				for _, deleteGraceRecord := range deleteGraceRecords {
+					log.Infof("Cleaning up delete grace DNS record for %s", strings.TrimPrefix(deleteGraceRecord.Name, "_syncflaer._deletegrace."))
+					internal.DeleteCloudflareDNSRecord(deleteGraceRecord)
 				}
 				continue
 			}
@@ -80,8 +78,8 @@ func main() {
 				deleteGrace -= 1
 				if deleteGrace > 0 {
 					deleteGraceRecord.Content = strconv.Itoa(deleteGrace)
+					log.Infof("Waiting %d more runs until deleting DNS record %s", deleteGrace-1, orphanedRecord.Name)
 					internal.UpdateCloudflareDNSRecord(deleteGraceRecord)
-					log.Infof("Waiting %s more runs until deleting DNS record %s", deleteGraceRecord.Content, orphanedRecord.Name)
 					continue
 				}
 				internal.DeleteCloudflareDNSRecord(orphanedRecord)
@@ -93,16 +91,15 @@ func main() {
 					Name:    fmt.Sprintf("_syncflaer._deletegrace.%s", orphanedRecord.Name),
 					Content: strconv.Itoa(config.Cloudflare.DeleteGrace),
 				}
+				log.Infof("Waiting %d more runs until deleting DNS record %s", config.Cloudflare.DeleteGrace-1, orphanedRecord.Name)
 				internal.CreateCloudflareDNSRecord(deleteGraceRecord)
-				log.Infof("Waiting %s more runs until deleting DNS record %s", deleteGraceRecord.Content, orphanedRecord.Name)
 			}
 		}
-	} else if deleteGraceRecords != nil {
-		for _, deleteGraceRecord := range deleteGraceRecords {
-			internal.DeleteCloudflareDNSRecord(deleteGraceRecord)
-			log.Infof("DNS record %s is not orphaned anymore", strings.TrimPrefix(deleteGraceRecord.Name, "_syncflaer._deletegrace."))
-		}
 	} else {
+		for _, deleteGraceRecord := range deleteGraceRecords {
+			log.Infof("DNS record %s is not orphaned anymore", strings.TrimPrefix(deleteGraceRecord.Name, "_syncflaer._deletegrace."))
+			internal.DeleteCloudflareDNSRecord(deleteGraceRecord)
+		}
 		log.Debug("No orphaned DNS records")
 	}
 
