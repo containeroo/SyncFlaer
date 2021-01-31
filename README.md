@@ -52,13 +52,13 @@ Usage of SyncFlaer:
 
 ### Kubernetes
 
-You can run SyncFlaer as a Kubernetes CronJob. For an example manifest, please refer to the files located at `examples/deploy`.
+You can run SyncFlaer as a Kubernetes CronJob. For an example deployment, please refer to the files located at `examples/deploy`.
 
 ## Configuration
 
 ### Overview
 
-SyncFlaer is configurable via a YAML config file and some specific [environment variables](#environment-variables).
+SyncFlaer must be configured via a [YAML config file](#full-config-file). Some secrets can be configured using [environment variables](#environment-variables).
 
 #### Minimal Config File
 
@@ -89,7 +89,7 @@ ipProviders:
 notifications:
   slack:
     # Slack webhook URL
-    webhookURL: https://hooks.slack.com/services/abc/def  # can also be set via SLACK_WEBHOOK env variable
+    webhookURL: https://hooks.slack.com/services/abc/def  # can also be set using SLACK_WEBHOOK env variable
     username: SyncFlaer
     channel: "#syncflaer"
     iconURL: https://url.to/image.png
@@ -99,7 +99,7 @@ traefik:
   url: https://traefik.example.com
   # HTTP basic auth credentials for Traefik
   username: admin
-  password: supersecure  # can also be set via TRAEFIK_PASSWORD env variable
+  password: supersecure  # can also be set using TRAEFIK_PASSWORD env variable
   # a list of rules which will be ignored
   # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
   ignoredRules:
@@ -119,7 +119,7 @@ cloudflare:
   # your Cloudflare account email
   email: mail@example.com
   # global Cloudflare API key
-  apiKey: abc
+  apiKey: abc  # can also be set using CLOUDFLARE_APIKEY env variable
   # essentially the root domain of your services
   zoneName: example.com
   # define how many skips should happen until a DNS record gets deleted
