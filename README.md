@@ -72,7 +72,7 @@ traefik:
 
 cloudflare:
   email: mail@example.com
-  apiKey: abc  # can also be set via CLOUDFLARE_APIKEY env variable
+  apiKey: abc  # can also be set using CLOUDFLARE_APIKEY env variable
   zoneName: example.com
 ```
 

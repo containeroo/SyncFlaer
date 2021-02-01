@@ -6,11 +6,6 @@ metadata:
 data:
   config.yml: |
     ---
-    ipProviders:
-      - https://ifconfig.me/ip
-      - https://ipecho.net/plain
-      - https://myip.is/ip
-
     traefik:
       url: https://traefik.example.com
       ignoredRules:
