@@ -3,6 +3,7 @@ package sf
 import (
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/cloudflare/cloudflare-go"
 
@@ -74,10 +75,29 @@ func GetConfig(configFilePath string) Configuration {
 		log.Warn("rootDomain is deprecated and will be removed in a future release, use cloudflare.zoneName instead")
 	}
 
-	// Validate config
-	if config.Cloudflare.ZoneName == "" {
-		log.Fatal("Cloudflare zone name cannot be empty")
+	// Set default values
+	if config.Cloudflare.Defaults.Type == "" {
+		config.Cloudflare.Defaults.Type = "CNAME"
+		log.Debug("Cloudflare default type is empty, defaulting to ", config.Cloudflare.Defaults.Type)
 	}
+	if config.Cloudflare.Defaults.TTL == 0 || config.Cloudflare.Defaults.Proxied {
+		config.Cloudflare.Defaults.TTL = 1
+		log.Debug("Cloudflare default TTL is empty, defaulting to ", config.Cloudflare.Defaults.TTL)
+	}
+	if config.IPProviders == nil {
+		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/")
+		log.Debug("IP providers is empty, defaulting to ", strings.Join(config.IPProviders, ", "))
+	}
+	if config.Notifications.Slack.Username == "" {
+		config.Notifications.Slack.Username = "SyncFlaer"
+		log.Debug("Slack username is empty, defaulting to ", config.Notifications.Slack.Username)
+	}
+	if config.Notifications.Slack.IconURL == "" {
+		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
+		log.Debug("Slack icon URL is empty, defaulting to ", config.Notifications.Slack.IconURL)
+	}
+
+	// Validate config
 	if config.Traefik.URL == "" {
 		log.Fatal("Traefik URL cannot be empty")
 	}
@@ -87,22 +107,12 @@ func GetConfig(configFilePath string) Configuration {
 	if config.Cloudflare.APIKey == "" {
 		log.Fatal("Cloudflare api key cannot be empty")
 	}
+	if config.Cloudflare.ZoneName == "" {
+		log.Fatal("Cloudflare zone name cannot be empty")
+	}
+	if config.Cloudflare.Defaults.Type != "A" && config.Cloudflare.Defaults.Type != "CNAME" {
+		log.Fatalf("Supported Cloudflare default types are A or CNAME")
+	}
 
-	// Set default values
-	if config.Cloudflare.Defaults.Type == "" {
-		config.Cloudflare.Defaults.Type = "CNAME"
-	}
-	if config.Cloudflare.Defaults.TTL == 0 || config.Cloudflare.Defaults.Proxied {
-		config.Cloudflare.Defaults.TTL = 1
-	}
-	if config.IPProviders == nil {
-		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/")
-	}
-	if config.Notifications.Slack.Username == "" {
-		config.Notifications.Slack.Username = "SyncFlaer"
-	}
-	if config.Notifications.Slack.IconURL == "" {
-		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
-	}
 	return config
 }

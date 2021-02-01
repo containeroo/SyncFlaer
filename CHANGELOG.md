@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.1.1](https://github.com/containeroo/SyncFlaer/tree/v1.1.1) (2021-02-01)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.0...v1.1.1)
+
+**Improvements:**
+
+- validate `cloudflare.defaults.type` config
+- print debug log if defaults are applied
+
 ## [v1.1.0](https://github.com/containeroo/SyncFlaer/tree/v1.1.0) (2021-01-31)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.0.7...v1.1.0)
