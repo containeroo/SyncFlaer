@@ -27,6 +27,7 @@ func GetAdditionalRecords(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRe
 				additionalRecord.Content = config.Cloudflare.ZoneName
 			default:
 				log.Errorf("%s is an unsupported type, only A or CNAME are supported", additionalRecord.Content)
+				continue
 			}
 		}
 		if additionalRecord.TTL == 0 {
