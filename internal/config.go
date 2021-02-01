@@ -75,9 +75,6 @@ func GetConfig(configFilePath string) Configuration {
 	}
 
 	// Validate config
-	if config.Cloudflare.ZoneName == "" {
-		log.Fatal("Cloudflare zone name cannot be empty")
-	}
 	if config.Traefik.URL == "" {
 		log.Fatal("Traefik URL cannot be empty")
 	}
@@ -86,6 +83,12 @@ func GetConfig(configFilePath string) Configuration {
 	}
 	if config.Cloudflare.APIKey == "" {
 		log.Fatal("Cloudflare api key cannot be empty")
+	}
+	if config.Cloudflare.ZoneName == "" {
+		log.Fatal("Cloudflare zone name cannot be empty")
+	}
+	if config.Cloudflare.Defaults.Type != "A" && config.Cloudflare.Defaults.Type != "CNAME" {
+		log.Fatalf("Supported Cloudflare default types are A or CNAME")
 	}
 
 	// Set default values

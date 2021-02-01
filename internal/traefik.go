@@ -81,11 +81,11 @@ func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord 
 	var re = regexp.MustCompile(`(?m)Host\(\x60(([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,})\x60\)`)
 
 	var content string
-	if config.Cloudflare.Defaults.Type == "CNAME" {
-		content = config.Cloudflare.ZoneName
-	}
-	if config.Cloudflare.Defaults.Type == "A" {
+	switch config.Cloudflare.Defaults.Type {
+	case "A":
 		content = currentIP
+	case "CNAME":
+		content = config.Cloudflare.ZoneName
 	}
 
 	var ruleNames []string
