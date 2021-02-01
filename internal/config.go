@@ -74,6 +74,23 @@ func GetConfig(configFilePath string) Configuration {
 		log.Warn("rootDomain is deprecated and will be removed in a future release, use cloudflare.zoneName instead")
 	}
 
+	// Set default values
+	if config.Cloudflare.Defaults.Type == "" {
+		config.Cloudflare.Defaults.Type = "CNAME"
+	}
+	if config.Cloudflare.Defaults.TTL == 0 || config.Cloudflare.Defaults.Proxied {
+		config.Cloudflare.Defaults.TTL = 1
+	}
+	if config.IPProviders == nil {
+		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/")
+	}
+	if config.Notifications.Slack.Username == "" {
+		config.Notifications.Slack.Username = "SyncFlaer"
+	}
+	if config.Notifications.Slack.IconURL == "" {
+		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
+	}
+
 	// Validate config
 	if config.Traefik.URL == "" {
 		log.Fatal("Traefik URL cannot be empty")
@@ -91,21 +108,5 @@ func GetConfig(configFilePath string) Configuration {
 		log.Fatalf("Supported Cloudflare default types are A or CNAME")
 	}
 
-	// Set default values
-	if config.Cloudflare.Defaults.Type == "" {
-		config.Cloudflare.Defaults.Type = "CNAME"
-	}
-	if config.Cloudflare.Defaults.TTL == 0 || config.Cloudflare.Defaults.Proxied {
-		config.Cloudflare.Defaults.TTL = 1
-	}
-	if config.IPProviders == nil {
-		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/")
-	}
-	if config.Notifications.Slack.Username == "" {
-		config.Notifications.Slack.Username = "SyncFlaer"
-	}
-	if config.Notifications.Slack.IconURL == "" {
-		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
-	}
 	return config
 }
