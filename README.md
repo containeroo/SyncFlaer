@@ -4,6 +4,7 @@ Synchronize Traefik host rules with Cloudflare®.
 
 ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/containeroo/syncflaer?sort=semver)
 ![Docker Pulls](https://img.shields.io/docker/pulls/containeroo/syncflaer)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/containeroo/syncflaer)
 
 ## Why?
 
