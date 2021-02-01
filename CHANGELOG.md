@@ -1,6 +1,6 @@
 # Changelog
 
-## [v1.1.1](https://github.com/containeroo/SyncFlaer/tree/v1.1.1) (2021-02-XX)
+## [v1.1.1](https://github.com/containeroo/SyncFlaer/tree/v1.1.1) (2021-02-01)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.0...v1.1.1)
 
