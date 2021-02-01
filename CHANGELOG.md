@@ -7,6 +7,7 @@
 **Improvements:**
 
 - validate `cloudflare.defaults.type` config
+- print debug log if defaults are applied
 
 ## [v1.1.0](https://github.com/containeroo/SyncFlaer/tree/v1.1.0) (2021-01-31)
 
