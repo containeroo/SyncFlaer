@@ -182,13 +182,12 @@ func UpdateOutdatedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userR
 			if dnsRecord.Proxied == userRecord.Proxied && dnsRecord.TTL == userRecord.TTL && dnsRecord.Content == userRecord.Content {
 				continue
 			}
-			updatedDNSRecord := cloudflare.DNSRecord{
-				Type:    userRecord.Type,
-				Content: userRecord.Content,
-				Proxied: userRecord.Proxied,
-				TTL:     userRecord.TTL,
-			}
-			UpdateCloudflareDNSRecord(updatedDNSRecord)
+			dnsRecord.Type = userRecord.Type
+			dnsRecord.Content = userRecord.Content
+			dnsRecord.Proxied = userRecord.Proxied
+			dnsRecord.TTL = userRecord.TTL
+
+			UpdateCloudflareDNSRecord(dnsRecord)
 		}
 	}
 }

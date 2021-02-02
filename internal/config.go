@@ -98,9 +98,9 @@ func GetConfig(configFilePath string) Configuration {
 	}
 
 	// Validate config
-	for _, traefikInstance := range config.TraefikInstances {
+	for instanceName, traefikInstance := range config.TraefikInstances {
 		if traefikInstance.URL == "" {
-			log.Fatal("Traefik URL cannot be empty")
+			log.Fatalf("Traefik URL for instance %s cannot be empty", instanceName)
 		}
 	}
 	if config.Cloudflare.Email == "" {

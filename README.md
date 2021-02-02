@@ -68,7 +68,7 @@ The following configuration is required.
 
 ```yaml
 ---
-traefik:
+traefikInstances:
   main:
     url: https://traefik.example.com
 
@@ -97,7 +97,7 @@ notifications:
     channel: "#syncflaer"
     iconURL: https://url.to/image.png
 
-traefik:
+traefikInstances:
   # the name of the Traefik instance
   main:
     # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
