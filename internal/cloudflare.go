@@ -52,6 +52,7 @@ func GetCloudflareDNSRecords() ([]cloudflare.DNSRecord, []cloudflare.DNSRecord) 
 		cloudflareDNSRecordNames = append(cloudflareDNSRecordNames, dnsRecord.Name)
 	}
 	log.Debugf("Found Cloudflare DNS records: %s", strings.Join(cloudflareDNSRecordNames, ", "))
+
 	return cloudflareDNSRecords, deleteGraceRecords
 }
 
@@ -148,6 +149,7 @@ func GetMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecor
 			missingRecords = append(missingRecords, userRecord)
 		}
 	}
+
 	return missingRecords
 }
 
@@ -166,6 +168,7 @@ func GetOrphanedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userReco
 			orphanedRecords = append(orphanedRecords, cloudflareDNSRecord)
 		}
 	}
+
 	return orphanedRecords
 }
 
@@ -179,13 +182,12 @@ func UpdateOutdatedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userR
 			if dnsRecord.Proxied == userRecord.Proxied && dnsRecord.TTL == userRecord.TTL && dnsRecord.Content == userRecord.Content {
 				continue
 			}
-			updatedDNSRecord := cloudflare.DNSRecord{
-				Type:    userRecord.Type,
-				Content: userRecord.Content,
-				Proxied: userRecord.Proxied,
-				TTL:     userRecord.TTL,
-			}
-			UpdateCloudflareDNSRecord(updatedDNSRecord)
+			dnsRecord.Type = userRecord.Type
+			dnsRecord.Content = userRecord.Content
+			dnsRecord.Proxied = userRecord.Proxied
+			dnsRecord.TTL = userRecord.TTL
+
+			UpdateCloudflareDNSRecord(dnsRecord)
 		}
 	}
 }
