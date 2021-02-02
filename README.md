@@ -22,6 +22,7 @@ Synchronize Traefik host rules with Cloudflare®.
   - [Overview](#overview)
     - [Minimal Config File](#minimal-config-file)
     - [Full Config File](#full-config-file)
+    - [Using Multiple Traefik Instances](#using-multiple-traefik-instances)
     - [Environment Variables](#environment-variables)
     - [Defaults](#defaults)
   - [Additional Records](#additional-records)
@@ -144,6 +145,33 @@ cloudflare:
     proxied: true
     ttl: 1
 ```
+
+#### Using Multiple Traefik Instances
+
+Starting with version 2.0.0, you can configure SyncFlaer to gather host rules from multiple Traefik instances.  
+The configuration for two instances would look like this:
+
+```yaml
+traefik:
+  instance1:
+    url: https://traefik1.example.com
+    user: admin1
+    password: supersecure
+    ignoredRules:
+      - instance1.example.com
+  instance2:
+    url: https://traefik2.example.com
+    user: admin2
+    password: stillsupersecure
+    ignoredRules:
+      - instance2.example.com
+```
+
+As you can see, you can configure HTTP basic auth and a list of rules to be ignored for each instance separately.
+
+If you want to use an environment variable for the HTTP basic auth password, the environment variable must be named `TRAEFIK_<INSTANCE_NAME>_PASSWORD`.
+
+In this example, the two environment variables would be `TRAEFIK_INSTANCE1_PASSWORD` and `TRAEFIK_INSTANCE2_PASSWORD`.
 
 #### Environment Variables
 
