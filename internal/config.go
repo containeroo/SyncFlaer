@@ -1,6 +1,7 @@
 package sf
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -13,7 +14,15 @@ import (
 
 var config Configuration
 
-// Configuration is a struct to store the script's configuration
+// Traefik struct holds the necessary information about a Traefik instance
+type Traefik struct {
+	URL          string   `yaml:"url"`
+	Username     string   `yaml:"username"`
+	Password     string   `yaml:"password"`
+	IgnoredRules []string `yaml:"ignoredRules"`
+}
+
+// Configuration struct holds SyncFlaer configuration
 type Configuration struct {
 	RootDomain    string   `yaml:"rootDomain,omitempty"`
 	IPProviders   []string `yaml:"ipProviders"`
@@ -25,12 +34,7 @@ type Configuration struct {
 			IconURL    string `yaml:"iconURL"`
 		} `yaml:"slack"`
 	} `yaml:"notifications"`
-	Traefik struct {
-		URL          string   `yaml:"url"`
-		Username     string   `yaml:"username"`
-		Password     string   `yaml:"password"`
-		IgnoredRules []string `yaml:"ignoredRules"`
-	} `yaml:"traefik"`
+	TraefikInstances  map[string]Traefik     `yaml:"traefikInstances"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
 		Email       string `yaml:"email"`
@@ -61,9 +65,6 @@ func GetConfig(configFilePath string) Configuration {
 	// Check if env vars are set
 	if os.Getenv("SLACK_WEBHOOK") != "" {
 		config.Notifications.Slack.WebhookURL = os.Getenv("SLACK_WEBHOOK")
-	}
-	if os.Getenv("TRAEFIK_PASSWORD") != "" {
-		config.Traefik.Password = os.Getenv("TRAEFIK_PASSWORD")
 	}
 	if os.Getenv("CLOUDFLARE_APIKEY") != "" {
 		config.Cloudflare.APIKey = os.Getenv("CLOUDFLARE_APIKEY")
@@ -98,8 +99,13 @@ func GetConfig(configFilePath string) Configuration {
 	}
 
 	// Validate config
-	if config.Traefik.URL == "" {
-		log.Fatal("Traefik URL cannot be empty")
+	for instanceName, traefikInstance := range config.TraefikInstances {
+		if traefikInstance.URL == "" {
+			log.Fatal("Traefik URL cannot be empty")
+		}
+		// Set Traefik password from env var, if exists
+		envVarName := fmt.Sprintf("TRAEFIK_%s_PASSWORD", strings.ToUpper(instanceName))
+		traefikInstance.Password = os.Getenv(envVarName)
 	}
 	if config.Cloudflare.Email == "" {
 		log.Fatal("Cloudflare email cannot be empty")

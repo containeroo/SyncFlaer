@@ -7,10 +7,11 @@ data:
   config.yml: |
     ---
     traefik:
-      url: https://traefik.example.com
-      ignoredRules:
-        - local.example.com
-        - dev.example.com
+      main:
+        url: https://traefik.example.com
+        ignoredRules:
+          - local.example.com
+          - dev.example.com
 
     additionalRecords:
       - name: vpn.example.com

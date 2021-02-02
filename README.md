@@ -9,6 +9,7 @@ Synchronize Traefik host rules with Cloudflare®.
 ## Why?
 
 - Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
+- Supports multiple Traefik instances
 - Update DNS records when public IP changes
 - Supports configuring additional DNS records for services outside Traefik (i.e. vpn server)
 
@@ -68,7 +69,8 @@ The following configuration is required.
 ```yaml
 ---
 traefik:
-  url: https://traefik.example.com
+  main:
+    url: https://traefik.example.com
 
 cloudflare:
   email: mail@example.com
@@ -96,16 +98,26 @@ notifications:
     iconURL: https://url.to/image.png
 
 traefik:
-  # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
-  url: https://traefik.example.com
-  # HTTP basic auth credentials for Traefik
-  username: admin
-  password: supersecure  # can also be set using TRAEFIK_PASSWORD env variable
-  # a list of rules which will be ignored
-  # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
-  ignoredRules:
-    - local.example.com
-    - dev.example.com
+  # the name of the Traefik instance
+  main:
+    # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
+    url: https://traefik.example.com
+    # HTTP basic auth credentials for Traefik
+    username: admin
+    password: supersecure  # can also be set using TRAEFIK_MAIN_PASSWORD env variable
+    # a list of rules which will be ignored
+    # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
+    ignoredRules:
+      - local.example.com
+      - dev.example.com
+  # you can add a second instance
+  secondary:
+    url: https://traefik-secondary.example.com
+    username: admin
+    password: stillsupersecure  # can also be set using TRAEFIK_SECONDARY_PASSWORD env variable
+    ignoredRules:
+      - example.example.com
+      - internal.example.com
 
 # specify additional DNS records for services absent in Traefik (i.e. vpn server)
 additionalRecords:
@@ -137,11 +149,11 @@ cloudflare:
 
 **Note:** Environment variables have a higher precedence than the config file!
 
-| Name                | Description                                      |
-|---------------------|--------------------------------------------------|
-| `SLACK_WEBHOOK`     | Slack Webhook URL                                |
-| `TRAEFIK_PASSWORD`  | Password for Traefik dashboard (HTTP basic auth) |
-| `CLOUDFLARE_APIKEY` | Cloudflare API key                               |
+| Name                               | Description                                      |
+|------------------------------------|--------------------------------------------------|
+| `SLACK_WEBHOOK`                    | Slack Webhook URL                                |
+| `TRAEFIK_<INSTANCE_NAME>_PASSWORD` | Password for Traefik dashboard (HTTP basic auth) |
+| `CLOUDFLARE_APIKEY`                | Cloudflare API key                               |
 
 #### Defaults
 

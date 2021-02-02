@@ -12,7 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "1.1.1"
+const version string = "2.0.0-rc1"
 
 func main() {
 	log.SetOutput(os.Stdout)

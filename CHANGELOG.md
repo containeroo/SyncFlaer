@@ -1,5 +1,15 @@
 # Changelog
 
+## [v2.0.0](https://github.com/containeroo/SyncFlaer/tree/v2.0.0) (2021-02-XX)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.1...v2.0.0)
+
+**Caution!** The configuration has been changed since v1.x.x! Please change your config file accordingly.
+
+**New features:**
+
+- add support for multiple Traefik instances (#20)
+
 ## [v1.1.1](https://github.com/containeroo/SyncFlaer/tree/v1.1.1) (2021-02-01)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.0...v1.1.1)
