@@ -14,14 +14,6 @@ import (
 
 var config Configuration
 
-// Traefik struct holds the necessary information about a Traefik instance
-type Traefik struct {
-	URL          string   `yaml:"url"`
-	Username     string   `yaml:"username"`
-	Password     string   `yaml:"password"`
-	IgnoredRules []string `yaml:"ignoredRules"`
-}
-
 // Configuration struct holds SyncFlaer configuration
 type Configuration struct {
 	IPProviders   []string `yaml:"ipProviders"`
@@ -33,7 +25,13 @@ type Configuration struct {
 			IconURL    string `yaml:"iconURL"`
 		} `yaml:"slack"`
 	} `yaml:"notifications"`
-	TraefikInstances  map[string]*Traefik    `yaml:"traefikInstances"`
+	TraefikInstances []struct {
+		Name         string   `yaml:"name"`
+		URL          string   `yaml:"url"`
+		Username     string   `yaml:"username"`
+		Password     string   `yaml:"password"`
+		IgnoredRules []string `yaml:"ignoredRules"`
+	} `yaml:"traefikInstances"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
 		Email       string `yaml:"email"`
@@ -62,10 +60,10 @@ func GetConfig(configFilePath string) Configuration {
 	}
 
 	// Check if env vars are set
-	for instanceName, _ := range config.TraefikInstances {
-		envName := fmt.Sprintf("TRAEFIK_%s_PASSWORD", strings.ToUpper(instanceName))
+	for i, traefikInstance := range config.TraefikInstances {
+		envName := fmt.Sprintf("TRAEFIK_%s_PASSWORD", strings.ToUpper(traefikInstance.Name))
 		if os.Getenv(envName) != "" {
-			config.TraefikInstances[instanceName].Password = os.Getenv(envName)
+			config.TraefikInstances[i].Password = os.Getenv(envName)
 		}
 	}
 	if os.Getenv("SLACK_WEBHOOK") != "" {
@@ -98,9 +96,9 @@ func GetConfig(configFilePath string) Configuration {
 	}
 
 	// Validate config
-	for instanceName, traefikInstance := range config.TraefikInstances {
+	for _, traefikInstance := range config.TraefikInstances {
 		if traefikInstance.URL == "" {
-			log.Fatalf("Traefik URL for instance %s cannot be empty", instanceName)
+			log.Fatalf("Traefik URL for instance %s cannot be empty", traefikInstance.Name)
 		}
 	}
 	if config.Cloudflare.Email == "" {

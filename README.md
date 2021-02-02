@@ -70,7 +70,7 @@ The following configuration is required.
 ```yaml
 ---
 traefikInstances:
-  main:
+  - name: main
     url: https://traefik.example.com
 
 cloudflare:
@@ -100,7 +100,7 @@ notifications:
 
 traefikInstances:
   # the name of the Traefik instance
-  main:
+  - name: main
     # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
     url: https://traefik.example.com
     # HTTP basic auth credentials for Traefik
@@ -112,7 +112,7 @@ traefikInstances:
       - local.example.com
       - dev.example.com
   # you can add a second instance
-  secondary:
+  - name: secondary
     url: https://traefik-secondary.example.com
     username: admin
     password: stillsupersecure  # can also be set using TRAEFIK_SECONDARY_PASSWORD env variable
@@ -153,13 +153,13 @@ The configuration for two instances would look like this:
 
 ```yaml
 traefik:
-  instance1:
+  - name: instance1
     url: https://traefik1.example.com
     user: admin1
     password: supersecure
     ignoredRules:
       - instance1.example.com
-  instance2:
+  - name: instance2
     url: https://traefik2.example.com
     user: admin2
     password: stillsupersecure

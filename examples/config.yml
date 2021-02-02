@@ -16,7 +16,7 @@ notifications:
 
 traefikInstances:
   # the name of the Traefik instance
-  main:
+  - name: main
     # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
     url: https://traefik.example.com
     # HTTP basic auth credentials for Traefik
@@ -28,7 +28,7 @@ traefikInstances:
       - local.example.com
       - dev.example.com
   # you can add a second instance
-  secondary:
+  - name: secondary
     url: https://traefik-secondary.example.com
     username: admin
     password: stillsupersecure  # can also be set using TRAEFIK_SECONDARY_PASSWORD env variable
