@@ -24,7 +24,6 @@ type Traefik struct {
 
 // Configuration struct holds SyncFlaer configuration
 type Configuration struct {
-	RootDomain    string   `yaml:"rootDomain,omitempty"`
 	IPProviders   []string `yaml:"ipProviders"`
 	Notifications struct {
 		Slack struct {
@@ -74,12 +73,6 @@ func GetConfig(configFilePath string) Configuration {
 	}
 	if os.Getenv("CLOUDFLARE_APIKEY") != "" {
 		config.Cloudflare.APIKey = os.Getenv("CLOUDFLARE_APIKEY")
-	}
-
-	// Backwards compatibility
-	if config.RootDomain != "" {
-		config.Cloudflare.ZoneName = config.RootDomain
-		log.Warn("rootDomain is deprecated and will be removed in a future release, use cloudflare.zoneName instead")
 	}
 
 	// Set default values
