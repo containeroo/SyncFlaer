@@ -45,6 +45,5 @@ func GetAdditionalRecords(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRe
 	}
 	userRecords = append(userRecords, rootDNSRecord)
 	log.Debugf("Found additional DNS records: %s", strings.Join(additionalRecordNames, ", "))
-
 	return userRecords
 }
