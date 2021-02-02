@@ -13,6 +13,7 @@
 **Bug fixes:**
 
 - fix an issue where changing a `cloudflare.default` config resulted in an unexpected error
+- various bug fixes for delete grace feature
 
 ## [v1.1.1](https://github.com/containeroo/SyncFlaer/tree/v1.1.1) (2021-02-01)
 
