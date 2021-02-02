@@ -99,7 +99,7 @@ notifications:
     iconURL: https://url.to/image.png
 
 traefikInstances:
-  # the name of the Traefik instance
+    # the name of the Traefik instance
   - name: main
     # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
     url: https://traefik.example.com
@@ -111,7 +111,7 @@ traefikInstances:
     ignoredRules:
       - local.example.com
       - dev.example.com
-  # you can add a second instance
+    # you can add a second instance
   - name: secondary
     url: https://traefik-secondary.example.com
     username: admin
