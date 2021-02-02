@@ -97,6 +97,9 @@ func GetConfig(configFilePath string) Configuration {
 
 	// Validate config
 	for _, traefikInstance := range config.TraefikInstances {
+		if traefikInstance.Name == "" {
+			log.Fatal("Traefik instance name cannot be empty")
+		}
 		if traefikInstance.URL == "" {
 			log.Fatalf("Traefik URL for instance %s cannot be empty", traefikInstance.Name)
 		}
