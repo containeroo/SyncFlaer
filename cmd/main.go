@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"github.com/cloudflare/cloudflare-go"
 	"os"
-	"strconv"
-	"strings"
 
 	internal "github.com/containeroo/syncflaer/internal"
 
@@ -42,7 +40,8 @@ func main() {
 
 	internal.GetCurrentIP()
 
-	cloudflareDNSRecords, deleteGraceRecords := internal.GetCloudflareDNSRecords()
+	cloudflareDNSRecords := internal.GetCloudflareDNSRecords()
+	deleteGraceRecords := internal.GetDeleteGraceRecords()
 
 	var userRecords []cloudflare.DNSRecord
 	userRecords = internal.GetTraefikRules(userRecords)
@@ -60,50 +59,25 @@ func main() {
 	orphanedRecords := internal.GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords)
 	if orphanedRecords != nil {
 		for _, orphanedRecord := range orphanedRecords {
-			if config.Cloudflare.DeleteGrace == 0 {
-				internal.DeleteCloudflareDNSRecord(orphanedRecord)
-				for _, deleteGraceRecord := range deleteGraceRecords {
-					log.Infof("Cleaning up delete grace DNS record for %s", strings.TrimPrefix(deleteGraceRecord.Name, "_syncflaer._deletegrace."))
-					internal.DeleteCloudflareDNSRecord(deleteGraceRecord)
-				}
-				continue
-			}
-			deleteGraceRecordFound := false
-			for _, deleteGraceRecord := range deleteGraceRecords {
-				if !strings.Contains(deleteGraceRecord.Name, orphanedRecord.Name) {
+			if config.Cloudflare.DeleteGrace != 0 {
+				deleteGraceRecord := internal.GetDeleteGraceRecord(orphanedRecord.Name, deleteGraceRecords)
+				if deleteGraceRecord.Name == "" {
+					internal.CreateDeleteGraceRecord(orphanedRecord.Name)
 					continue
 				}
-				deleteGraceRecordFound = true
-				deleteGrace, _ := strconv.Atoi(deleteGraceRecord.Content)
-				deleteGrace -= 1
-				if deleteGrace > 0 {
-					deleteGraceRecord.Content = strconv.Itoa(deleteGrace)
-					log.Infof("Waiting %d more runs until deleting DNS record %s", deleteGrace-1, orphanedRecord.Name)
-					internal.UpdateCloudflareDNSRecord(deleteGraceRecord)
+				if deleteGraceRecord.Content != "1" {
+					internal.UpdateDeleteGraceRecord(deleteGraceRecord, orphanedRecord.Name)
 					continue
 				}
-				internal.DeleteCloudflareDNSRecord(orphanedRecord)
 				internal.DeleteCloudflareDNSRecord(deleteGraceRecord)
 			}
-			if !deleteGraceRecordFound {
-				deleteGraceRecord := cloudflare.DNSRecord{
-					Type:    "TXT",
-					Name:    fmt.Sprintf("_syncflaer._deletegrace.%s", orphanedRecord.Name),
-					Content: strconv.Itoa(config.Cloudflare.DeleteGrace),
-				}
-				log.Infof("Waiting %d more runs until deleting DNS record %s", config.Cloudflare.DeleteGrace-1, orphanedRecord.Name)
-				internal.CreateCloudflareDNSRecord(deleteGraceRecord)
-			}
+			internal.DeleteCloudflareDNSRecord(orphanedRecord)
 		}
 	} else {
-		for _, deleteGraceRecord := range deleteGraceRecords {
-			log.Infof("DNS record %s is not orphaned anymore", strings.TrimPrefix(deleteGraceRecord.Name, "_syncflaer._deletegrace."))
-			internal.DeleteCloudflareDNSRecord(deleteGraceRecord)
-		}
 		log.Debug("No orphaned DNS records")
 	}
 
-	internal.UpdateOutdatedDNSRecords(cloudflareDNSRecords, userRecords)
+	internal.UpdateCloudflareDNSRecords(cloudflareDNSRecords, userRecords)
 
 	internal.SendSlackMessage()
 }
