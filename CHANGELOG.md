@@ -2,9 +2,9 @@
 
 ## [v2.0.0](https://github.com/containeroo/SyncFlaer/tree/v2.0.0) (2021-02-XX)
 
-[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.1...v2.0.0)
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.2...v2.0.0)
 
-**Caution!** The configuration has been changed since v1.x.x! Please change your config file accordingly.
+**Caution!** The configuration has been changed since v1.1.2! You need to change your config file as described in the example.
 
 **New features:**
 
