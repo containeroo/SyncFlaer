@@ -167,7 +167,7 @@ traefik:
       - instance2.example.com
 ```
 
-As you can see, you can configure HTTP basic auth and a list of rules to be ignored for each instance separately.
+You can configure HTTP basic auth and a list of rules to be ignored for each instance individually.
 
 If you want to use an environment variable for the HTTP basic auth password, the environment variable must be named `TRAEFIK_<INSTANCE_NAME>_PASSWORD`.
 
