@@ -71,7 +71,9 @@ func GetDeleteGraceRecords() []cloudflare.DNSRecord {
 		deleteGraceRecordNames = append(deleteGraceRecordNames, dnsRecord.Name)
 		deleteGraceRecords = append(deleteGraceRecords, dnsRecord)
 	}
-	log.Debugf("Found delete grace DNS records: %s", strings.Join(deleteGraceRecordNames, " ,"))
+	if deleteGraceRecordNames != nil {
+		log.Debugf("Found delete grace DNS records: %s", strings.Join(deleteGraceRecordNames, " ,"))
+	}
 	return deleteGraceRecords
 }
 
@@ -101,8 +103,12 @@ func DeleteCloudflareDNSRecord(record cloudflare.DNSRecord) {
 	}
 
 	infoMsg := fmt.Sprintf("Deleted: %s", record.Name)
-	addSlackMessage(infoMsg, "good")
-	log.Info(infoMsg)
+	if record.Type != "TXT" {
+		addSlackMessage(infoMsg, "good")
+		log.Info(infoMsg)
+		return
+	}
+	log.Debug(infoMsg)
 }
 
 // UpdateCloudflareDNSRecords updates the public IP and additionalRecords
@@ -211,4 +217,28 @@ func UpdateDeleteGraceRecord(deleteGraceRecord cloudflare.DNSRecord, orphanedRec
 	}
 
 	log.Infof("Waiting %s more runs until DNS record %s gets deleted", deleteGraceRecord.Content, orphanedRecordName)
+}
+
+func CleanupDeleteGraceRecords(cloudflareDNSRecords []cloudflare.DNSRecord, deleteGraceRecords []cloudflare.DNSRecord) {
+	for _, deleteGraceRecord := range deleteGraceRecords {
+		dnsRecordFound := false
+		var dnsRecordName string
+		for _, cloudflareDNSRecord := range cloudflareDNSRecords {
+			if cloudflareDNSRecord.Name == config.Cloudflare.ZoneName {
+				continue
+			}
+			if !strings.Contains(deleteGraceRecord.Name, cloudflareDNSRecord.Name) {
+				continue
+			}
+			dnsRecordFound = true
+			dnsRecordName = cloudflareDNSRecord.Name
+		}
+		if dnsRecordFound {
+			DeleteCloudflareDNSRecord(deleteGraceRecord)
+			log.Infof("DNS record %s is not orphaned anymore", dnsRecordName)
+			continue
+		}
+		DeleteCloudflareDNSRecord(deleteGraceRecord)
+		log.Infof("Cleaned up delete grace DNS record %s", deleteGraceRecord.Name)
+	}
 }

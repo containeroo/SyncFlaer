@@ -77,6 +77,8 @@ func main() {
 		log.Debug("No orphaned DNS records")
 	}
 
+	internal.CleanupDeleteGraceRecords(cloudflareDNSRecords, deleteGraceRecords)
+
 	internal.UpdateCloudflareDNSRecords(cloudflareDNSRecords, userRecords)
 
 	internal.SendSlackMessage()
