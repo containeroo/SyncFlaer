@@ -152,7 +152,7 @@ Starting with version 2.0.0, you can configure SyncFlaer to gather host rules fr
 The configuration for two instances would look like this:
 
 ```yaml
-traefik:
+traefikInstances:
   - name: instance1
     url: https://traefik1.example.com
     user: admin1
