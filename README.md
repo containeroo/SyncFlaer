@@ -9,6 +9,7 @@ Synchronize Traefik host rules with Cloudflare®.
 ## Why?
 
 - Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
+- Supports multiple Traefik instances
 - Update DNS records when public IP changes
 - Supports configuring additional DNS records for services outside Traefik (i.e. vpn server)
 
@@ -21,6 +22,7 @@ Synchronize Traefik host rules with Cloudflare®.
   - [Overview](#overview)
     - [Minimal Config File](#minimal-config-file)
     - [Full Config File](#full-config-file)
+    - [Using Multiple Traefik Instances](#using-multiple-traefik-instances)
     - [Environment Variables](#environment-variables)
     - [Defaults](#defaults)
   - [Additional Records](#additional-records)
@@ -67,8 +69,9 @@ The following configuration is required.
 
 ```yaml
 ---
-traefik:
-  url: https://traefik.example.com
+traefikInstances:
+  - name: main
+    url: https://traefik.example.com
 
 cloudflare:
   email: mail@example.com
@@ -95,17 +98,27 @@ notifications:
     channel: "#syncflaer"
     iconURL: https://url.to/image.png
 
-traefik:
-  # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
-  url: https://traefik.example.com
-  # HTTP basic auth credentials for Traefik
-  username: admin
-  password: supersecure  # can also be set using TRAEFIK_PASSWORD env variable
-  # a list of rules which will be ignored
-  # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
-  ignoredRules:
-    - local.example.com
-    - dev.example.com
+traefikInstances:
+    # the name of the Traefik instance
+  - name: main
+    # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
+    url: https://traefik.example.com
+    # HTTP basic auth credentials for Traefik
+    username: admin
+    password: supersecure  # can also be set using TRAEFIK_MAIN_PASSWORD env variable
+    # a list of rules which will be ignored
+    # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
+    ignoredRules:
+      - local.example.com
+      - dev.example.com
+    # you can add a second instance
+  - name: secondary
+    url: https://traefik-secondary.example.com
+    username: admin
+    password: stillsupersecure  # can also be set using TRAEFIK_SECONDARY_PASSWORD env variable
+    ignoredRules:
+      - example.example.com
+      - internal.example.com
 
 # specify additional DNS records for services absent in Traefik (i.e. vpn server)
 additionalRecords:
@@ -133,15 +146,42 @@ cloudflare:
     ttl: 1
 ```
 
+#### Using Multiple Traefik Instances
+
+Starting with version 2.0.0, you can configure SyncFlaer to gather host rules from multiple Traefik instances.  
+The configuration for two instances would look like this:
+
+```yaml
+traefikInstances:
+  - name: instance1
+    url: https://traefik1.example.com
+    user: admin1
+    password: supersecure
+    ignoredRules:
+      - instance1.example.com
+  - name: instance2
+    url: https://traefik2.example.com
+    user: admin2
+    password: stillsupersecure
+    ignoredRules:
+      - instance2.example.com
+```
+
+You can configure HTTP basic auth and a list of rules to be ignored for each instance individually.
+
+If you want to use an environment variable for the HTTP basic auth password, the environment variable must be named `TRAEFIK_<INSTANCE_NAME>_PASSWORD`.
+
+In this example, the two environment variables would be `TRAEFIK_INSTANCE1_PASSWORD` and `TRAEFIK_INSTANCE2_PASSWORD`.
+
 #### Environment Variables
 
 **Note:** Environment variables have a higher precedence than the config file!
 
-| Name                | Description                                      |
-|---------------------|--------------------------------------------------|
-| `SLACK_WEBHOOK`     | Slack Webhook URL                                |
-| `TRAEFIK_PASSWORD`  | Password for Traefik dashboard (HTTP basic auth) |
-| `CLOUDFLARE_APIKEY` | Cloudflare API key                               |
+| Name                               | Description                                      |
+|------------------------------------|--------------------------------------------------|
+| `SLACK_WEBHOOK`                    | Slack Webhook URL                                |
+| `TRAEFIK_<INSTANCE_NAME>_PASSWORD` | Password for Traefik dashboard (HTTP basic auth) |
+| `CLOUDFLARE_APIKEY`                | Cloudflare API key                               |
 
 #### Defaults
 

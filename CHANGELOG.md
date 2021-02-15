@@ -1,5 +1,23 @@
 # Changelog
 
+## [v2.0.0](https://github.com/containeroo/SyncFlaer/tree/v2.0.0) (2021-02-15)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.2...v2.0.0)
+
+**Caution!** The configuration has been changed since v1.1.2! You need to change your config file as described in the example.
+
+**New features:**
+
+- add support for multiple Traefik instances (#20)
+
+**Deprecations:**
+
+- Removed support for deprecated config option `rootDomain`
+
+**Dependencies:**
+
+- Update module slack-go/slack to v0.8.1 (#23)
+
 ## [v1.1.2](https://github.com/containeroo/SyncFlaer/tree/v1.1.2) (2021-02-13)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.1...v1.1.2)
