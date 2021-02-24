@@ -47,7 +47,7 @@ func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord 
 	for _, traefikInstance := range config.TraefikInstances {
 		traefikURL, err := url.Parse(traefikInstance.URL)
 		if err != nil {
-			log.Fatalf("Unable to parse Traefik url: %s", err)
+			log.Fatalf("Unable to parse Traefik url %s: %s", traefikInstance.URL, err)
 		}
 		traefikURL.Path = path.Join(traefikURL.Path, "/api/http/routers")
 		traefikHost := traefikURL.String()

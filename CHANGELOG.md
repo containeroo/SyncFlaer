@@ -1,5 +1,17 @@
 # Changelog
 
+## [v2.0.1](https://github.com/containeroo/SyncFlaer/tree/v2.0.1) (2021-02-24)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.0.0...v2.0.1)
+
+**Improvements:**
+
+- improved log messages
+
+**Dependencies:**
+
+- Update module sirupsen/logrus to v1.8.0 (#24)
+
 ## [v2.0.0](https://github.com/containeroo/SyncFlaer/tree/v2.0.0) (2021-02-15)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v1.1.2...v2.0.0)
