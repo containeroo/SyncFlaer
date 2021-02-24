@@ -239,6 +239,6 @@ func CleanupDeleteGraceRecords(cloudflareDNSRecords []cloudflare.DNSRecord, dele
 			continue
 		}
 		DeleteCloudflareDNSRecord(deleteGraceRecord)
-		log.Infof("Cleaned up delete grace DNS record %s", deleteGraceRecord.Name)
+		log.Debugf("Cleaned up delete grace DNS record %s", deleteGraceRecord.Name)
 	}
 }
