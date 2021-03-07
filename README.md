@@ -77,6 +77,8 @@ cloudflare:
   email: mail@example.com
   apiKey: abc  # can also be set using CLOUDFLARE_APIKEY env variable
   zoneName: example.com
+  defaults:
+    proxied: true
 ```
 
 #### Full Config File
@@ -124,6 +126,7 @@ traefikInstances:
 additionalRecords:
   - name: vpn.example.com
     ttl: 120
+    proxied: false
   - name: a.example.com
     proxied: true
     type: A
@@ -192,7 +195,6 @@ If not specified, the following defaults apply:
 | `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip"]` |
 | `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                 |
 | `cloudflare.defaults.type`     | `CNAME`                                                                        |
-| `cloudflare.defaults.proxied`  | `false`                                                                        |
 | `cloudflare.defaults.ttl`      | `1`                                                                            |
 | `notifications.slack.username` | `SyncFlaer`                                                                    |
 | `notifications.slack.iconURL`  | `https://www.cloudflare.com/img/cf-facebook-card.png`                          |
@@ -209,7 +211,7 @@ You can specify additional DNS records which are not configured as Traefik hosts
 | `type`    | `A`             | `cloudflare.defaults.type` | no       |
 | `ttl`     | `1`             | `cloudflare.defaults.ttl`  | no       |
 | `content` | `1.1.1.1`       | `current public IP`        | no       |
-| `proxied` | `true`          | `false`                    | no       |
+| `proxied` | `true`          | none                       | yes      |
 
 #### Example CNAME Record
 
@@ -219,7 +221,7 @@ You can specify additional DNS records which are not configured as Traefik hosts
 | `type`    | `CNAME`           | `cloudflare.defaults.type` | no       |
 | `ttl`     | `120`             | `cloudflare.defaults.ttl`  | no       |
 | `content` | `mysite.com`      | `cloudflare.zoneName`      | no       |
-| `proxied` | `false`           | `false`                    | no       |
+| `proxied` | `false`           | none                       | yes      |
 
 ## Copyright
 

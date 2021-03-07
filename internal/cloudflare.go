@@ -1,6 +1,7 @@
 package sf
 
 import (
+	"context"
 	"fmt"
 	"github.com/cloudflare/cloudflare-go"
 	log "github.com/sirupsen/logrus"
@@ -32,7 +33,7 @@ func GetCloudflareZoneID() {
 
 // GetCloudflareDNSRecords gathers all DNS records in a given zone
 func GetCloudflareDNSRecords() []cloudflare.DNSRecord {
-	dnsRecords, err := cf.DNSRecords(zoneID, cloudflare.DNSRecord{})
+	dnsRecords, err := cf.DNSRecords(context.Background(), zoneID, cloudflare.DNSRecord{})
 	if err != nil {
 		log.Fatalf("Unable to get Cloudflare DNS records: %s", err)
 	}
@@ -54,7 +55,7 @@ func GetCloudflareDNSRecords() []cloudflare.DNSRecord {
 
 // GetDeleteGraceRecords gathers all delete grace DNS records in a given zone
 func GetDeleteGraceRecords() []cloudflare.DNSRecord {
-	dnsRecords, err := cf.DNSRecords(zoneID, cloudflare.DNSRecord{
+	dnsRecords, err := cf.DNSRecords(context.Background(), zoneID, cloudflare.DNSRecord{
 		Type: "TXT",
 	})
 	if err != nil {
@@ -79,7 +80,7 @@ func GetDeleteGraceRecords() []cloudflare.DNSRecord {
 
 // CreateCloudflareDNSRecord is a wrapper function to create a DNS record
 func CreateCloudflareDNSRecord(record cloudflare.DNSRecord) {
-	_, err := cf.CreateDNSRecord(zoneID, record)
+	_, err := cf.CreateDNSRecord(context.Background(), zoneID, record)
 	if err != nil {
 		errMsg := fmt.Sprintf("Unable to create DNS record %s: %s", record.Name, err)
 		addSlackMessage(errMsg, "danger")
@@ -94,7 +95,7 @@ func CreateCloudflareDNSRecord(record cloudflare.DNSRecord) {
 
 // DeleteCloudflareDNSRecord is a wrapper function to delete a DNS record
 func DeleteCloudflareDNSRecord(record cloudflare.DNSRecord) {
-	err := cf.DeleteDNSRecord(zoneID, record.ID)
+	err := cf.DeleteDNSRecord(context.Background(), zoneID, record.ID)
 	if err != nil {
 		errMsg := fmt.Sprintf("Unable to delete DNS record %s: %s", record.Name, err)
 		addSlackMessage(errMsg, "danger")
@@ -112,13 +113,13 @@ func DeleteCloudflareDNSRecord(record cloudflare.DNSRecord) {
 }
 
 // UpdateCloudflareDNSRecords updates the public IP and additionalRecords
-func UpdateCloudflareDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) {
+func UpdateCloudflareDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRecord) {
 	for _, dnsRecord := range cloudflareDNSRecords {
 		for _, userRecord := range userRecords {
 			if dnsRecord.Name != userRecord.Name {
 				continue
 			}
-			if dnsRecord.Proxied == userRecord.Proxied && dnsRecord.TTL == userRecord.TTL && dnsRecord.Content == userRecord.Content {
+			if *dnsRecord.Proxied == *userRecord.Proxied && dnsRecord.TTL == userRecord.TTL && dnsRecord.Content == userRecord.Content {
 				continue
 			}
 			updatedDNSRecord := cloudflare.DNSRecord{
@@ -127,7 +128,7 @@ func UpdateCloudflareDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, use
 				Proxied: userRecord.Proxied,
 				TTL:     userRecord.TTL,
 			}
-			err := cf.UpdateDNSRecord(zoneID, dnsRecord.ID, updatedDNSRecord)
+			err := cf.UpdateDNSRecord(context.Background(), zoneID, dnsRecord.ID, updatedDNSRecord)
 			if err != nil {
 				errMsg := fmt.Sprintf("Unable to update DNS record %s: %s", dnsRecord.Name, err)
 				addSlackMessage(errMsg, "danger")
@@ -143,7 +144,7 @@ func UpdateCloudflareDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, use
 }
 
 // GetMissingDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
-func GetMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+func GetMissingDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var missingRecords []cloudflare.DNSRecord
 
 	for _, userRecord := range userRecords {
@@ -162,7 +163,7 @@ func GetMissingDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecor
 }
 
 // GetOrphanedDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
-func GetOrphanedDNSRecords(cloudflareDNSRecords []cloudflare.DNSRecord, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+func GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var orphanedRecords []cloudflare.DNSRecord
 
 	for _, cloudflareDNSRecord := range cloudflareDNSRecords {
@@ -197,7 +198,7 @@ func CreateDeleteGraceRecord(orphanedRecordName string) {
 		Name:    fmt.Sprintf("_syncflaer._deletegrace.%s", orphanedRecordName),
 		Content: strconv.Itoa(config.Cloudflare.DeleteGrace),
 	}
-	_, err := cf.CreateDNSRecord(zoneID, deleteGraceRecord)
+	_, err := cf.CreateDNSRecord(context.Background(), zoneID, deleteGraceRecord)
 	if err != nil {
 		log.Errorf("Unable to create delete grace DNS record %s: %s", deleteGraceRecord.Name, err)
 		return
@@ -210,7 +211,7 @@ func UpdateDeleteGraceRecord(deleteGraceRecord cloudflare.DNSRecord, orphanedRec
 	newDeleteGrace, _ := strconv.Atoi(deleteGraceRecord.Content)
 	newDeleteGrace -= 1
 	deleteGraceRecord.Content = strconv.Itoa(newDeleteGrace)
-	err := cf.UpdateDNSRecord(zoneID, deleteGraceRecord.ID, deleteGraceRecord)
+	err := cf.UpdateDNSRecord(context.Background(), zoneID, deleteGraceRecord.ID, deleteGraceRecord)
 	if err != nil {
 		log.Error("Unable to update delete grace DNS record %s: %s", deleteGraceRecord.Name, err)
 		return
@@ -219,10 +220,25 @@ func UpdateDeleteGraceRecord(deleteGraceRecord cloudflare.DNSRecord, orphanedRec
 	log.Infof("Waiting %s more runs until DNS record %s gets deleted", deleteGraceRecord.Content, orphanedRecordName)
 }
 
-func CleanupDeleteGraceRecords(cloudflareDNSRecords []cloudflare.DNSRecord, deleteGraceRecords []cloudflare.DNSRecord) {
+func CleanupDeleteGraceRecords(userRecords, cloudflareDNSRecords, deleteGraceRecords []cloudflare.DNSRecord) {
 	for _, deleteGraceRecord := range deleteGraceRecords {
 		dnsRecordFound := false
 		var dnsRecordName string
+		for _, userRecord := range userRecords {
+			if userRecord.Name == config.Cloudflare.ZoneName {
+				continue
+			}
+			if !strings.Contains(deleteGraceRecord.Name, userRecord.Name) {
+				continue
+			}
+			dnsRecordFound = true
+			dnsRecordName = userRecord.Name
+		}
+		if dnsRecordFound {
+			DeleteCloudflareDNSRecord(deleteGraceRecord)
+			log.Infof("DNS record %s is not orphaned anymore", dnsRecordName)
+			continue
+		}
 		for _, cloudflareDNSRecord := range cloudflareDNSRecords {
 			if cloudflareDNSRecord.Name == config.Cloudflare.ZoneName {
 				continue
@@ -231,14 +247,11 @@ func CleanupDeleteGraceRecords(cloudflareDNSRecords []cloudflare.DNSRecord, dele
 				continue
 			}
 			dnsRecordFound = true
-			dnsRecordName = cloudflareDNSRecord.Name
 		}
-		if dnsRecordFound {
+		if !dnsRecordFound {
 			DeleteCloudflareDNSRecord(deleteGraceRecord)
-			log.Infof("DNS record %s is not orphaned anymore", dnsRecordName)
-			continue
+			log.Debugf("Cleaned up delete grace DNS record %s", deleteGraceRecord.Name)
 		}
-		DeleteCloudflareDNSRecord(deleteGraceRecord)
-		log.Debugf("Cleaned up delete grace DNS record %s", deleteGraceRecord.Name)
+
 	}
 }
