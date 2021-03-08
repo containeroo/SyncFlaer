@@ -44,6 +44,8 @@ func checkDuplicateRule(rule string, rules []cloudflare.DNSRecord) bool {
 
 // GetTraefikRules gathers and formats all Traefik http routers
 func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+	var re = regexp.MustCompile(`(?m)Host\(\x60(([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,})\x60\)`)
+
 	for _, traefikInstance := range config.TraefikInstances {
 		traefikURL, err := url.Parse(traefikInstance.URL)
 		if err != nil {
@@ -78,8 +80,6 @@ func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord 
 		if err != nil {
 			log.Fatalf("Unable to load Traefik (%s) rules: %s", traefikInstance.Name, err)
 		}
-
-		var re = regexp.MustCompile(`(?m)Host\(\x60(([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,})\x60\)`)
 
 		var content string
 		switch config.Cloudflare.Defaults.Type {

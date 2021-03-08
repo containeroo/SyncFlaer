@@ -152,6 +152,7 @@ func GetMissingDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSReco
 		for _, cloudflareDNSRecord := range cloudflareDNSRecords {
 			if userRecord.Name == cloudflareDNSRecord.Name {
 				recordFound = true
+				break
 			}
 		}
 		if !recordFound {
@@ -171,6 +172,7 @@ func GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRec
 		for _, userRecord := range userRecords {
 			if userRecord.Name == cloudflareDNSRecord.Name {
 				recordFound = true
+				break
 			}
 		}
 		if !recordFound {
@@ -184,10 +186,10 @@ func GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRec
 func GetDeleteGraceRecord(orphanedRecordName string, deleteGraceRecords []cloudflare.DNSRecord) cloudflare.DNSRecord {
 	var deleteGraceRecordFound cloudflare.DNSRecord
 	for _, deleteGraceRecord := range deleteGraceRecords {
-		if !strings.Contains(deleteGraceRecord.Name, orphanedRecordName) {
-			continue
+		if strings.Contains(deleteGraceRecord.Name, orphanedRecordName) {
+			deleteGraceRecordFound = deleteGraceRecord
+			break
 		}
-		deleteGraceRecordFound = deleteGraceRecord
 	}
 	return deleteGraceRecordFound
 }
