@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.1.1](https://github.com/containeroo/SyncFlaer/tree/v2.1.1) (2021-03-08)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.1.0...v2.1.1)
+
+**Bug fixes:**
+
+- improve code for less iterations over arrays
+
 ## [v2.1.0](https://github.com/containeroo/SyncFlaer/tree/v2.1.0) (2021-03-08)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.0.1...v2.1.0)
