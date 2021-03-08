@@ -88,7 +88,7 @@ func CreateCloudflareDNSRecord(record cloudflare.DNSRecord) {
 		return
 	}
 
-	infoMsg := fmt.Sprintf("Created: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", record.Name, record.Type, record.Content, record.Proxied, record.TTL)
+	infoMsg := fmt.Sprintf("Created: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", record.Name, record.Type, record.Content, *record.Proxied, record.TTL)
 	addSlackMessage(infoMsg, "good")
 	log.Info(infoMsg)
 }
@@ -136,7 +136,7 @@ func UpdateCloudflareDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.D
 				continue
 			}
 
-			infoMsg := fmt.Sprintf("Updated: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", dnsRecord.Name, updatedDNSRecord.Type, updatedDNSRecord.Content, updatedDNSRecord.Proxied, updatedDNSRecord.TTL)
+			infoMsg := fmt.Sprintf("Updated: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", dnsRecord.Name, updatedDNSRecord.Type, updatedDNSRecord.Content, *updatedDNSRecord.Proxied, updatedDNSRecord.TTL)
 			addSlackMessage(infoMsg, "good")
 			log.Info(infoMsg)
 		}
@@ -228,11 +228,11 @@ func CleanupDeleteGraceRecords(userRecords, cloudflareDNSRecords, deleteGraceRec
 			if userRecord.Name == config.Cloudflare.ZoneName {
 				continue
 			}
-			if !strings.Contains(deleteGraceRecord.Name, userRecord.Name) {
-				continue
+			if strings.Contains(deleteGraceRecord.Name, userRecord.Name) {
+				dnsRecordFound = true
+				dnsRecordName = userRecord.Name
+				break
 			}
-			dnsRecordFound = true
-			dnsRecordName = userRecord.Name
 		}
 		if dnsRecordFound {
 			DeleteCloudflareDNSRecord(deleteGraceRecord)
@@ -243,10 +243,10 @@ func CleanupDeleteGraceRecords(userRecords, cloudflareDNSRecords, deleteGraceRec
 			if cloudflareDNSRecord.Name == config.Cloudflare.ZoneName {
 				continue
 			}
-			if !strings.Contains(deleteGraceRecord.Name, cloudflareDNSRecord.Name) {
-				continue
+			if strings.Contains(deleteGraceRecord.Name, cloudflareDNSRecord.Name) {
+				dnsRecordFound = true
+				break
 			}
-			dnsRecordFound = true
 		}
 		if !dnsRecordFound {
 			DeleteCloudflareDNSRecord(deleteGraceRecord)
