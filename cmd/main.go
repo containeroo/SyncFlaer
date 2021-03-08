@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "2.0.1"
+const version string = "2.1.0"
 
 func main() {
 	log.SetOutput(os.Stdout)
@@ -77,7 +77,7 @@ func main() {
 		log.Debug("No orphaned DNS records")
 	}
 
-	internal.CleanupDeleteGraceRecords(cloudflareDNSRecords, deleteGraceRecords)
+	internal.CleanupDeleteGraceRecords(userRecords, cloudflareDNSRecords, deleteGraceRecords)
 
 	internal.UpdateCloudflareDNSRecords(cloudflareDNSRecords, userRecords)
 

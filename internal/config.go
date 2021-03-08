@@ -40,7 +40,7 @@ type Configuration struct {
 		ZoneName    string `yaml:"zoneName"`
 		Defaults    struct {
 			Type    string `yaml:"type"`
-			Proxied bool   `yaml:"proxied"`
+			Proxied *bool  `yaml:"proxied"`
 			TTL     int    `yaml:"ttl"`
 		} `yaml:"defaults"`
 	} `yaml:"cloudflare"`
@@ -78,7 +78,7 @@ func GetConfig(configFilePath string) Configuration {
 		config.Cloudflare.Defaults.Type = "CNAME"
 		log.Debug("Cloudflare default type is empty, defaulting to ", config.Cloudflare.Defaults.Type)
 	}
-	if config.Cloudflare.Defaults.TTL == 0 || config.Cloudflare.Defaults.Proxied {
+	if config.Cloudflare.Defaults.TTL == 0 || *config.Cloudflare.Defaults.Proxied {
 		config.Cloudflare.Defaults.TTL = 1
 		log.Debug("Cloudflare default TTL is empty, defaulting to ", config.Cloudflare.Defaults.TTL)
 	}

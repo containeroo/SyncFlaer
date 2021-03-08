@@ -7,7 +7,7 @@ import (
 
 var slackMessages []slack.Attachment
 
-func addSlackMessage(message string, color string) {
+func addSlackMessage(message, color string) {
 	newMessage := slack.Attachment{
 		Color: color,
 		Text:  message,

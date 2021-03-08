@@ -16,6 +16,7 @@ data:
     additionalRecords:
       - name: vpn.example.com
         ttl: 120
+        proxied: false
 
     cloudflare:
       email: mail@example.com

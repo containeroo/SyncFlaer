@@ -1,5 +1,21 @@
 # Changelog
 
+## [v2.1.0](https://github.com/containeroo/SyncFlaer/tree/v2.1.0) (2021-03-08)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.0.1...v2.1.0)
+
+**Changed:**
+
+- due tue compatibility reasons, the `proxied` field in `additionalRecords` and `cloudflare.defaults.proxied` is not optional anymore. please see the examples for more information.
+
+**Bug fixes:**
+
+- fixes an issue that prevented DNS records from being deleted (#28)
+
+**Dependencies:**
+
+- Update module github.com/cloudflare/cloudflare-go to v0.14.0 (#27)
+
 ## [v2.0.1](https://github.com/containeroo/SyncFlaer/tree/v2.0.1) (2021-02-24)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.0.0...v2.0.1)
