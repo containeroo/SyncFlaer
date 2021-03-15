@@ -47,10 +47,8 @@ additionalRecords:
     contents: 1.1.1.1
 
 cloudflare:
-  # your Cloudflare account email
-  email: mail@example.com
-  # global Cloudflare API key
-  apiKey: abc  # can also be set using CLOUDFLARE_APIKEY env variable
+  # global Cloudflare API token
+  apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
   # essentially the root domain of your services
   zoneName: example.com
   # define how many skips should happen until a DNS record gets deleted

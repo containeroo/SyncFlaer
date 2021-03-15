@@ -28,6 +28,7 @@ Synchronize Traefik host rules with Cloudflare®.
   - [Additional Records](#additional-records)
     - [Example A Record](#example-a-record)
     - [Example CNAME Record](#example-cname-record)
+  - [Cloudflare API Token](#cloudflare-api-token)
 - [Copyright](#copyright)
 - [License](#license)
 
@@ -74,8 +75,7 @@ traefikInstances:
     url: https://traefik.example.com
 
 cloudflare:
-  email: mail@example.com
-  apiKey: abc  # can also be set using CLOUDFLARE_APIKEY env variable
+  apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
   zoneName: example.com
   defaults:
     proxied: true
@@ -133,10 +133,8 @@ additionalRecords:
     contents: 1.1.1.1
 
 cloudflare:
-  # your Cloudflare account email
-  email: mail@example.com
-  # global Cloudflare API key
-  apiKey: abc  # can also be set using CLOUDFLARE_APIKEY env variable
+  # global Cloudflare API token
+  apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
   # essentially the root domain of your services
   zoneName: example.com
   # define how many skips should happen until a DNS record gets deleted
@@ -184,7 +182,7 @@ In this example, the two environment variables would be `TRAEFIK_INSTANCE1_PASSW
 |------------------------------------|--------------------------------------------------|
 | `SLACK_WEBHOOK`                    | Slack Webhook URL                                |
 | `TRAEFIK_<INSTANCE_NAME>_PASSWORD` | Password for Traefik dashboard (HTTP basic auth) |
-| `CLOUDFLARE_APIKEY`                | Cloudflare API key                               |
+| `CLOUDFLARE_APITOKEN`              | Cloudflare API token                             |
 
 #### Defaults
 
@@ -222,6 +220,18 @@ You can specify additional DNS records which are not configured as Traefik hosts
 | `ttl`     | `120`             | `cloudflare.defaults.ttl`  | no       |
 | `content` | `mysite.com`      | `cloudflare.zoneName`      | no       |
 | `proxied` | `false`           | none                       | yes      |
+
+### Cloudflare API Token
+
+To create an API token visit https://dash.cloudflare.com/profile/api-tokens, click on `Create token` and select `Get started`.
+
+Select the following settings:
+
+**Permissions:**  
+- `Zone` - `DNS` - `Edit`
+
+**Zone Resources:**  
+- `Include` - `All Zones`
 
 ## Copyright
 
