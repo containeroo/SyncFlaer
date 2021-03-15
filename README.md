@@ -223,7 +223,7 @@ You can specify additional DNS records which are not configured as Traefik hosts
 
 ### Cloudflare API Token
 
-To create an API token visit https://dash.cloudflare.com/profile/api-tokens and click `Create token`.
+To create an API token visit https://dash.cloudflare.com/profile/api-tokens, click on `Create token` and select `Get started`.
 
 Select the following settings:
 
