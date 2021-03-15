@@ -34,8 +34,7 @@ type Configuration struct {
 	} `yaml:"traefikInstances"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
-		Email       string `yaml:"email"`
-		APIKey      string `yaml:"apiKey"`
+		APIToken    string `yaml:"apiToken"`
 		DeleteGrace int    `yaml:"deleteGrace"`
 		ZoneName    string `yaml:"zoneName"`
 		Defaults    struct {
@@ -69,8 +68,8 @@ func GetConfig(configFilePath string) Configuration {
 	if os.Getenv("SLACK_WEBHOOK") != "" {
 		config.Notifications.Slack.WebhookURL = os.Getenv("SLACK_WEBHOOK")
 	}
-	if os.Getenv("CLOUDFLARE_APIKEY") != "" {
-		config.Cloudflare.APIKey = os.Getenv("CLOUDFLARE_APIKEY")
+	if os.Getenv("CLOUDFLARE_APITOKEN") != "" {
+		config.Cloudflare.APIToken = os.Getenv("CLOUDFLARE_APITOKEN")
 	}
 
 	// Set default values
@@ -104,11 +103,8 @@ func GetConfig(configFilePath string) Configuration {
 			log.Fatalf("Traefik URL for instance %s cannot be empty", traefikInstance.Name)
 		}
 	}
-	if config.Cloudflare.Email == "" {
-		log.Fatal("Cloudflare email cannot be empty")
-	}
-	if config.Cloudflare.APIKey == "" {
-		log.Fatal("Cloudflare api key cannot be empty")
+	if config.Cloudflare.APIToken == "" {
+		log.Fatal("Cloudflare API token cannot be empty")
 	}
 	if config.Cloudflare.ZoneName == "" {
 		log.Fatal("Cloudflare zone name cannot be empty")

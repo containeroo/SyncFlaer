@@ -1,5 +1,22 @@
 # Changelog
 
+## [v2.2.0](https://github.com/containeroo/SyncFlaer/tree/v2.2.0) (2021-03-16)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.1.0...v2.2.0)
+
+**Deprecations:**
+
+- using `cloudflare.email` and `cloudflare.apiKey` is deprecated, use `cloudflare.apiToken` instead
+
+**Changed:**
+
+- remove ability to authenticate with Cloudflare using global API key
+- add support for Cloudflare API token
+
+**Dependencies:**
+
+- Update module github.com/sirupsen/logrus to v1.8.1 (#31)
+
 ## [v2.1.0](https://github.com/containeroo/SyncFlaer/tree/v2.1.0) (2021-03-08)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.0.1...v2.1.0)

@@ -19,7 +19,6 @@ data:
         proxied: false
 
     cloudflare:
-      email: mail@example.com
       zoneName: example.com
       deleteGrace: 5
       defaults:

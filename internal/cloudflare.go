@@ -15,7 +15,7 @@ var zoneID string
 // SetupCloudflareClient creates a global var with a Cloudflare client instance
 func SetupCloudflareClient() {
 	var err error
-	cf, err = cloudflare.New(config.Cloudflare.APIKey, config.Cloudflare.Email)
+	cf, err = cloudflare.NewWithAPIToken(config.Cloudflare.APIToken)
 	if err != nil {
 		log.Fatalf("Unable to setup Cloudflare client: %s", err)
 	}
