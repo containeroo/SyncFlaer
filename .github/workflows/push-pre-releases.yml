@@ -2,7 +2,7 @@
 on:
   release:
     types:
-      - released
+      - prereleased
 
 jobs:
   multi-arch-build:
@@ -30,5 +30,4 @@ jobs:
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
           tags: |
-            containeroo/syncflaer:latest
             containeroo/syncflaer:${{ steps.tag.outputs.version }}
