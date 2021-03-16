@@ -34,9 +34,9 @@ type Configuration struct {
 	} `yaml:"traefikInstances"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
-		APIToken    string `yaml:"apiToken"`
-		DeleteGrace int    `yaml:"deleteGrace"`
-		ZoneName    string `yaml:"zoneName"`
+		APIToken    string   `yaml:"apiToken"`
+		DeleteGrace int      `yaml:"deleteGrace"`
+		ZoneNames   []string `yaml:"zoneNames"`
 		Defaults    struct {
 			Type    string `yaml:"type"`
 			Proxied *bool  `yaml:"proxied"`
@@ -82,7 +82,7 @@ func GetConfig(configFilePath string) Configuration {
 		log.Debug("Cloudflare default TTL is empty, defaulting to ", config.Cloudflare.Defaults.TTL)
 	}
 	if config.IPProviders == nil {
-		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/")
+		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/", "https://checkip.amazonaws.com")
 		log.Debug("IP providers is empty, defaulting to ", strings.Join(config.IPProviders, ", "))
 	}
 	if config.Notifications.Slack.Username == "" {
@@ -106,7 +106,7 @@ func GetConfig(configFilePath string) Configuration {
 	if config.Cloudflare.APIToken == "" {
 		log.Fatal("Cloudflare API token cannot be empty")
 	}
-	if config.Cloudflare.ZoneName == "" {
+	if config.Cloudflare.ZoneNames == nil {
 		log.Fatal("Cloudflare zone name cannot be empty")
 	}
 	if config.Cloudflare.Defaults.Type != "A" && config.Cloudflare.Defaults.Type != "CNAME" {

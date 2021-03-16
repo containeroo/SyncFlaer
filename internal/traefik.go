@@ -43,7 +43,7 @@ func checkDuplicateRule(rule string, rules []cloudflare.DNSRecord) bool {
 }
 
 // GetTraefikRules gathers and formats all Traefik http routers
-func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var re = regexp.MustCompile(`(?m)Host\(\x60(([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,})\x60\)`)
 
 	for _, traefikInstance := range config.TraefikInstances {
@@ -86,7 +86,7 @@ func GetTraefikRules(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord 
 		case "A":
 			content = currentIP
 		case "CNAME":
-			content = config.Cloudflare.ZoneName
+			content = zoneName
 		}
 
 		var ruleNames []string

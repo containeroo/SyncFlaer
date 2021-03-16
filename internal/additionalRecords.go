@@ -8,7 +8,7 @@ import (
 )
 
 // GetAdditionalRecords gathers and checks configured additionalRecords
-func GetAdditionalRecords(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+func GetAdditionalRecords(zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var additionalRecordNames []string
 
 	for _, additionalRecord := range config.AdditionalRecords {
@@ -24,7 +24,7 @@ func GetAdditionalRecords(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRe
 			case "A":
 				additionalRecord.Content = currentIP
 			case "CNAME":
-				additionalRecord.Content = config.Cloudflare.ZoneName
+				additionalRecord.Content = zoneName
 			default:
 				log.Errorf("%s is an unsupported type, only A or CNAME are supported", additionalRecord.Type)
 				continue
@@ -38,7 +38,7 @@ func GetAdditionalRecords(userRecords []cloudflare.DNSRecord) []cloudflare.DNSRe
 	}
 	rootDNSRecord := cloudflare.DNSRecord{
 		Type:    "A",
-		Name:    config.Cloudflare.ZoneName,
+		Name:    zoneName,
 		Content: currentIP,
 		Proxied: config.Cloudflare.Defaults.Proxied,
 		TTL:     config.Cloudflare.Defaults.TTL,
