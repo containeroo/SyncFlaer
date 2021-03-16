@@ -28,7 +28,7 @@ func GetCloudflareZoneID() {
 	if err != nil {
 		log.Fatalf("Unable to get Cloudflare zone id: %s", err)
 	}
-	log.Debugf("Using Cloudflare DNS zone with id %s", zoneID)
+	log.Debugf("Using Cloudflare DNS zone %s with id %s", config.Cloudflare.ZoneName, zoneID)
 }
 
 // GetCloudflareDNSRecords gathers all DNS records in a given zone

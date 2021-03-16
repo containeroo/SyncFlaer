@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.2.1](https://github.com/containeroo/SyncFlaer/tree/v2.2.1) (2021-03-16)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.2.0...v2.2.1)
+
+**Improvements:**
+
+- improved log messages
+
 ## [v2.2.0](https://github.com/containeroo/SyncFlaer/tree/v2.2.0) (2021-03-15)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.1.0...v2.2.0)
