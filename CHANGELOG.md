@@ -10,6 +10,10 @@
 
 - add support for multiple Cloudflare sites (#35)
 
+**Improvements:**
+
+- add `https://checkip.amazonaws.com` to default ip providers list
+
 ## [v2.2.1](https://github.com/containeroo/SyncFlaer/tree/v2.2.1) (2021-03-16)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.2.0...v2.2.1)
