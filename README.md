@@ -135,8 +135,10 @@ additionalRecords:
 cloudflare:
   # global Cloudflare API token
   apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
-  # essentially the root domain of your services
-  zoneName: example.com
+  # a list of Cloudflare zone names
+  zoneNames:
+    - example.com
+    - othersite.com
   # define how many skips should happen until a DNS record gets deleted
   # every run of SyncFlaer counts as a skip
   deleteGrace: 5
