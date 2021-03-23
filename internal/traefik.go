@@ -92,6 +92,9 @@ func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []clou
 		var ruleNames []string
 	rules:
 		for _, router := range traefikRouters {
+			if !strings.Contains(router.Rule, zoneName) {
+				continue
+			}
 			if re.MatchString(router.Rule) {
 				match := re.FindStringSubmatch(router.Rule)[1]
 				if !checkDuplicateRule(match, userRecords) {

@@ -16,6 +16,9 @@ func GetAdditionalRecords(zoneName string, userRecords []cloudflare.DNSRecord) [
 			log.Error("Additional DNS record name cannot be empty")
 			continue
 		}
+		if !strings.Contains(additionalRecord.Name, zoneName) {
+			continue
+		}
 		if additionalRecord.Type == "" {
 			additionalRecord.Type = config.Cloudflare.Defaults.Type
 		}
