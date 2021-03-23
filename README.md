@@ -10,6 +10,7 @@ Synchronize Traefik host rules with Cloudflare®.
 
 - Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
 - Supports multiple Traefik instances
+- Supports multiple Cloudflare zones
 - Update DNS records when public IP changes
 - Supports configuring additional DNS records for services outside Traefik (i.e. vpn server)
 
