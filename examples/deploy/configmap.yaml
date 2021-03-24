@@ -19,7 +19,8 @@ data:
         proxied: false
 
     cloudflare:
-      zoneName: example.com
+      zoneNames:
+        - example.com
       deleteGrace: 5
       defaults:
         type: CNAME

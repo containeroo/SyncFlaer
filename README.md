@@ -10,6 +10,7 @@ Synchronize Traefik host rules with Cloudflare®.
 
 - Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
 - Supports multiple Traefik instances
+- Supports multiple Cloudflare zones
 - Update DNS records when public IP changes
 - Supports configuring additional DNS records for services outside Traefik (i.e. vpn server)
 
@@ -76,7 +77,8 @@ traefikInstances:
 
 cloudflare:
   apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
-  zoneName: example.com
+  zoneNames:
+    - example.com
   defaults:
     proxied: true
 ```
@@ -135,8 +137,10 @@ additionalRecords:
 cloudflare:
   # global Cloudflare API token
   apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
-  # essentially the root domain of your services
-  zoneName: example.com
+  # a list of Cloudflare zone names
+  zoneNames:
+    - example.com
+    - othersite.com
   # define how many skips should happen until a DNS record gets deleted
   # every run of SyncFlaer counts as a skip
   deleteGrace: 5
