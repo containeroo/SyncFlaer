@@ -21,8 +21,8 @@ func SetupCloudflareClient() {
 	}
 }
 
-// GetCloudflareZones creates a global map containing the zone ids
-func GetCloudflareZones() map[string]string {
+// CreateCloudflareZoneMap creates a global map containing the zone ids
+func CreateCloudflareZoneMap() map[string]string {
 	zoneIDs = make(map[string]string)
 	for _, zoneName := range config.Cloudflare.ZoneNames {
 		zoneID, err := cf.ZoneIDByName(zoneName)
