@@ -77,7 +77,8 @@ traefikInstances:
 
 cloudflare:
   apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
-  zoneName: example.com
+  zoneNames:
+    - example.com
   defaults:
     proxied: true
 ```
