@@ -36,7 +36,7 @@ func main() {
 	config := internal.GetConfig(configFilePath)
 
 	internal.SetupCloudflareClient()
-	zoneIDs := internal.GetCloudflareZoneIDs()
+	zoneIDs := internal.GetCloudflareZones()
 
 	internal.GetCurrentIP()
 
