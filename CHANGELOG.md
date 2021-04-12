@@ -4,6 +4,10 @@
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v3.0.0...v3.0.1)
 
+**New features:**
+
+- darwin/arm64 builds are now available in GitHub releases
+
 **Dependencies:**
 
 - Update module github.com/cloudflare/cloudflare-go to v0.16.0 (#43)
