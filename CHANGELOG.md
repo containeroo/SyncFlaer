@@ -1,5 +1,13 @@
 # Changelog
 
+## [v3.0.1](https://github.com/containeroo/SyncFlaer/tree/v3.0.1) (2021-04-12)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v3.0.0...v3.0.1)
+
+**Dependencies:**
+
+- Update module github.com/cloudflare/cloudflare-go to v0.16.0 (#43)
+
 ## [v3.0.0](https://github.com/containeroo/SyncFlaer/tree/v3.0.0) (2021-03-24)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v2.2.1...v3.0.0)

@@ -53,6 +53,18 @@ jobs:
           goarch: amd64
           binary_name: syncflaer
           project_path: cmd/
+  release-darwin-arm64:
+    name: release darwin/arm64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: wangyoucao577/go-release-action@v1.16
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: darwin
+          goarch: arm64
+          binary_name: syncflaer
+          project_path: cmd/
   release-windows-amd64:
     name: release windows/amd64
     runs-on: ubuntu-latest
