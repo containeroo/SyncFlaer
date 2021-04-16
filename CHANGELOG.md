@@ -1,5 +1,15 @@
 # Changelog
 
+## [v4.0.0](https://github.com/containeroo/SyncFlaer/tree/v4.0.0) (2021-04-17)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v3.0.1...v4.0.0)
+
+**Caution!** The flags have changed since v3.0.1! Please refer to the readme file for more information.
+
+**New features:**
+
+- use POSIX/GNU-style `--flags`
+
 ## [v3.0.1](https://github.com/containeroo/SyncFlaer/tree/v3.0.1) (2021-04-12)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v3.0.0...v3.0.1)

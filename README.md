@@ -37,27 +37,24 @@ Synchronize Traefik host rules with Cloudflare®.
 
 ### Simple
 
-Create a config file based on the example located at `examples/config.yml`.
+Create a config file based on the example located at `configs/config.yml`.
 
 ```shell
-syncflaer -config-path /opt/syncflaer.yml
+syncflaer --config-path /opt/syncflaer.yml
 ```
 
 Flags:
 
 ```text
 Usage of SyncFlaer:
-  -config-path string
-    	Path to config file (default "config.yml")
-  -debug
-    	Enable debug mode
-  -version
-    	Print the current version and exit
+  -c, --config-path string   Path to config file (default "config.yml")
+  -d, --debug                Enable debug mode
+  -v, --version              Print the current version and exit
 ```
 
 ### Kubernetes
 
-You can run SyncFlaer as a Kubernetes CronJob. For an example deployment, please refer to the files located at `examples/deploy`.
+You can run SyncFlaer as a Kubernetes CronJob. For an example deployment, please refer to the files located at `deployments/kubernetes`.
 
 ## Configuration
 

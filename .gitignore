@@ -1,4 +1,4 @@
 .idea/
 .vscode/
 config.yml
-!examples/config.yml
+!configs/config.yml
