@@ -20,7 +20,7 @@ spec:
             - name: syncflaer
               image: containeroo/syncflaer:latest
               args:
-                - -debug
+                - --debug
               envFrom:
                 - secretRef:
                     name: syncflaer
