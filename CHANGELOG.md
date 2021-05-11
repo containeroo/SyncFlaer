@@ -1,5 +1,18 @@
 # Changelog
 
+## [v4.0.1](https://github.com/containeroo/SyncFlaer/tree/v4.0.1) (2021-05-11)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.0.0...v4.0.1)
+
+**Bug fixes:**
+
+- fix Traefik rule matching (#48)
+
+**Dependencies:**
+
+- Update module github.com/slack-go/slack to v0.9.0 (#45)
+- Update module github.com/slack-go/slack to v0.9.1 (#47)
+
 ## [v4.0.0](https://github.com/containeroo/SyncFlaer/tree/v4.0.0) (2021-04-17)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v3.0.1...v4.0.0)
