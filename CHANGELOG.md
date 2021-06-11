@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.1.0](https://github.com/containeroo/SyncFlaer/tree/v4.1.0) (2021-06-11)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.0.1...v4.1.0)
+
+**New features:**
+
+- add ability to set custom request headers on Traefik request
+
 ## [v4.0.1](https://github.com/containeroo/SyncFlaer/tree/v4.0.1) (2021-05-11)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.0.0...v4.0.1)

@@ -64,7 +64,7 @@ SyncFlaer must be configured via a [YAML config file](#full-config-file). Some s
 
 #### Minimal Config File
 
-The following configuration is required.
+The following configuration is required:
 
 ```yaml
 ---
@@ -107,6 +107,13 @@ traefikInstances:
     # HTTP basic auth credentials for Traefik
     username: admin
     password: supersecure  # can also be set using TRAEFIK_MAIN_PASSWORD env variable
+    # you can set http headers that will be added to the Traefik api request
+    # requires string keys and string values
+    customRequestHeaders:
+      # headers can either be key value pairs in plain text
+      X-Example-Header: Example-Value
+      # or the value can be imported from env variables using the 'env:' prefix
+      Authorization: env:MY_AUTH_VAR  # in this case $MY_AUTH_VAR env variable will be used as the value
     # a list of rules which will be ignored
     # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
     ignoredRules:
@@ -159,21 +166,27 @@ traefikInstances:
     url: https://traefik1.example.com
     user: admin1
     password: supersecure
+    customRequestHeaders:
+      X-Example-Header: instance1
     ignoredRules:
       - instance1.example.com
   - name: instance2
     url: https://traefik2.example.com
     user: admin2
     password: stillsupersecure
+    customRequestHeaders:
+      Authorization: env:TREAFIK_AUTH_HEADER
     ignoredRules:
       - instance2.example.com
 ```
 
-You can configure HTTP basic auth and a list of rules to be ignored for each instance individually.
+Every instance can be configured to use different HTTP basic auth, custom request headers and ignored rules.
 
 If you want to use an environment variable for the HTTP basic auth password, the environment variable must be named `TRAEFIK_<INSTANCE_NAME>_PASSWORD`.
 
 In this example, the two environment variables would be `TRAEFIK_INSTANCE1_PASSWORD` and `TRAEFIK_INSTANCE2_PASSWORD`.
+
+The `customRequestHeader` `Authorization` for Traefik "instance2" will use the contents of `TRAEFIK_AUTH_HEADER` environment variable.
 
 #### Environment Variables
 
@@ -238,7 +251,7 @@ Select the following settings:
 
 2021 Containeroo
 
-Cloudflare and the Cloudflare Logo are registered trademarks owned by Cloudflare Inc.
+Cloudflare and the Cloudflare logo are registered trademarks owned by Cloudflare Inc.
 This project is not affiliated with Cloudflare®.
 
 ## License

@@ -62,6 +62,9 @@ func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []clou
 		if traefikInstance.Username != "" && traefikInstance.Password != "" {
 			req.SetBasicAuth(traefikInstance.Username, traefikInstance.Password)
 		}
+		for k, v := range traefikInstance.CustomRequestHeaders {
+			req.Header.Add(k, v)
+		}
 		resp, err := client.Do(req)
 		if err != nil {
 			log.Fatalf("Unable to get Traefik (%s) rules: %s", traefikInstance.Name, err)
