@@ -166,21 +166,27 @@ traefikInstances:
     url: https://traefik1.example.com
     user: admin1
     password: supersecure
+    customRequestHeaders:
+      X-Example-Header: instance1
     ignoredRules:
       - instance1.example.com
   - name: instance2
     url: https://traefik2.example.com
     user: admin2
     password: stillsupersecure
+    customRequestHeaders:
+      Authorization: env:TREAFIK_AUTH_HEADER
     ignoredRules:
       - instance2.example.com
 ```
 
-You can configure HTTP basic auth and a list of rules to be ignored for each instance individually.
+Every instance can be configured to use different HTTP basic auth, custom request headers and ignored rules.
 
 If you want to use an environment variable for the HTTP basic auth password, the environment variable must be named `TRAEFIK_<INSTANCE_NAME>_PASSWORD`.
 
 In this example, the two environment variables would be `TRAEFIK_INSTANCE1_PASSWORD` and `TRAEFIK_INSTANCE2_PASSWORD`.
+
+The `customRequestHeader` `Authorization` for Traefik "instance2" will use the contents of `TRAEFIK_AUTH_HEADER` environment variable.
 
 #### Environment Variables
 
