@@ -64,7 +64,7 @@ SyncFlaer must be configured via a [YAML config file](#full-config-file). Some s
 
 #### Minimal Config File
 
-The following configuration is required.
+The following configuration is required:
 
 ```yaml
 ---
@@ -107,6 +107,13 @@ traefikInstances:
     # HTTP basic auth credentials for Traefik
     username: admin
     password: supersecure  # can also be set using TRAEFIK_MAIN_PASSWORD env variable
+    # you can set http headers that will be added to the Traefik api request
+    # requires string keys and string values
+    customRequestHeaders:
+      # headers can either be key value pairs in plain text
+      X-Example-Header: Example-Value
+      # or the value can be imported from env variables using the 'env:' prefix
+      Authorization: env:MY_AUTH_VAR  # in this case $MY_AUTH_VAR env variable will be used as the value
     # a list of rules which will be ignored
     # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
     ignoredRules:
@@ -238,7 +245,7 @@ Select the following settings:
 
 2021 Containeroo
 
-Cloudflare and the Cloudflare Logo are registered trademarks owned by Cloudflare Inc.
+Cloudflare and the Cloudflare logo are registered trademarks owned by Cloudflare Inc.
 This project is not affiliated with Cloudflare®.
 
 ## License

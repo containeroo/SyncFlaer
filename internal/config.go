@@ -26,11 +26,12 @@ type Configuration struct {
 		} `yaml:"slack"`
 	} `yaml:"notifications"`
 	TraefikInstances []struct {
-		Name         string   `yaml:"name"`
-		URL          string   `yaml:"url"`
-		Username     string   `yaml:"username"`
-		Password     string   `yaml:"password"`
-		IgnoredRules []string `yaml:"ignoredRules"`
+		Name                 string            `yaml:"name"`
+		URL                  string            `yaml:"url"`
+		Username             string            `yaml:"username"`
+		Password             string            `yaml:"password"`
+		CustomRequestHeaders map[string]string `yaml:"customRequestHeaders"`
+		IgnoredRules         []string          `yaml:"ignoredRules"`
 	} `yaml:"traefikInstances"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
@@ -61,8 +62,12 @@ func GetConfig(configFilePath string) Configuration {
 	// Check if env vars are set
 	for i, traefikInstance := range config.TraefikInstances {
 		envName := fmt.Sprintf("TRAEFIK_%s_PASSWORD", strings.ToUpper(traefikInstance.Name))
-		if os.Getenv(envName) != "" {
-			config.TraefikInstances[i].Password = os.Getenv(envName)
+		config.TraefikInstances[i].Password = os.Getenv(envName)
+
+		for k, v := range traefikInstance.CustomRequestHeaders {
+			if strings.Contains(v, "env:") {
+				config.TraefikInstances[i].CustomRequestHeaders[k] = os.Getenv(strings.ReplaceAll(v, "env:", ""))
+			}
 		}
 	}
 	if os.Getenv("SLACK_WEBHOOK") != "" {
