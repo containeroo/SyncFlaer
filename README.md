@@ -16,22 +16,25 @@ Synchronize Traefik host rules with Cloudflare®.
 
 ## Contents
 
-- [Usage](#usage)
-  - [Simple](#simple)
-  - [Kubernetes](#kubernetes)
-- [Configuration](#configuration)
-  - [Overview](#overview)
-    - [Minimal Config File](#minimal-config-file)
-    - [Full Config File](#full-config-file)
-    - [Using Multiple Traefik Instances](#using-multiple-traefik-instances)
-    - [Environment Variables](#environment-variables)
-    - [Defaults](#defaults)
-  - [Additional Records](#additional-records)
-    - [Example A Record](#example-a-record)
-    - [Example CNAME Record](#example-cname-record)
-  - [Cloudflare API Token](#cloudflare-api-token)
-- [Copyright](#copyright)
-- [License](#license)
+- [SyncFlaer](#syncflaer)
+  - [Why?](#why)
+  - [Contents](#contents)
+  - [Usage](#usage)
+    - [Simple](#simple)
+    - [Kubernetes](#kubernetes)
+  - [Configuration](#configuration)
+    - [Overview](#overview)
+      - [Minimal Config File](#minimal-config-file)
+      - [Full Config File](#full-config-file)
+      - [Using Multiple Traefik Instances](#using-multiple-traefik-instances)
+      - [Environment Variables](#environment-variables)
+      - [Defaults](#defaults)
+    - [Additional Records](#additional-records)
+      - [Example A Record](#example-a-record)
+      - [Example CNAME Record](#example-cname-record)
+    - [Cloudflare API Token](#cloudflare-api-token)
+  - [Copyright](#copyright)
+  - [License](#license)
 
 ## Usage
 
@@ -120,6 +123,7 @@ traefikInstances:
       - local.example.com
       - dev.example.com
     # you can add a second instance
+    verifyCertificate: true
   - name: secondary
     url: https://traefik-secondary.example.com
     username: admin
@@ -202,14 +206,15 @@ The `customRequestHeader` `Authorization` for Traefik "instance2" will use the c
 
 If not specified, the following defaults apply:
 
-| Name                           | Default Value                                                                                                   |
-|--------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip", "https://checkip.amazonaws.com"]` |
-| `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                                                  |
-| `cloudflare.defaults.type`     | `CNAME`                                                                                                         |
-| `cloudflare.defaults.ttl`      | `1`                                                                                                             |
-| `notifications.slack.username` | `SyncFlaer`                                                                                                     |
-| `notifications.slack.iconURL`  | `https://www.cloudflare.com/img/cf-facebook-card.png`                                                           |
+| Name                                    | Default Value                                                                                                   |
+|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `ipProviders`                           | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip", "https://checkip.amazonaws.com"]` |
+| `cloudflare.deleteGrace`                | `0` (delete records instantly)                                                                                  |
+| `cloudflare.defaults.type`              | `CNAME`                                                                                                         |
+| `cloudflare.defaults.ttl`               | `1`                                                                                                             |
+| `notifications.slack.username`          | `SyncFlaer`                                                                                                     |
+| `notifications.slack.iconURL`           | `https://www.cloudflare.com/img/cf-facebook-card.png`                                                           |
+| `traefikInstances.[].verifyCertificate` | `true`                                                                                                          |
 
 ### Additional Records
 

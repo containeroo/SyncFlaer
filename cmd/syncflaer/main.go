@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/cloudflare/cloudflare-go"
 	"os"
+
+	"github.com/cloudflare/cloudflare-go"
 
 	internal "github.com/containeroo/syncflaer/internal"
 
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "4.1.1"
+const version string = "4.2.0"
 
 func main() {
 	log.SetOutput(os.Stdout)
