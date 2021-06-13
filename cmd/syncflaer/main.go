@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "4.1.0"
+const version string = "4.1.1"
 
 func main() {
 	log.SetOutput(os.Stdout)
@@ -27,6 +27,7 @@ func main() {
 
 	if debug {
 		log.SetLevel(log.DebugLevel)
+		log.Warn("Debug mode enabled! Sensitive data could be displayed in plain text!")
 	} else {
 		log.SetLevel(log.InfoLevel)
 	}

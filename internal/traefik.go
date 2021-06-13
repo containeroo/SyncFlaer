@@ -57,31 +57,32 @@ func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []clou
 		client := &http.Client{}
 		req, err := http.NewRequest("GET", traefikHost, nil)
 		if err != nil {
-			log.Fatalf("Error creating http request for Traefik instance %s: %s", traefikInstance.Name, err)
+			log.Fatalf("Error creating http request for Traefik %s: %s", traefikInstance.Name, err)
 		}
 		if traefikInstance.Username != "" && traefikInstance.Password != "" {
 			req.SetBasicAuth(traefikInstance.Username, traefikInstance.Password)
 		}
 		for k, v := range traefikInstance.CustomRequestHeaders {
 			req.Header.Add(k, v)
+			log.Debugf("Adding request header to Traefik %s: '%s: %s'", traefikInstance.Name, k, v)
 		}
 		resp, err := client.Do(req)
 		if err != nil {
-			log.Fatalf("Unable to get Traefik (%s) rules: %s", traefikInstance.Name, err)
+			log.Fatalf("Unable to get Traefik %s rules: %s", traefikInstance.Name, err)
 		}
 		if resp.StatusCode != 200 {
-			log.Fatalf("Unable to get Traefik (%s) rules: http status code %d", traefikInstance.Name, resp.StatusCode)
+			log.Fatalf("Unable to get Traefik %s rules: http status code %d", traefikInstance.Name, resp.StatusCode)
 		}
 
 		respData, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			log.Fatalf("Unable to read Traefik (%s) rules: %s", traefikInstance.Name, err)
+			log.Fatalf("Unable to read Traefik %s rules: %s", traefikInstance.Name, err)
 		}
 
 		var traefikRouters []TraefikRouter
 		err = json.Unmarshal(respData, &traefikRouters)
 		if err != nil {
-			log.Fatalf("Unable to load Traefik (%s) rules: %s", traefikInstance.Name, err)
+			log.Fatalf("Unable to load Traefik %s rules: %s", traefikInstance.Name, err)
 		}
 
 		var content string
@@ -117,7 +118,7 @@ func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []clou
 				}
 			}
 		}
-		log.Debugf("Found rules in Traefik instance %s: %s", traefikInstance.Name, strings.Join(ruleNames, ", "))
+		log.Debugf("Found rules in Traefik %s: %s", traefikInstance.Name, strings.Join(ruleNames, ", "))
 	}
 
 	return userRecords

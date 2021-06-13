@@ -1,5 +1,14 @@
 # Changelog
 
+## [v4.1.1](https://github.com/containeroo/SyncFlaer/tree/v4.1.1) (2021-06-13)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.1.0...v4.1.1)
+
+**Improvements:**
+
+- add warning when debug mode is enabled
+- improve logging
+
 ## [v4.1.0](https://github.com/containeroo/SyncFlaer/tree/v4.1.0) (2021-06-11)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.0.1...v4.1.0)
