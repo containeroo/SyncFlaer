@@ -1,6 +1,7 @@
 package sf
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -54,7 +55,11 @@ func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []clou
 		traefikURL.Path = path.Join(traefikURL.Path, "/api/http/routers")
 		traefikHost := traefikURL.String()
 
-		client := &http.Client{}
+		tr := &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: traefikInstance.VerifyCertificate},
+		}
+
+		client := &http.Client{Transport: tr}
 		req, err := http.NewRequest("GET", traefikHost, nil)
 		if err != nil {
 			log.Fatalf("Error creating http request for Traefik %s: %s", traefikInstance.Name, err)

@@ -32,6 +32,7 @@ type Configuration struct {
 		Password             string            `yaml:"password"`
 		CustomRequestHeaders map[string]string `yaml:"customRequestHeaders"`
 		IgnoredRules         []string          `yaml:"ignoredRules"`
+		VerifyCertificate    bool              `yaml:"verifyCertificate" default:"true"`
 	} `yaml:"traefikInstances"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
