@@ -1,7 +1,6 @@
 package sf
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -59,10 +58,11 @@ func GetConfig(configFilePath string) Configuration {
 		log.Fatalf("Unable to read config file: %s", err)
 	}
 
-	// Check if env vars are set
+	// Check if env vars are used
 	for i, traefikInstance := range config.TraefikInstances {
-		envName := fmt.Sprintf("TRAEFIK_%s_PASSWORD", strings.ToUpper(traefikInstance.Name))
-		config.TraefikInstances[i].Password = os.Getenv(envName)
+		if strings.HasPrefix(traefikInstance.Password, "env:") {
+			config.TraefikInstances[i].Password = os.Getenv(strings.Replace(traefikInstance.Password, "env:", "", 1))
+		}
 
 		for k, v := range traefikInstance.CustomRequestHeaders {
 			if strings.HasPrefix(v, "env:") {
@@ -70,11 +70,13 @@ func GetConfig(configFilePath string) Configuration {
 			}
 		}
 	}
-	if os.Getenv("SLACK_WEBHOOK") != "" {
-		config.Notifications.Slack.WebhookURL = os.Getenv("SLACK_WEBHOOK")
+
+	if strings.HasPrefix(config.Notifications.Slack.WebhookURL, "env:") {
+		config.Notifications.Slack.WebhookURL = os.Getenv(strings.Replace(config.Notifications.Slack.WebhookURL, "env:", "", 1))
 	}
-	if os.Getenv("CLOUDFLARE_APITOKEN") != "" {
-		config.Cloudflare.APIToken = os.Getenv("CLOUDFLARE_APITOKEN")
+
+	if strings.HasPrefix(config.Cloudflare.APIToken, "env:") {
+		config.Cloudflare.APIToken = os.Getenv(strings.Replace(config.Cloudflare.APIToken, "env:", "", 1))
 	}
 
 	// Set default values
@@ -82,18 +84,22 @@ func GetConfig(configFilePath string) Configuration {
 		config.Cloudflare.Defaults.Type = "CNAME"
 		log.Debug("Cloudflare default type is empty, defaulting to ", config.Cloudflare.Defaults.Type)
 	}
+
 	if config.Cloudflare.Defaults.TTL == 0 || *config.Cloudflare.Defaults.Proxied {
 		config.Cloudflare.Defaults.TTL = 1
 		log.Debug("Cloudflare default TTL is empty, defaulting to ", config.Cloudflare.Defaults.TTL)
 	}
+
 	if config.IPProviders == nil {
 		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/", "https://checkip.amazonaws.com")
 		log.Debug("IP providers is empty, defaulting to ", strings.Join(config.IPProviders, ", "))
 	}
+
 	if config.Notifications.Slack.Username == "" {
 		config.Notifications.Slack.Username = "SyncFlaer"
 		log.Debug("Slack username is empty, defaulting to ", config.Notifications.Slack.Username)
 	}
+
 	if config.Notifications.Slack.IconURL == "" {
 		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
 		log.Debug("Slack icon URL is empty, defaulting to ", config.Notifications.Slack.IconURL)
@@ -104,16 +110,20 @@ func GetConfig(configFilePath string) Configuration {
 		if traefikInstance.Name == "" {
 			log.Fatal("Traefik instance name cannot be empty")
 		}
+
 		if traefikInstance.URL == "" {
 			log.Fatalf("Traefik URL for instance %s cannot be empty", traefikInstance.Name)
 		}
 	}
+
 	if config.Cloudflare.APIToken == "" {
 		log.Fatal("Cloudflare API token cannot be empty")
 	}
+
 	if config.Cloudflare.ZoneNames == nil {
 		log.Fatal("Cloudflare zone name cannot be empty")
 	}
+
 	if config.Cloudflare.Defaults.Type != "A" && config.Cloudflare.Defaults.Type != "CNAME" {
 		log.Fatalf("Supported Cloudflare default types are A or CNAME")
 	}
