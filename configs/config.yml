@@ -9,7 +9,7 @@ ipProviders:
 notifications:
   slack:
     # Slack webhook URL
-    webhookURL: https://hooks.slack.com/services/abc/def  # can also be set using SLACK_WEBHOOK env variable
+    webhookURL: https://hooks.slack.com/services/abc/def  # can also be set using an env variable (e.g. env:SLACK_TOKEN)
     username: SyncFlaer
     channel: "#syncflaer"
     iconURL: https://url.to/image.png
@@ -21,7 +21,7 @@ traefikInstances:
     url: https://traefik.example.com
     # HTTP basic auth credentials for Traefik
     username: admin
-    password: supersecure  # can also be set using TRAEFIK_MAIN_PASSWORD env variable
+    password: supersecure  # can also be set using an env variable by setting the value to 'env:ENV_VAR_NAME' (e.g. env:TRAEFIK_FIRST_PW)
     # you can set http headers that will be added to the Traefik api request
     # requires string keys and string values
     customRequestHeaders:
@@ -38,7 +38,7 @@ traefikInstances:
   - name: secondary
     url: https://traefik-secondary.example.com
     username: admin
-    password: stillsupersecure  # can also be set using TRAEFIK_SECONDARY_PASSWORD env variable
+    password: stillsupersecure  # can also be set using an env variable by setting the value to 'env:ENV_VAR_NAME' (e.g. env:TRAEFIK_TWO_PW)
     ignoredRules:
       - example.example.com
       - internal.example.com
@@ -55,7 +55,7 @@ additionalRecords:
 
 cloudflare:
   # global Cloudflare API token
-  apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
+  apiToken: abc  # can also be set using an env variable (e.g. env:CF_API_TOKEN)
   # a list of Cloudflare zone names
   zoneNames:
     - example.com
