@@ -259,7 +259,7 @@ Select the following settings:
 ### From 4.x to 5.x
 
 The `cloudflare.apiToken` config is now required to be present in config file.  
-Environment variable names for Slack webhook URL, Traefik HTTP basic auth password and Cloudflare API token must be defined in config file by using the `env:` prefix.
+If you want to use environment variables for Slack webhook URL, Traefik HTTP basic auth password and Cloudflare API token, you have to use the `env:` prefix.
 Everything after the `env:` part will be used as the name of the env variable.
 
 ## Copyright
