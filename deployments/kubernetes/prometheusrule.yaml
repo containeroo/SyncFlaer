@@ -10,7 +10,7 @@ spec:
       rules:
         - alert: SyncFlaerNotRunning
           annotations:
-            description: The last execution of SyncFlaer failed for 5 minutes.
+            description: The last execution of SyncFlaer failed.
             summary: SyncFlaer failed.
           expr: increase(kube_job_spec_completions{job="kube-state-metrics",namespace=~"traefik"}[5m]) - increase(kube_job_status_succeeded{job="kube-state-metrics",namespace=~"traefik"}[5m]) > 0
           for: 5m
