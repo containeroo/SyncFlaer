@@ -187,12 +187,12 @@ Instead of putting secrets in the config file, SyncFlaer can grab secrets from e
 
 You can define the names of the environment variables by using the `env:` prefix. For example:
 
-| Configuration                                 | Example                   |
-|-----------------------------------------------|---------------------------|
-| `notifications.slack.webhookURL`              | `env:SLACK_TOKEN`         |
-| `traefikInstances.[].password`                | `env:TRAEFIK_K8S_PW`      |
-| `traefikInstances.[].customRequestHeaders.[]` | `env:TRAEFIK_AUTH_HEADER` |
-| `cloudflare.apiToken`                         | `env:CF_API_TOKEN`        |
+| Configuration                                | Example                   |
+|----------------------------------------------|---------------------------|
+| `notifications.slack.webhookURL`             | `env:SLACK_TOKEN`         |
+| `password` in `traefikInstances`             | `env:TRAEFIK_K8S_PW`      |
+| `customRequestHeaders` in `traefikInstances` | `env:TRAEFIK_AUTH_HEADER` |
+| `cloudflare.apiToken`                        | `env:CF_API_TOKEN`        |
 
 #### Defaults
 
