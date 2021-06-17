@@ -185,7 +185,7 @@ Every instance can be configured to use different HTTP basic auth, custom reques
 
 Instead of putting secrets in the config file, SyncFlaer can grab secrets from environment variables.
 
-You can define the environment variables by using the `env:` prefix. For example:
+You can define the names of the environment variables by using the `env:` prefix. For example:
 
 | Configuration                                 | Example                   |
 |-----------------------------------------------|---------------------------|
