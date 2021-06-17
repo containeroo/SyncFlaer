@@ -62,7 +62,7 @@ func GetConfig(configFilePath string) Configuration {
 	for i, traefikInstance := range config.TraefikInstances {
 		if strings.HasPrefix(traefikInstance.Password, "env:") {
 			config.TraefikInstances[i].Password = os.Getenv(strings.Replace(traefikInstance.Password, "env:", "", 1))
-			log.Debugf("Got Traefik %s password '%s' from environment variable '%s'", traefikInstance.Name, traefikInstance.Password, strings.Replace(traefikInstance.Password, "env:", "", 1))
+			log.Debugf("Got Traefik %s password '%s' from environment variable '%s'", traefikInstance.Name, config.TraefikInstances[i].Password, strings.Replace(traefikInstance.Password, "env:", "", 1))
 		}
 
 		for k, v := range traefikInstance.CustomRequestHeaders {
