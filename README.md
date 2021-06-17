@@ -97,8 +97,8 @@ notifications:
     # Slack webhook URL
     # you can set the value directly in config file
     webhookURL: https://hooks.slack.com/services/abc/def
-    # or by using an env variable by using the 'env:' prefix
-    # webhookURL: env:SLACK_WEBHOOK_URL  # in this case the contents of $SLACK_WEBHOOK_URL env variable will be used as the value
+    # or by using an environment variable by using the 'env:' prefix
+    # webhookURL: env:SLACK_WEBHOOK_URL  # in this case the contents of $SLACK_WEBHOOK_URL environment variable will be used as the value
     username: SyncFlaer
     channel: "#syncflaer"
     iconURL: https://url.to/image.png
@@ -112,15 +112,15 @@ traefikInstances:
     username: admin
     # you can set the value directly in config file
     password: supersecure
-    # or by using an env variable using the 'env:' prefix
-    # password: env:TRAEFIK_PW  # in this case the contents of $TRAEFIK_PW env variable will be used as the value
+    # or by using an environment variable using the 'env:' prefix
+    # password: env:TRAEFIK_PW  # in this case the contents of $TRAEFIK_PW environment variable will be used as the value
     # you can set http headers that will be added to the Traefik api request
     # requires string keys and string values
     customRequestHeaders:
       # headers can either be key value pairs in plain text
       X-Example-Header: Example-Value
-      # or the value can be imported from env variables using the 'env:' prefix
-      Authorization: env:MY_AUTH_VAR  # in this case the contents of $MY_AUTH_VAR env variable will be used as the value
+      # or the value can be imported from environment variables using the 'env:' prefix
+      Authorization: env:MY_AUTH_VAR  # in this case the contents of $MY_AUTH_VAR environment variable will be used as the value
     # a list of rules which will be ignored
     # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
     ignoredRules:
@@ -149,8 +149,8 @@ cloudflare:
   # global Cloudflare API token
   # you can set the value directly in config file
   apiToken: abc
-  # or by using an env variable using the 'env:' prefix
-  # apiToken: env:CF_API_TOKEN  # in this case the contents of $CF_API_TOKEN env variable will be used as the value
+  # or by using an environment variable using the 'env:' prefix
+  # apiToken: env:CF_API_TOKEN  # in this case the contents of $CF_API_TOKEN environment variable will be used as the value
   # a list of Cloudflare zone names
   zoneNames:
     - example.com
@@ -260,7 +260,7 @@ Select the following settings:
 
 The `cloudflare.apiToken` config is now required to be present in config file.  
 If you want to use environment variables for Slack webhook URL, Traefik HTTP basic auth password and Cloudflare API token, you have to use the `env:` prefix.
-Everything after the `env:` part will be used as the name of the env variable.
+Everything after the `env:` part will be used as the name of the environment variable.
 
 ## Copyright
 
