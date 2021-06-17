@@ -1,6 +1,6 @@
 # Changelog
 
-## [v5.0.0](https://github.com/containeroo/SyncFlaer/tree/v5.0.0) (2021-06-??)
+## [v5.0.0](https://github.com/containeroo/SyncFlaer/tree/v5.0.0) (2021-06-17)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.1.1...v5.0.0)
 
