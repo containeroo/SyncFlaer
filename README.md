@@ -30,6 +30,8 @@ Synchronize Traefik host rules with Cloudflare®.
     - [Example A Record](#example-a-record)
     - [Example CNAME Record](#example-cname-record)
   - [Cloudflare API Token](#cloudflare-api-token)
+- [Upgrade Notes](#upgrade-notes)
+  - [From 4.x to 5.x](#from-4x-to-5x)
 - [Copyright](#copyright)
 - [License](#license)
 
@@ -165,7 +167,7 @@ cloudflare:
 
 #### Using Multiple Traefik Instances
 
-Starting with version 2.0.0, you can configure SyncFlaer to gather host rules from multiple Traefik instances.  
+You can configure SyncFlaer to gather host rules from multiple Traefik instances.  
 The configuration for two instances would look like this:
 
 ```yaml
@@ -194,7 +196,7 @@ Every instance can be configured to use different HTTP basic auth, custom reques
 
 Instead of putting secrets in the config file, SyncFlaer can grab secrets from environment variables.
 
-You can define the names of the environment variables by using the `env:` prefix. For example:
+You can define the names of the environment variables by using the `env:` prefix.
 
 | Configuration                                | Example                   |
 |----------------------------------------------|---------------------------|
@@ -251,6 +253,14 @@ Select the following settings:
 
 **Zone Resources:**  
 - `Include` - `All Zones`
+
+## Upgrade Notes
+
+### From 4.x to 5.x
+
+The `cloudflare.apiToken` config is now required to be present in config file.  
+Environment variable names for Slack webhook URL, Traefik HTTP basic auth password and Cloudflare API token must be defined in config file by using the `env:` prefix.
+Everything after the `env:` part will be used as the name of the env variable.
 
 ## Copyright
 
