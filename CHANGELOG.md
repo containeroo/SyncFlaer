@@ -1,5 +1,15 @@
 # Changelog
 
+## [v5.0.0](https://github.com/containeroo/SyncFlaer/tree/v5.0.0) (2021-06-17)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.1.1...v5.0.0)
+
+**Caution!** The configuration has been changed since v4.1.1! Please refer to the readme file for more information.
+
+**Improvements:**
+
+- add ability to dynamically configure environment variables for Cloudflare API token, Slack token URL and Traefik HTTP basic auth password using the `env:` prefix in config file
+
 ## [v4.1.1](https://github.com/containeroo/SyncFlaer/tree/v4.1.1) (2021-06-13)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.1.0...v4.1.1)

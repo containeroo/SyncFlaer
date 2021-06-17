@@ -6,6 +6,9 @@ metadata:
 data:
   config.yml: |
     ---
+    notifications:
+      slack:
+        webhookURL: env:SLACK_WEBHOOK_URL
     traefikInstances:
       - name: main
         url: https://traefik.example.com
@@ -19,6 +22,7 @@ data:
         proxied: false
 
     cloudflare:
+      apiToken: env:CF_API_TOKEN
       zoneNames:
         - example.com
       deleteGrace: 5

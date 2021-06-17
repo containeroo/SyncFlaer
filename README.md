@@ -30,6 +30,8 @@ Synchronize Traefik host rules with Cloudflare®.
     - [Example A Record](#example-a-record)
     - [Example CNAME Record](#example-cname-record)
   - [Cloudflare API Token](#cloudflare-api-token)
+- [Upgrade Notes](#upgrade-notes)
+  - [From 4.x to 5.x](#from-4x-to-5x)
 - [Copyright](#copyright)
 - [License](#license)
 
@@ -46,7 +48,6 @@ syncflaer --config-path /opt/syncflaer.yml
 Flags:
 
 ```text
-Usage of SyncFlaer:
   -c, --config-path string   Path to config file (default "config.yml")
   -d, --debug                Enable debug mode
   -v, --version              Print the current version and exit
@@ -73,7 +74,7 @@ traefikInstances:
     url: https://traefik.example.com
 
 cloudflare:
-  apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
+  apiToken: abc
   zoneNames:
     - example.com
   defaults:
@@ -94,7 +95,10 @@ ipProviders:
 notifications:
   slack:
     # Slack webhook URL
-    webhookURL: https://hooks.slack.com/services/abc/def  # can also be set using SLACK_WEBHOOK env variable
+    # you can set the value directly in config file
+    webhookURL: https://hooks.slack.com/services/abc/def
+    # or by using an env variable by using the 'env:' prefix
+    # webhookURL: env:SLACK_WEBHOOK_URL  # in this case the contents of $SLACK_WEBHOOK_URL env variable will be used as the value
     username: SyncFlaer
     channel: "#syncflaer"
     iconURL: https://url.to/image.png
@@ -106,14 +110,17 @@ traefikInstances:
     url: https://traefik.example.com
     # HTTP basic auth credentials for Traefik
     username: admin
-    password: supersecure  # can also be set using TRAEFIK_MAIN_PASSWORD env variable
+    # you can set the value directly in config file
+    password: supersecure
+    # or by using an env variable using the 'env:' prefix
+    # password: env:TRAEFIK_PW  # in this case the contents of $TRAEFIK_PW env variable will be used as the value
     # you can set http headers that will be added to the Traefik api request
     # requires string keys and string values
     customRequestHeaders:
       # headers can either be key value pairs in plain text
       X-Example-Header: Example-Value
       # or the value can be imported from env variables using the 'env:' prefix
-      Authorization: env:MY_AUTH_VAR  # in this case $MY_AUTH_VAR env variable will be used as the value
+      Authorization: env:MY_AUTH_VAR  # in this case the contents of $MY_AUTH_VAR env variable will be used as the value
     # a list of rules which will be ignored
     # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
     ignoredRules:
@@ -123,7 +130,7 @@ traefikInstances:
   - name: secondary
     url: https://traefik-secondary.example.com
     username: admin
-    password: stillsupersecure  # can also be set using TRAEFIK_SECONDARY_PASSWORD env variable
+    password: stillsupersecure
     ignoredRules:
       - example.example.com
       - internal.example.com
@@ -140,7 +147,10 @@ additionalRecords:
 
 cloudflare:
   # global Cloudflare API token
-  apiToken: abc  # can also be set using CLOUDFLARE_APITOKEN env variable
+  # you can set the value directly in config file
+  apiToken: abc
+  # or by using an env variable using the 'env:' prefix
+  # apiToken: env:CF_API_TOKEN  # in this case the contents of $CF_API_TOKEN env variable will be used as the value
   # a list of Cloudflare zone names
   zoneNames:
     - example.com
@@ -157,7 +167,7 @@ cloudflare:
 
 #### Using Multiple Traefik Instances
 
-Starting with version 2.0.0, you can configure SyncFlaer to gather host rules from multiple Traefik instances.  
+You can configure SyncFlaer to gather host rules from multiple Traefik instances.  
 The configuration for two instances would look like this:
 
 ```yaml
@@ -182,21 +192,18 @@ traefikInstances:
 
 Every instance can be configured to use different HTTP basic auth, custom request headers and ignored rules.
 
-If you want to use an environment variable for the HTTP basic auth password, the environment variable must be named `TRAEFIK_<INSTANCE_NAME>_PASSWORD`.
-
-In this example, the two environment variables would be `TRAEFIK_INSTANCE1_PASSWORD` and `TRAEFIK_INSTANCE2_PASSWORD`.
-
-The `customRequestHeader` `Authorization` for Traefik "instance2" will use the contents of `TRAEFIK_AUTH_HEADER` environment variable.
-
 #### Environment Variables
 
-**Note:** Environment variables have a higher precedence than the config file!
+Instead of putting secrets in the config file, SyncFlaer can grab secrets from environment variables.
 
-| Name                               | Description                                      |
-|------------------------------------|--------------------------------------------------|
-| `SLACK_WEBHOOK`                    | Slack Webhook URL                                |
-| `TRAEFIK_<INSTANCE_NAME>_PASSWORD` | Password for Traefik dashboard (HTTP basic auth) |
-| `CLOUDFLARE_APITOKEN`              | Cloudflare API token                             |
+You can define the names of the environment variables by using the `env:` prefix.
+
+| Configuration                                | Example                   |
+|----------------------------------------------|---------------------------|
+| `notifications.slack.webhookURL`             | `env:SLACK_TOKEN`         |
+| `password` in `traefikInstances`             | `env:TRAEFIK_K8S_PW`      |
+| `customRequestHeaders` in `traefikInstances` | `env:TRAEFIK_AUTH_HEADER` |
+| `cloudflare.apiToken`                        | `env:CF_API_TOKEN`        |
 
 #### Defaults
 
@@ -246,6 +253,14 @@ Select the following settings:
 
 **Zone Resources:**  
 - `Include` - `All Zones`
+
+## Upgrade Notes
+
+### From 4.x to 5.x
+
+The `cloudflare.apiToken` config is now required to be present in config file.  
+If you want to use environment variables for Slack webhook URL, Traefik HTTP basic auth password and Cloudflare API token, you have to use the `env:` prefix.
+Everything after the `env:` part will be used as the name of the env variable.
 
 ## Copyright
 
