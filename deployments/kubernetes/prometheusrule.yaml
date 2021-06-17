@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: syncflaer
+  namespace: monitoring
+spec:
+  groups:
+    - name: syncflaer
+      rules:
+        - alert: SyncFlaerNotRunning
+          annotations:
+            description: The last execution of SyncFlaer failed.
+            summary: SyncFlaer failed.
+          expr: kube_job_spec_completions{job="kube-state-metrics",namespace="syncflaer"} - kube_job_status_succeeded{job="kube-state-metrics",namespace="syncflaer"} > 0
+          for: 5m
+          labels:
+            severity: critical
