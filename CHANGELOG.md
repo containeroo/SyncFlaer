@@ -1,5 +1,13 @@
 # Changelog
 
+## [v5.0.1](https://github.com/containeroo/SyncFlaer/tree/v5.0.1) (2021-06-17)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.0.0...v5.0.1)
+
+**Improvements:**
+
+- add debug logging for environment variable processing
+
 ## [v5.0.0](https://github.com/containeroo/SyncFlaer/tree/v5.0.0) (2021-06-17)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v4.1.1...v5.0.0)
