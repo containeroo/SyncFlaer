@@ -92,27 +92,27 @@ func GetConfig(configFilePath string) Configuration {
 	// Set default values
 	if config.Cloudflare.Defaults.Type == "" {
 		config.Cloudflare.Defaults.Type = "CNAME"
-		log.Debug("Cloudflare default type is empty, defaulting to ", config.Cloudflare.Defaults.Type)
+		log.Debugf("Cloudflare default type is empty, defaulting to %s", config.Cloudflare.Defaults.Type)
 	}
 
 	if config.Cloudflare.Defaults.TTL == 0 || *config.Cloudflare.Defaults.Proxied {
 		config.Cloudflare.Defaults.TTL = 1
-		log.Debug("Cloudflare default TTL is empty, defaulting to ", config.Cloudflare.Defaults.TTL)
+		log.Debugf("Cloudflare default TTL is empty, defaulting to %d", config.Cloudflare.Defaults.TTL)
 	}
 
 	if config.IPProviders == nil {
 		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/", "https://checkip.amazonaws.com")
-		log.Debug("IP providers is empty, defaulting to ", strings.Join(config.IPProviders, ", "))
+		log.Debugf("IP providers is empty, defaulting to %s", strings.Join(config.IPProviders, ", "))
 	}
 
 	if config.Notifications.Slack.Username == "" {
 		config.Notifications.Slack.Username = "SyncFlaer"
-		log.Debug("Slack username is empty, defaulting to ", config.Notifications.Slack.Username)
+		log.Debugf("Slack username is empty, defaulting to %s", config.Notifications.Slack.Username)
 	}
 
 	if config.Notifications.Slack.IconURL == "" {
 		config.Notifications.Slack.IconURL = "https://www.cloudflare.com/img/cf-facebook-card.png"
-		log.Debug("Slack icon URL is empty, defaulting to ", config.Notifications.Slack.IconURL)
+		log.Debugf("Slack icon URL is empty, defaulting to %s", config.Notifications.Slack.IconURL)
 	}
 
 	// Validate config
@@ -135,7 +135,7 @@ func GetConfig(configFilePath string) Configuration {
 	}
 
 	if config.Cloudflare.Defaults.Type != "A" && config.Cloudflare.Defaults.Type != "CNAME" {
-		log.Fatalf("Supported Cloudflare default types are A or CNAME")
+		log.Fatal("Supported Cloudflare default types are A or CNAME")
 	}
 
 	return config
