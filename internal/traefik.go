@@ -64,7 +64,7 @@ func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []clou
 		}
 		for k, v := range traefikInstance.CustomRequestHeaders {
 			req.Header.Add(k, v)
-			log.Debugf("Adding request header to Traefik %s: '%s: %s'", traefikInstance.Name, k, v)
+			log.Debugf("Adding request header to Traefik %s: '%s: %s'", traefikInstance.Name, k, maskValue(v))
 		}
 		resp, err := client.Do(req)
 		if err != nil {

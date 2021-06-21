@@ -45,6 +45,14 @@ type Configuration struct {
 	} `yaml:"cloudflare"`
 }
 
+func maskValue(value string) string {
+	rs := []rune(value)
+	for i := 0; i < len(rs)-3; i++ {
+		rs[i] = '*'
+	}
+	return string(rs)
+}
+
 // GetConfig creates a global var holding the configuration
 func GetConfig(configFilePath string) Configuration {
 	log.Debugf("Loading config file %s", configFilePath)
@@ -58,21 +66,21 @@ func GetConfig(configFilePath string) Configuration {
 		log.Fatalf("Unable to read config file: %s", err)
 	}
 
-	// Check if env vars are used
+	// Check if environment variables are used
 	var envVarName string
 
 	for i, traefikInstance := range config.TraefikInstances {
 		if strings.HasPrefix(traefikInstance.Password, "env:") {
 			envVarName = strings.Replace(traefikInstance.Password, "env:", "", 1)
 			config.TraefikInstances[i].Password = os.Getenv(envVarName)
-			log.Debugf("Got Traefik %s password '%s' from environment variable '%s'", traefikInstance.Name, config.TraefikInstances[i].Password, envVarName)
+			log.Debugf("Got Traefik %s password '%s' from environment variable '%s'", traefikInstance.Name, maskValue(config.TraefikInstances[i].Password), envVarName)
 		}
 
 		for k, v := range traefikInstance.CustomRequestHeaders {
 			if strings.HasPrefix(v, "env:") {
 				envVarName = strings.Replace(v, "env:", "", 1)
 				config.TraefikInstances[i].CustomRequestHeaders[k] = os.Getenv(envVarName)
-				log.Debugf("Got Traefik %s customRequestHeader '%s' from environment variable '%s' with value '%s'", traefikInstance.Name, k, envVarName, config.TraefikInstances[i].CustomRequestHeaders[k])
+				log.Debugf("Got Traefik %s customRequestHeader '%s' from environment variable '%s' with value '%s'", traefikInstance.Name, k, envVarName, maskValue(config.TraefikInstances[i].CustomRequestHeaders[k]))
 			}
 		}
 	}
@@ -80,13 +88,13 @@ func GetConfig(configFilePath string) Configuration {
 	if strings.HasPrefix(config.Notifications.Slack.WebhookURL, "env:") {
 		envVarName = strings.Replace(config.Notifications.Slack.WebhookURL, "env:", "", 1)
 		config.Notifications.Slack.WebhookURL = os.Getenv(envVarName)
-		log.Debugf("Got Slack webhook URL '%s' from environment variable '%s'", config.Notifications.Slack.WebhookURL, envVarName)
+		log.Debugf("Got Slack webhook URL '%s' from environment variable '%s'", maskValue(config.Notifications.Slack.WebhookURL), envVarName)
 	}
 
 	if strings.HasPrefix(config.Cloudflare.APIToken, "env:") {
 		envVarName = strings.Replace(config.Cloudflare.APIToken, "env:", "", 1)
 		config.Cloudflare.APIToken = os.Getenv(envVarName)
-		log.Debugf("Got Cloudflare API token '%s' from environment variable '%s'", config.Cloudflare.APIToken, envVarName)
+		log.Debugf("Got Cloudflare API token '%s' from environment variable '%s'", maskValue(config.Cloudflare.APIToken), envVarName)
 	}
 
 	// Set default values
