@@ -8,6 +8,10 @@
 
 - mask environment variable values in debug log
 
+**Dependencies:**
+
+- Update module github.com/cloudflare/cloudflare-go to v0.18.0 (#59)
+
 ## [v5.0.1](https://github.com/containeroo/SyncFlaer/tree/v5.0.1) (2021-06-17)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.0.0...v5.0.1)
