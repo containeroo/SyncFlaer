@@ -209,14 +209,14 @@ You can define the names of the environment variables by using the `env:` prefix
 
 If not specified, the following defaults apply:
 
-| Name                           | Default Value                                                                                                   |
-|--------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip", "https://checkip.amazonaws.com"]` |
-| `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                                                  |
-| `cloudflare.defaults.type`     | `CNAME`                                                                                                         |
-| `cloudflare.defaults.ttl`      | `1`                                                                                                             |
-| `notifications.slack.username` | `SyncFlaer`                                                                                                     |
-| `notifications.slack.iconURL`  | `https://www.cloudflare.com/img/cf-facebook-card.png`                                                           |
+| Name                           | Default Value                                                                                                                            |
+|--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip", "https://checkip.amazonaws.com", "https://api.ipify.org"]` |
+| `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                                                                           |
+| `cloudflare.defaults.type`     | `CNAME`                                                                                                                                  |
+| `cloudflare.defaults.ttl`      | `1`                                                                                                                                      |
+| `notifications.slack.username` | `SyncFlaer`                                                                                                                              |
+| `notifications.slack.iconURL`  | `https://www.cloudflare.com/img/cf-facebook-card.png`                                                                                    |
 
 ### Additional Records
 

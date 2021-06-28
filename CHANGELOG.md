@@ -1,5 +1,13 @@
 # Changelog
 
+## [v5.1.0](https://github.com/containeroo/SyncFlaer/tree/v5.1.0) (2021-06-29)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.0.2...v5.1.0)
+
+**Improvements:**
+
+- add `https://api.ipify.org` as a new additional default ip provider (#60)
+
 ## [v5.0.2](https://github.com/containeroo/SyncFlaer/tree/v5.0.2) (2021-06-21)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.0.1...v5.0.2)
