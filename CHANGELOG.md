@@ -1,5 +1,19 @@
 # Changelog
 
+## [v5.1.1](https://github.com/containeroo/SyncFlaer/tree/v5.1.1) (2021-07-23)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.0...v5.1.1)
+
+**New features:**
+
+- Docker images for SyncFlaer are now also available on ghcr
+
+**Dependencies:**
+
+- Update module github.com/slack-go/slack to v0.9.2 (#62)
+- Update module github.com/cloudflare/cloudflare-go to v0.19.0 (#63)
+- Update module github.com/slack-go/slack to v0.9.3 (#64)
+
 ## [v5.1.0](https://github.com/containeroo/SyncFlaer/tree/v5.1.0) (2021-06-28)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.0.2...v5.1.0)
