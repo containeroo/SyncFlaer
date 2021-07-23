@@ -19,6 +19,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to GitHub Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Prepare release tag
         id: tag
         run: echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
@@ -31,3 +37,4 @@ jobs:
           push: true
           tags: |
             containeroo/syncflaer:${{ steps.tag.outputs.version }}
+            ghcr.io/containeroo/syncflaer:${{ steps.tag.outputs.version }}
