@@ -1,5 +1,18 @@
 # Changelog
 
+## [v5.1.3](https://github.com/containeroo/SyncFlaer/tree/v5.1.3) (2021-10-25)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.2...v5.1.3)
+
+**Bug fixes:**
+
+- fix an issue that caused an error if a Traefik route was equal to the root domain (e.g. `example.com`)
+
+**Dependencies:**
+
+- Update module github.com/slack-go/slack to v0.9.5 (#74)
+- Update module github.com/cloudflare/cloudflare-go to v0.26.0 (#76)
+
 ## [v5.1.2](https://github.com/containeroo/SyncFlaer/tree/v5.1.2) (2021-09-06)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.1...v5.1.2)
