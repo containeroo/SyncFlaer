@@ -1,5 +1,13 @@
 # Changelog
 
+## [v5.1.4](https://github.com/containeroo/SyncFlaer/tree/v5.1.4) (2021-10-29)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.3...v5.1.4)
+
+**Bug fixes:**
+
+- sync version output with actual release version
+
 ## [v5.1.3](https://github.com/containeroo/SyncFlaer/tree/v5.1.3) (2021-10-25)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.2...v5.1.3)
