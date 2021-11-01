@@ -3,7 +3,7 @@ module github.com/containeroo/syncflaer
 go 1.17
 
 require (
-	github.com/cloudflare/cloudflare-go v0.26.0
+	github.com/cloudflare/cloudflare-go v0.27.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/slack-go/slack v0.9.5
 	github.com/spf13/pflag v1.0.5
