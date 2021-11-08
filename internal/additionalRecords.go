@@ -11,6 +11,7 @@ import (
 func GetAdditionalRecords(zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var additionalRecordNames []string
 
+additionalRecords:
 	for _, additionalRecord := range config.AdditionalRecords {
 		if additionalRecord.Name == "" {
 			log.Error("Additional DNS record name cannot be empty")
@@ -18,6 +19,12 @@ func GetAdditionalRecords(zoneName string, userRecords []cloudflare.DNSRecord) [
 		}
 		if !strings.Contains(additionalRecord.Name, zoneName) {
 			continue
+		}
+		for _, userRecord := range userRecords {
+			if userRecord.Name == additionalRecord.Name {
+				log.Warnf("DNS record %s is already defined in a Traefik route. Skipping...", additionalRecord.Name)
+				continue additionalRecords
+			}
 		}
 		if additionalRecord.Type == "" {
 			additionalRecord.Type = config.Cloudflare.Defaults.Type

@@ -1,5 +1,13 @@
 # Changelog
 
+## [v5.1.5](https://github.com/containeroo/SyncFlaer/tree/v5.1.5) (2021-11-08)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.4...v5.1.5)
+
+**Bug fixes:**
+
+- fix an issue that caused SyncFlaer to falsely update a DNS record if it is defined twice (#79)
+
 ## [v5.1.4](https://github.com/containeroo/SyncFlaer/tree/v5.1.4) (2021-10-29)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.3...v5.1.4)
