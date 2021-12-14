@@ -1,5 +1,13 @@
 # Changelog
 
+## [v5.1.6](https://github.com/containeroo/SyncFlaer/tree/v5.1.6) (2021-12-14)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.5...v5.1.6)
+
+**Bug fixes:**
+
+- fix substring matching when two domains are similar (#86)
+
 ## [v5.1.5](https://github.com/containeroo/SyncFlaer/tree/v5.1.5) (2021-11-08)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.4...v5.1.5)
