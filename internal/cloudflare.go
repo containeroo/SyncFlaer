@@ -12,6 +12,8 @@ import (
 var cf *cloudflare.API
 var zoneIDs map[string]string
 
+const deleteGraceRecordPrefix = "_syncflaer._deletegrace"
+
 // SetupCloudflareClient creates a global var with a Cloudflare client instance
 func SetupCloudflareClient() {
 	var err error
@@ -71,7 +73,7 @@ func GetDeleteGraceRecords(zoneID string) []cloudflare.DNSRecord {
 	var deleteGraceRecordNames []string
 
 	for _, dnsRecord := range dnsRecords {
-		if !strings.Contains(dnsRecord.Name, "_syncflaer._deletegrace.") {
+		if !strings.Contains(dnsRecord.Name, deleteGraceRecordPrefix) {
 			continue
 		}
 		deleteGraceRecordNames = append(deleteGraceRecordNames, dnsRecord.Name)
@@ -191,7 +193,7 @@ func GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRec
 func GetDeleteGraceRecord(orphanedRecordName string, deleteGraceRecords []cloudflare.DNSRecord) cloudflare.DNSRecord {
 	var deleteGraceRecordFound cloudflare.DNSRecord
 	for _, deleteGraceRecord := range deleteGraceRecords {
-		if strings.Contains(deleteGraceRecord.Name, orphanedRecordName) {
+		if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", deleteGraceRecordPrefix, orphanedRecordName) {
 			deleteGraceRecordFound = deleteGraceRecord
 			break
 		}
@@ -202,7 +204,7 @@ func GetDeleteGraceRecord(orphanedRecordName string, deleteGraceRecords []cloudf
 func CreateDeleteGraceRecord(zoneID string, orphanedRecordName string) {
 	deleteGraceRecord := cloudflare.DNSRecord{
 		Type:    "TXT",
-		Name:    fmt.Sprintf("_syncflaer._deletegrace.%s", orphanedRecordName),
+		Name:    fmt.Sprintf("%s.%s", deleteGraceRecordPrefix, orphanedRecordName),
 		Content: strconv.Itoa(config.Cloudflare.DeleteGrace),
 	}
 	_, err := cf.CreateDNSRecord(context.Background(), zoneID, deleteGraceRecord)
@@ -235,7 +237,7 @@ func CleanupDeleteGraceRecords(zoneName, zoneID string, userRecords, cloudflareD
 			if userRecord.Name == zoneName {
 				continue
 			}
-			if strings.Contains(deleteGraceRecord.Name, userRecord.Name) {
+			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", deleteGraceRecordPrefix, userRecord.Name) {
 				dnsRecordFound = true
 				dnsRecordName = userRecord.Name
 				break
@@ -250,7 +252,7 @@ func CleanupDeleteGraceRecords(zoneName, zoneID string, userRecords, cloudflareD
 			if cloudflareDNSRecord.Name == zoneName {
 				continue
 			}
-			if strings.Contains(deleteGraceRecord.Name, cloudflareDNSRecord.Name) {
+			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", deleteGraceRecordPrefix, cloudflareDNSRecord.Name) {
 				dnsRecordFound = true
 				break
 			}
