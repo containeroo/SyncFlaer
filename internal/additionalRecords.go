@@ -43,17 +43,23 @@ additionalRecords:
 		if additionalRecord.TTL == 0 {
 			additionalRecord.TTL = 1
 		}
+		if additionalRecord.Proxied == nil {
+			additionalRecord.Proxied = config.Cloudflare.Defaults.Proxied
+		}
 		userRecords = append(userRecords, additionalRecord)
 		additionalRecordNames = append(additionalRecordNames, additionalRecord.Name)
 	}
-	rootDNSRecord := cloudflare.DNSRecord{
-		Type:    "A",
-		Name:    zoneName,
-		Content: currentIP,
-		Proxied: config.Cloudflare.Defaults.Proxied,
-		TTL:     config.Cloudflare.Defaults.TTL,
+	if *config.ManagedRootRecord {
+		rootDNSRecord := cloudflare.DNSRecord{
+			Type:    "A",
+			Name:    zoneName,
+			Content: currentIP,
+			Proxied: config.Cloudflare.Defaults.Proxied,
+			TTL:     config.Cloudflare.Defaults.TTL,
+		}
+		userRecords = append(userRecords, rootDNSRecord)
 	}
-	userRecords = append(userRecords, rootDNSRecord)
+
 	log.Debugf("Found additional DNS records: %s", strings.Join(additionalRecordNames, ", "))
 
 	return userRecords
