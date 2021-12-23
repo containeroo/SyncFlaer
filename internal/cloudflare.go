@@ -229,7 +229,7 @@ func UpdateDeleteGraceRecord(zoneID string, deleteGraceRecord cloudflare.DNSReco
 	log.Infof("Waiting %s more runs until DNS record %s gets deleted", deleteGraceRecord.Content, orphanedRecordName)
 }
 
-func CleanupDeleteGraceRecords(zoneName, zoneID string, userRecords, cloudflareDNSRecords, deleteGraceRecords []cloudflare.DNSRecord) {
+func CleanupDeleteGraceRecords(zoneID string, userRecords, cloudflareDNSRecords, deleteGraceRecords []cloudflare.DNSRecord) {
 	for _, deleteGraceRecord := range deleteGraceRecords {
 		dnsRecordFound := false
 		var dnsRecordName string

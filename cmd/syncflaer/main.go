@@ -79,7 +79,7 @@ func main() {
 			log.Debug("No orphaned DNS records")
 		}
 
-		internal.CleanupDeleteGraceRecords(zoneName, zoneID, userRecords, cloudflareDNSRecords, deleteGraceRecords)
+		internal.CleanupDeleteGraceRecords(zoneID, userRecords, cloudflareDNSRecords, deleteGraceRecords)
 
 		internal.UpdateCloudflareDNSRecords(zoneID, cloudflareDNSRecords, userRecords)
 	}
