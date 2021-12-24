@@ -148,8 +148,8 @@ You can specify additional DNS records which are not configured as Traefik hosts
 |-----------|-----------------|-------------------------------|----------|
 | `name`    | `a.example.com` | none                          | yes      |
 | `type`    | `A`             | `cloudflare.defaults.type`    | no       |
-| `ttl`     | `1`             | `cloudflare.defaults.ttl`     | no       |
 | `proxied` | `true`          | `cloudflare.defaults.proxied` | no       |
+| `ttl`     | `1`             | `cloudflare.defaults.ttl`     | no       |
 | `content` | `1.1.1.1`       | `current public IP`           | no       |
 
 #### Example CNAME Record
@@ -158,8 +158,8 @@ You can specify additional DNS records which are not configured as Traefik hosts
 |-----------|-------------------|-------------------------------|----------|
 | `name`    | `vpn.example.com` | none                          | yes      |
 | `type`    | `CNAME`           | `cloudflare.defaults.type`    | no       |
-| `ttl`     | `120`             | `cloudflare.defaults.ttl`     | no       |
 | `proxied` | `false`           | `cloudflare.defaults.proxied` | no       |
+| `ttl`     | `120`             | `cloudflare.defaults.ttl`     | no       |
 | `content` | `mysite.com`      | `cloudflare.zoneName`         | no       |
 
 ### Cloudflare API Token
