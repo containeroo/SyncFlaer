@@ -49,6 +49,11 @@ traefikInstances:
       - example.example.com
       - internal.example.com
 
+# set whether you want to have the root record managed by SyncFlaer
+# if you don't need a root record, you can set this to false
+# it is also helpful to set this to false if your root record points to a different server
+managedRootRecord: true
+
 # specify additional DNS records for services absent in Traefik (i.e. vpn server)
 additionalRecords:
   - name: vpn.example.com
@@ -72,7 +77,7 @@ cloudflare:
   # define how many skips should happen until a DNS record gets deleted
   # every run of SyncFlaer counts as a skip
   deleteGrace: 5
-  # define a set of defaults applied to all Traefik rules
+  # define a set of defaults applied to all DNS records
   defaults:
     type: CNAME
     proxied: true

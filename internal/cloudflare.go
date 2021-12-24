@@ -229,14 +229,11 @@ func UpdateDeleteGraceRecord(zoneID string, deleteGraceRecord cloudflare.DNSReco
 	log.Infof("Waiting %s more runs until DNS record %s gets deleted", deleteGraceRecord.Content, orphanedRecordName)
 }
 
-func CleanupDeleteGraceRecords(zoneName, zoneID string, userRecords, cloudflareDNSRecords, deleteGraceRecords []cloudflare.DNSRecord) {
+func CleanupDeleteGraceRecords(zoneID string, userRecords, cloudflareDNSRecords, deleteGraceRecords []cloudflare.DNSRecord) {
 	for _, deleteGraceRecord := range deleteGraceRecords {
 		dnsRecordFound := false
 		var dnsRecordName string
 		for _, userRecord := range userRecords {
-			if userRecord.Name == zoneName {
-				continue
-			}
 			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", deleteGraceRecordPrefix, userRecord.Name) {
 				dnsRecordFound = true
 				dnsRecordName = userRecord.Name
@@ -249,9 +246,6 @@ func CleanupDeleteGraceRecords(zoneName, zoneID string, userRecords, cloudflareD
 			continue
 		}
 		for _, cloudflareDNSRecord := range cloudflareDNSRecords {
-			if cloudflareDNSRecord.Name == zoneName {
-				continue
-			}
 			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", deleteGraceRecordPrefix, cloudflareDNSRecord.Name) {
 				dnsRecordFound = true
 				break
@@ -261,6 +255,5 @@ func CleanupDeleteGraceRecords(zoneName, zoneID string, userRecords, cloudflareD
 			DeleteCloudflareDNSRecord(zoneID, deleteGraceRecord)
 			log.Debugf("Cleaned up delete grace DNS record %s", deleteGraceRecord.Name)
 		}
-
 	}
 }

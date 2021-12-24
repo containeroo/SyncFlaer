@@ -1,5 +1,17 @@
 # Changelog
 
+## [v5.2.0](https://github.com/containeroo/SyncFlaer/tree/v5.2.0) (2021-12-24)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.6...v5.2.0)
+
+**New features:**
+
+- add ability to disable management of the root record (#89)
+
+**New default settings:**
+
+- the `proxied` field in additionalRecords and Cloudflare defaults is no longer required and defaults to `true` if omitted
+
 ## [v5.1.6](https://github.com/containeroo/SyncFlaer/tree/v5.1.6) (2021-12-14)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.1.5...v5.1.6)

@@ -32,6 +32,7 @@ type Configuration struct {
 		CustomRequestHeaders map[string]string `yaml:"customRequestHeaders"`
 		IgnoredRules         []string          `yaml:"ignoredRules"`
 	} `yaml:"traefikInstances"`
+	ManagedRootRecord *bool                  `yaml:"managedRootRecord"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
 		APIToken    string   `yaml:"apiToken"`
@@ -98,9 +99,20 @@ func GetConfig(configFilePath string) Configuration {
 	}
 
 	// Set default values
+	trueVar := true
+	if config.ManagedRootRecord == nil {
+		config.ManagedRootRecord = &trueVar
+		log.Debugf("ManagedRootRecord is not set, defaulting to %t", *config.ManagedRootRecord)
+	}
+
 	if config.Cloudflare.Defaults.Type == "" {
 		config.Cloudflare.Defaults.Type = "CNAME"
 		log.Debugf("Cloudflare default type is empty, defaulting to %s", config.Cloudflare.Defaults.Type)
+	}
+
+	if config.Cloudflare.Defaults.Proxied == nil {
+		config.Cloudflare.Defaults.Proxied = &trueVar
+		log.Debugf("Cloudflare default proxied is empty, defaulting to %t", *config.Cloudflare.Defaults.Proxied)
 	}
 
 	if config.Cloudflare.Defaults.TTL == 0 || *config.Cloudflare.Defaults.Proxied {
