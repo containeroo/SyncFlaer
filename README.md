@@ -130,8 +130,8 @@ If not specified, the following defaults apply:
 | Name                           | Default Value                                                                                                                            |
 |--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip", "https://checkip.amazonaws.com", "https://api.ipify.org"]` |
-| `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                                                                           |
 | `managedRootRecord`            | `true`                                                                                                                                   |
+| `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                                                                           |
 | `cloudflare.defaults.type`     | `CNAME`                                                                                                                                  |
 | `cloudflare.defaults.proxied`  | `true`                                                                                                                                   |
 | `cloudflare.defaults.ttl`      | `1`                                                                                                                                      |
@@ -144,23 +144,23 @@ You can specify additional DNS records which are not configured as Traefik hosts
 
 #### Example A Record
 
-| Key       | Example         | Default Value              | Required |
-|-----------|-----------------|----------------------------|----------|
-| `name`    | `a.example.com` | none                       | yes      |
-| `type`    | `A`             | `cloudflare.defaults.type` | no       |
-| `ttl`     | `1`             | `cloudflare.defaults.ttl`  | no       |
-| `content` | `1.1.1.1`       | `current public IP`        | no       |
-| `proxied` | `true`          | `true`                     | no       |
+| Key       | Example         | Default Value                 | Required |
+|-----------|-----------------|-------------------------------|----------|
+| `name`    | `a.example.com` | none                          | yes      |
+| `type`    | `A`             | `cloudflare.defaults.type`    | no       |
+| `ttl`     | `1`             | `cloudflare.defaults.ttl`     | no       |
+| `proxied` | `true`          | `cloudflare.defaults.proxied` | no       |
+| `content` | `1.1.1.1`       | `current public IP`           | no       |
 
 #### Example CNAME Record
 
-| Key       | Example           | Default Value              | Required |
-|-----------|-------------------|----------------------------|----------|
-| `name`    | `vpn.example.com` | none                       | yes      |
-| `type`    | `CNAME`           | `cloudflare.defaults.type` | no       |
-| `ttl`     | `120`             | `cloudflare.defaults.ttl`  | no       |
-| `content` | `mysite.com`      | `cloudflare.zoneName`      | no       |
-| `proxied` | `false`           | `true`                     | no       |
+| Key       | Example           | Default Value                 | Required |
+|-----------|-------------------|-------------------------------|----------|
+| `name`    | `vpn.example.com` | none                          | yes      |
+| `type`    | `CNAME`           | `cloudflare.defaults.type`    | no       |
+| `ttl`     | `120`             | `cloudflare.defaults.ttl`     | no       |
+| `proxied` | `false`           | `cloudflare.defaults.proxied` | no       |
+| `content` | `mysite.com`      | `cloudflare.zoneName`         | no       |
 
 ### Cloudflare API Token
 
