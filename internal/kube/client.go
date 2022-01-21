@@ -11,49 +11,28 @@ import (
 )
 
 func SetupKubernetesClient() kubernetes.Interface {
-	var kubeClient kubernetes.Interface
-	_, err := rest.InClusterConfig()
-	if err != nil {
-		kubeClient = getClientOutOfCluster()
+	var kubeConfig *rest.Config
+	var err error
+
+	if os.Getenv("KUBERNETES_SERVICE_HOST") != "" {
+		kubeConfig, err = rest.InClusterConfig()
+		if err != nil {
+			log.Fatal(err)
+		}
 	} else {
-		kubeClient = getClientInCluster()
+		kubeconfigPath := os.Getenv("KUBECONFIG")
+		if kubeconfigPath == "" {
+			kubeconfigPath = path.Join(os.Getenv("HOME"), ".kube", "config")
+		}
+		kubeConfig, err = clientcmd.BuildConfigFromFlags("", kubeconfigPath)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
-	return kubeClient
-}
-
-func getClientInCluster() kubernetes.Interface {
-	config, err := rest.InClusterConfig()
+	clientset, err := kubernetes.NewForConfig(kubeConfig)
 	if err != nil {
-		log.Fatalf("Can not get kubernetes config: %v", err)
-	}
-
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		log.Fatalf("Can not create kubernetes client: %v", err)
-	}
-
-	return clientset
-}
-
-func buildOutOfClusterConfig() (*rest.Config, error) {
-	kubeconfigPath := os.Getenv("KUBECONFIG")
-	if kubeconfigPath == "" {
-		kubeconfigPath = path.Join(os.Getenv("HOME"), ".kube", "config")
-	}
-	return clientcmd.BuildConfigFromFlags("", kubeconfigPath)
-}
-
-func getClientOutOfCluster() kubernetes.Interface {
-	config, err := buildOutOfClusterConfig()
-	if err != nil {
-		log.Fatalf("Cannot get kubernetes config: %v", err)
-	}
-
-	clientset, err := kubernetes.NewForConfig(config)
-
-	if err != nil {
-		log.Fatalf("Cannot create new kubernetes client from config: %v", err)
+		log.Fatal(err)
 	}
 
 	return clientset
