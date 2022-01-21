@@ -105,7 +105,7 @@ If you run SyncFlaer outside of a Kubernetes cluster, you can use the `KUBECONFI
 
 If you want to ignore specific Ingresses, use the annotation `syncflaer.containeroo.ch/ignore=true`.
 
-To overwrite the default configuration for DNS records, you can specify the following annotations:
+To overwrite the default configuration for DNS records, you can specify the following annotations for each Ingress:
 
 | Annotation                         | Example        |
 |------------------------------------|----------------|
