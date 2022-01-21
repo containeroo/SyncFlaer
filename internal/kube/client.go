@@ -11,20 +11,25 @@ import (
 // CreateKubernetesClient returns a k8s clientset
 func CreateKubernetesClient() kubernetes.Interface {
 	var kubeClient kubernetes.Interface
-	config, err := rest.InClusterConfig()
+	_, err := rest.InClusterConfig()
 	if err != nil {
 		kubeClient = getClientOutOfCluster()
 	} else {
-		kubeClient = getClientInCluster(config)
+		kubeClient = getClientInCluster()
 	}
 
 	return kubeClient
 }
 
-func getClientInCluster(config *rest.Config) kubernetes.Interface {
+func getClientInCluster() kubernetes.Interface {
+	config, err := rest.InClusterConfig()
+	if err != nil {
+		log.Fatalf("Can not get kubernetes config: %v", err)
+	}
+
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		log.Fatalf("Can not create kube client: %v", err)
+		log.Fatalf("Can not create kubernetes client: %v", err)
 	}
 
 	return clientset
@@ -42,13 +47,13 @@ func buildOutOfClusterConfig() (*rest.Config, error) {
 func getClientOutOfCluster() kubernetes.Interface {
 	config, err := buildOutOfClusterConfig()
 	if err != nil {
-		log.Fatalf("Cannot get kube config: %v", err)
+		log.Fatalf("Cannot get kubernetes config: %v", err)
 	}
 
 	clientset, err := kubernetes.NewForConfig(config)
 
 	if err != nil {
-		log.Fatalf("Cannot create new kube client from config: %v", err)
+		log.Fatalf("Cannot create new kubernetes client from config: %v", err)
 	}
 
 	return clientset
