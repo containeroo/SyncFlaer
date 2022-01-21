@@ -79,7 +79,7 @@ func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNS
 	var deleteGraceRecordNames []string
 
 	for _, dnsRecord := range dnsRecords {
-		if !strings.Contains(dnsRecord.Name, cf.DeleteGraceRecordPrefix()) {
+		if !strings.HasPrefix(dnsRecord.Name, cf.DeleteGraceRecordPrefix()) {
 			continue
 		}
 		deleteGraceRecordNames = append(deleteGraceRecordNames, dnsRecord.Name)

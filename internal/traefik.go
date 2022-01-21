@@ -106,7 +106,7 @@ func GetTraefikRules(config *Configuration, currentIP, zoneName string, userReco
 				}
 				if !checkDuplicateRule(match[0], userRecords) {
 					for _, ignoredRule := range traefikInstance.IgnoredRules {
-						if strings.Contains(match[0], ignoredRule) {
+						if strings.HasSuffix(match[0], ignoredRule) {
 							continue rules
 						}
 					}

@@ -10,6 +10,7 @@ Synchronize Traefik host rules with Cloudflare®.
 
 - Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
 - Supports multiple Traefik instances
+- Supports Kubernetes Ingresses (apiVersion: networking.k8s.io/v1)
 - Supports multiple Cloudflare zones
 - Update DNS records when public IP changes
 - Supports configuring additional DNS records for services outside Traefik (i.e. vpn server)
@@ -24,6 +25,7 @@ Synchronize Traefik host rules with Cloudflare®.
     - [Minimal Config File](#minimal-config-file)
     - [Full Config File](#full-config-file)
     - [Using Multiple Traefik Instances](#using-multiple-traefik-instances)
+    - [Kubernetes Ingress Support](#kubernetes-ingress-support)
     - [Environment Variables](#environment-variables)
     - [Defaults](#defaults)
   - [Additional Records](#additional-records)
@@ -63,23 +65,7 @@ You can run SyncFlaer as a Kubernetes CronJob. For an example deployment, please
 
 SyncFlaer must be configured via a [YAML config file](#full-config-file). Some secrets can be configured using [environment variables](#environment-variables).
 
-#### Minimal Config File
-
-The following configuration is required:
-
-```yaml
----
-traefikInstances:
-  - name: main
-    url: https://traefik.example.com
-
-cloudflare:
-  apiToken: abc
-  zoneNames:
-    - example.com
-```
-
-#### Full Config File
+#### Config File
 
 The full configuration file can be found at `configs/config.yml`.
 
@@ -110,6 +96,24 @@ traefikInstances:
 
 Every instance can be configured to use different HTTP basic auth, custom request headers and ignored rules.
 
+#### Kubernetes Ingress Support
+
+SyncFlaer can be configured to support Kubernetes Ingresses. By default, SyncFlaer will sync all Ingresses.
+
+If you run SyncFlaer in a Kubernetes cluster, please refer to the `deployments/kubernetes` folder for an example deployment.  
+If you run SyncFlaer outside of a Kubernetes cluster, you can use the `KUBECONFIG` environment variable to configure a specific kubeconfig file.  
+
+If you want to ignore specific Ingresses, use the annotation `syncflaer.containeroo.ch/ignore=true`.
+
+To overwrite the default configuration for DNS records, you can specify the following annotations:
+
+| Annotation                         | Example        |
+|------------------------------------|----------------|
+| `syncflaer.containeroo.ch/type`    | `A` or `CNAME` |
+| `syncflaer.containeroo.ch/content` | `example.com`  |
+| `syncflaer.containeroo.ch/proxied` | `true`         |
+| `syncflaer.containeroo.ch/ttl`     | `120`          |
+
 #### Environment Variables
 
 Instead of putting secrets in the config file, SyncFlaer can grab secrets from environment variables.
@@ -130,6 +134,7 @@ If not specified, the following defaults apply:
 | Name                           | Default Value                                                                                                                            |
 |--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip", "https://checkip.amazonaws.com", "https://api.ipify.org"]` |
+| `kubernetes.enabled`           | `false`                                                                                                                                  |
 | `managedRootRecord`            | `true`                                                                                                                                   |
 | `cloudflare.deleteGrace`       | `0` (delete records instantly)                                                                                                           |
 | `cloudflare.defaults.type`     | `CNAME`                                                                                                                                  |

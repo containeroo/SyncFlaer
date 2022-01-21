@@ -17,7 +17,7 @@ additionalRecords:
 			log.Error("Additional DNS record name cannot be empty")
 			continue
 		}
-		if !strings.Contains(additionalRecord.Name, zoneName) {
+		if !strings.HasSuffix(additionalRecord.Name, zoneName) {
 			continue
 		}
 		for _, userRecord := range userRecords {

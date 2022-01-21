@@ -30,6 +30,9 @@ type Configuration struct {
 		CustomRequestHeaders map[string]string `yaml:"customRequestHeaders"`
 		IgnoredRules         []string          `yaml:"ignoredRules"`
 	} `yaml:"traefikInstances"`
+	Kubernetes struct {
+		Enabled *bool `yaml:"enabled"`
+	} `yaml:"kubernetes"`
 	ManagedRootRecord *bool                  `yaml:"managedRootRecord"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
@@ -102,6 +105,12 @@ func GetConfig(configFilePath string) *Configuration {
 	if config.ManagedRootRecord == nil {
 		config.ManagedRootRecord = &trueVar
 		log.Debugf("ManagedRootRecord is not set, defaulting to %t", *config.ManagedRootRecord)
+	}
+
+	if config.Kubernetes.Enabled == nil {
+		falseVar := false
+		config.Kubernetes.Enabled = &falseVar
+		log.Debugf("Kubernetes enabled is not set, defaulting to %t", *config.Kubernetes.Enabled)
 	}
 
 	if config.Cloudflare.Defaults.Type == "" {

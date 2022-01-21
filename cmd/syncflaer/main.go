@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/cloudflare/cloudflare-go"
+	"github.com/containeroo/syncflaer/internal/kube"
+	"k8s.io/client-go/kubernetes"
 	"os"
 	"strconv"
 
@@ -11,7 +13,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "5.2.0"
+const version string = "5.3.0"
 
 func main() {
 	log.SetOutput(os.Stdout)
@@ -42,14 +44,26 @@ func main() {
 	cf := internal.SetupCloudflareClient(&config.Cloudflare.APIToken)
 	zoneIDs := internal.CreateCloudflareZoneMap(&config.Cloudflare.ZoneNames, cf)
 	currentIP := internal.GetCurrentIP(&config.IPProviders)
+	var kubeClient kubernetes.Interface
+	if *config.Kubernetes.Enabled {
+		kubeClient = kube.CreateKubernetesClient()
+	}
 
 	for zoneName, zoneID := range zoneIDs {
 		cloudflareDNSRecords := internal.GetCloudflareDNSRecords(cf, zoneID)
 		deleteGraceRecords := internal.GetDeleteGraceRecords(cf, zoneID)
 
 		var userRecords []cloudflare.DNSRecord
-		userRecords = internal.GetTraefikRules(config, currentIP, zoneName, userRecords)
-		userRecords = internal.GetAdditionalRecords(config, currentIP, zoneName, userRecords)
+		if config.TraefikInstances != nil {
+			userRecords = internal.GetTraefikRules(config, currentIP, zoneName, userRecords)
+		}
+		if config.AdditionalRecords != nil {
+			userRecords = internal.GetAdditionalRecords(config, currentIP, zoneName, userRecords)
+		}
+		if *config.Kubernetes.Enabled {
+			ingresses := kube.GetIngresses(kubeClient)
+			userRecords = kube.BuildCloudflareDNSRecordsFromIngresses(config, currentIP, ingresses, zoneName, userRecords)
+		}
 
 		missingRecords := internal.GetMissingDNSRecords(cloudflareDNSRecords, userRecords)
 		if missingRecords != nil {
