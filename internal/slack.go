@@ -35,7 +35,6 @@ func (s *SlackHandler) SendSlackMessage(config *Configuration) {
 	}
 }
 
-// NewSlackHandler creates a new slack handler
 func NewSlackHandler() *SlackHandler {
 	return &SlackHandler{}
 }

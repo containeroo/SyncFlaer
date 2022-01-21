@@ -11,7 +11,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Configuration struct holds SyncFlaer configuration
 type Configuration struct {
 	IPProviders   []string `yaml:"ipProviders"`
 	Notifications struct {
@@ -30,6 +29,9 @@ type Configuration struct {
 		CustomRequestHeaders map[string]string `yaml:"customRequestHeaders"`
 		IgnoredRules         []string          `yaml:"ignoredRules"`
 	} `yaml:"traefikInstances"`
+	Kubernetes struct {
+		Enabled *bool `yaml:"enabled"`
+	} `yaml:"kubernetes"`
 	ManagedRootRecord *bool                  `yaml:"managedRootRecord"`
 	AdditionalRecords []cloudflare.DNSRecord `yaml:"additionalRecords"`
 	Cloudflare        struct {
@@ -52,7 +54,6 @@ func maskValue(value string) string {
 	return string(rs)
 }
 
-// GetConfig creates a global var holding the configuration
 func GetConfig(configFilePath string) *Configuration {
 	log.Debugf("Loading config file %s", configFilePath)
 	configFile, err := ioutil.ReadFile(configFilePath)
@@ -102,6 +103,12 @@ func GetConfig(configFilePath string) *Configuration {
 	if config.ManagedRootRecord == nil {
 		config.ManagedRootRecord = &trueVar
 		log.Debugf("ManagedRootRecord is not set, defaulting to %t", *config.ManagedRootRecord)
+	}
+
+	if config.Kubernetes.Enabled == nil {
+		falseVar := false
+		config.Kubernetes.Enabled = &falseVar
+		log.Debugf("Kubernetes enabled is not set, defaulting to %t", *config.Kubernetes.Enabled)
 	}
 
 	if config.Cloudflare.Defaults.Type == "" {

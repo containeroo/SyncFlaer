@@ -17,6 +17,7 @@ jobs:
         goarch: amd64
         binary_name: syncflaer
         project_path: cmd/syncflaer
+        retry: 5
   release-linux-arm:
     name: release linux/arm
     runs-on: ubuntu-latest
@@ -29,6 +30,7 @@ jobs:
         goarch: arm
         binary_name: syncflaer
         project_path: cmd/syncflaer
+        retry: 5
   release-linux-arm64:
     name: release linux/arm64
     runs-on: ubuntu-latest
@@ -41,6 +43,7 @@ jobs:
         goarch: arm64
         binary_name: syncflaer
         project_path: cmd/syncflaer
+        retry: 5
   release-darwin-amd64:
     name: release darwin/amd64
     runs-on: ubuntu-latest
@@ -53,6 +56,7 @@ jobs:
           goarch: amd64
           binary_name: syncflaer
           project_path: cmd/syncflaer
+          retry: 5
   release-darwin-arm64:
     name: release darwin/arm64
     runs-on: ubuntu-latest
@@ -65,6 +69,7 @@ jobs:
           goarch: arm64
           binary_name: syncflaer
           project_path: cmd/syncflaer
+          retry: 5
   release-windows-amd64:
     name: release windows/amd64
     runs-on: ubuntu-latest
@@ -77,3 +82,4 @@ jobs:
           goarch: amd64
           binary_name: syncflaer
           project_path: cmd/syncflaer
+          retry: 5

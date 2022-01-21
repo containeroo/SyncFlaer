@@ -49,6 +49,10 @@ traefikInstances:
       - example.example.com
       - internal.example.com
 
+# enable kubernetes ingress integration
+kubernetes:
+  enabled: true
+
 # set whether you want to have the root record managed by SyncFlaer
 # if you don't need a root record, you can set this to false
 # it is also helpful to set this to false if your root record points to a different server

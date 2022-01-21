@@ -9,7 +9,6 @@ import (
 	"strings"
 )
 
-// CloudflareClient is a wrapper for the Cloudflare API
 type CloudflareClient struct {
 	client *cloudflare.API
 }
@@ -18,7 +17,6 @@ func (c *CloudflareClient) DeleteGraceRecordPrefix() string {
 	return "_syncflaer._deletegrace"
 }
 
-// SetupCloudflareClient creates a Cloudflare client instance
 func SetupCloudflareClient(apiToken *string) *CloudflareClient {
 	cf, err := cloudflare.NewWithAPIToken(*apiToken)
 	if err != nil {
@@ -29,7 +27,6 @@ func SetupCloudflareClient(apiToken *string) *CloudflareClient {
 	return &cfc
 }
 
-// CreateCloudflareZoneMap creates a map containing the zone ids
 func CreateCloudflareZoneMap(zoneNames *[]string, cf *CloudflareClient) map[string]string {
 	zoneIDs := make(map[string]string)
 	for _, zoneName := range *zoneNames {
@@ -44,7 +41,6 @@ func CreateCloudflareZoneMap(zoneNames *[]string, cf *CloudflareClient) map[stri
 	return zoneIDs
 }
 
-// GetCloudflareDNSRecords gathers all DNS records in a given zone
 func GetCloudflareDNSRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNSRecord {
 	dnsRecords, err := cf.client.DNSRecords(context.Background(), zoneID, cloudflare.DNSRecord{})
 	if err != nil {
@@ -66,7 +62,6 @@ func GetCloudflareDNSRecords(cf *CloudflareClient, zoneID string) []cloudflare.D
 	return cloudflareDNSRecords
 }
 
-// GetDeleteGraceRecords gathers all delete grace DNS records in a given zone
 func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNSRecord {
 	dnsRecords, err := cf.client.DNSRecords(context.Background(), zoneID, cloudflare.DNSRecord{
 		Type: "TXT",
@@ -79,7 +74,7 @@ func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNS
 	var deleteGraceRecordNames []string
 
 	for _, dnsRecord := range dnsRecords {
-		if !strings.Contains(dnsRecord.Name, cf.DeleteGraceRecordPrefix()) {
+		if !strings.HasPrefix(dnsRecord.Name, cf.DeleteGraceRecordPrefix()) {
 			continue
 		}
 		deleteGraceRecordNames = append(deleteGraceRecordNames, dnsRecord.Name)
@@ -92,7 +87,6 @@ func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNS
 	return deleteGraceRecords
 }
 
-// CreateCloudflareDNSRecord is a wrapper function to create a DNS record
 func CreateCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloudflare.DNSRecord, slackHandler *SlackHandler) {
 	_, err := cf.client.CreateDNSRecord(context.Background(), zoneID, record)
 	if err != nil {
@@ -103,11 +97,14 @@ func CreateCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloud
 	}
 
 	infoMsg := fmt.Sprintf("Created: name: %s, type: %s, content: %s, proxied: %t, ttl: %d", record.Name, record.Type, record.Content, *record.Proxied, record.TTL)
-	slackHandler.AddSlackMessage(infoMsg, "good")
-	log.Info(infoMsg)
+	if record.Type != "TXT" {
+		slackHandler.AddSlackMessage(infoMsg, "good")
+		log.Info(infoMsg)
+		return
+	}
+	log.Debug(infoMsg)
 }
 
-// DeleteCloudflareDNSRecord is a wrapper function to delete a DNS record
 func DeleteCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloudflare.DNSRecord, slackHandler *SlackHandler) {
 	err := cf.client.DeleteDNSRecord(context.Background(), zoneID, record.ID)
 	if err != nil {
@@ -126,7 +123,6 @@ func DeleteCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloud
 	log.Debug(infoMsg)
 }
 
-// UpdateCloudflareDNSRecords updates the public IP and additionalRecords
 func UpdateCloudflareDNSRecords(cf *CloudflareClient, zoneID string, cloudflareDNSRecords, userRecords []cloudflare.DNSRecord, slackHandler *SlackHandler) {
 	for _, dnsRecord := range cloudflareDNSRecords {
 		for _, userRecord := range userRecords {
@@ -157,7 +153,6 @@ func UpdateCloudflareDNSRecords(cf *CloudflareClient, zoneID string, cloudflareD
 	}
 }
 
-// GetMissingDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
 func GetMissingDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var missingRecords []cloudflare.DNSRecord
 
@@ -177,7 +172,6 @@ func GetMissingDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSReco
 	return missingRecords
 }
 
-// GetOrphanedDNSRecords compares Cloudflare DNS records with Traefik rules and additionalRecords
 func GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var orphanedRecords []cloudflare.DNSRecord
 

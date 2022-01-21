@@ -7,7 +7,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// GetAdditionalRecords gathers and checks configured additionalRecords
 func GetAdditionalRecords(config *Configuration, currentIP, zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var additionalRecordNames []string
 
@@ -17,12 +16,12 @@ additionalRecords:
 			log.Error("Additional DNS record name cannot be empty")
 			continue
 		}
-		if !strings.Contains(additionalRecord.Name, zoneName) {
+		if !strings.HasSuffix(additionalRecord.Name, zoneName) {
 			continue
 		}
 		for _, userRecord := range userRecords {
 			if userRecord.Name == additionalRecord.Name {
-				log.Warnf("DNS record %s is already defined in a Traefik route. Skipping...", additionalRecord.Name)
+				log.Warnf("DNS record %s is already defined in a Traefik route. Skipping...", userRecord.Name)
 				continue additionalRecords
 			}
 		}
