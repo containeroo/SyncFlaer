@@ -14,7 +14,7 @@ type CloudflareClient struct {
 	client *cloudflare.API
 }
 
-func (c *CloudflareClient) DeleteGraceRecrodPrefix() string {
+func (c *CloudflareClient) DeleteGraceRecordPrefix() string {
 	return "_syncflaer._deletegrace"
 }
 
@@ -79,7 +79,7 @@ func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNS
 	var deleteGraceRecordNames []string
 
 	for _, dnsRecord := range dnsRecords {
-		if !strings.Contains(dnsRecord.Name, cf.DeleteGraceRecrodPrefix()) {
+		if !strings.Contains(dnsRecord.Name, cf.DeleteGraceRecordPrefix()) {
 			continue
 		}
 		deleteGraceRecordNames = append(deleteGraceRecordNames, dnsRecord.Name)
@@ -199,7 +199,7 @@ func GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords []cloudflare.DNSRec
 func GetDeleteGraceRecord(cf *CloudflareClient, orphanedRecordName string, deleteGraceRecords []cloudflare.DNSRecord) cloudflare.DNSRecord {
 	var deleteGraceRecordFound cloudflare.DNSRecord
 	for _, deleteGraceRecord := range deleteGraceRecords {
-		if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", cf.DeleteGraceRecrodPrefix(), orphanedRecordName) {
+		if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", cf.DeleteGraceRecordPrefix(), orphanedRecordName) {
 			deleteGraceRecordFound = deleteGraceRecord
 			break
 		}
@@ -225,7 +225,7 @@ func CleanupDeleteGraceRecords(cf *CloudflareClient, zoneID string, userRecords,
 		dnsRecordFound := false
 		var dnsRecordName string
 		for _, userRecord := range userRecords {
-			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", cf.DeleteGraceRecrodPrefix(), userRecord.Name) {
+			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", cf.DeleteGraceRecordPrefix(), userRecord.Name) {
 				dnsRecordFound = true
 				dnsRecordName = userRecord.Name
 				break
@@ -237,7 +237,7 @@ func CleanupDeleteGraceRecords(cf *CloudflareClient, zoneID string, userRecords,
 			continue
 		}
 		for _, cloudflareDNSRecord := range cloudflareDNSRecords {
-			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", cf.DeleteGraceRecrodPrefix(), cloudflareDNSRecord.Name) {
+			if deleteGraceRecord.Name == fmt.Sprintf("%s.%s", cf.DeleteGraceRecordPrefix(), cloudflareDNSRecord.Name) {
 				dnsRecordFound = true
 				break
 			}

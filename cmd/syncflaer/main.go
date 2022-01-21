@@ -73,7 +73,7 @@ func main() {
 					falseVar := false
 					deleteGraceRecord := cloudflare.DNSRecord{
 						Type:    "TXT",
-						Name:    fmt.Sprintf("%s.%s", cf.DeleteGraceRecrodPrefix(), orphanedRecord.Name),
+						Name:    fmt.Sprintf("%s.%s", cf.DeleteGraceRecordPrefix(), orphanedRecord.Name),
 						Content: strconv.Itoa(config.Cloudflare.DeleteGrace),
 						Proxied: &falseVar,
 					}
