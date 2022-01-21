@@ -31,7 +31,7 @@ func GetIngresses(kubeClient kubernetes.Interface, config *internal.Configuratio
 			}
 			for _, userRecord := range userRecords {
 				if userRecord.Name == rule.Host {
-					log.Warnf("DNS record %s (%s/%s) already defined elsewhere. Skipping...", userRecord.Name, ingress.Namespace, ingress.Name)
+					log.Warnf("DNS record %s (in ingress: %s/%s) already defined elsewhere. Skipping...", userRecord.Name, ingress.Namespace, ingress.Name)
 					continue rules
 				}
 			}
