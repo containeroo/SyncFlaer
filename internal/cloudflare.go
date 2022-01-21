@@ -19,8 +19,8 @@ func (c *CloudflareClient) DeleteGraceRecrodPrefix() string {
 }
 
 // SetupCloudflareClient creates a Cloudflare client instance
-func SetupCloudflareClient(config Configuration) *CloudflareClient {
-	cf, err := cloudflare.NewWithAPIToken(config.Cloudflare.APIToken)
+func SetupCloudflareClient(apiToken *string) *CloudflareClient {
+	cf, err := cloudflare.NewWithAPIToken(*apiToken)
 	if err != nil {
 		log.Fatalf("Unable to setup Cloudflare client: %s", err)
 	}
@@ -30,9 +30,9 @@ func SetupCloudflareClient(config Configuration) *CloudflareClient {
 }
 
 // CreateCloudflareZoneMap creates a map containing the zone ids
-func CreateCloudflareZoneMap(config Configuration, cf *CloudflareClient) map[string]string {
+func CreateCloudflareZoneMap(zoneNames *[]string, cf *CloudflareClient) map[string]string {
 	zoneIDs := make(map[string]string)
-	for _, zoneName := range config.Cloudflare.ZoneNames {
+	for _, zoneName := range *zoneNames {
 		zoneID, err := cf.client.ZoneIDByName(zoneName)
 		if err != nil {
 			log.Fatalf("Unable to get Cloudflare zone %s id: %s", zoneName, err)

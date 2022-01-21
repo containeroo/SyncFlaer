@@ -17,7 +17,7 @@ func (s *SlackHandler) AddSlackMessage(message, color string) {
 	s.messages = append(s.messages, newMessage)
 }
 
-func (s *SlackHandler) SendSlackMessage(config Configuration) {
+func (s *SlackHandler) SendSlackMessage(config *Configuration) {
 	if config.Notifications.Slack.WebhookURL == "" || len(s.messages) == 0 {
 		return
 	}

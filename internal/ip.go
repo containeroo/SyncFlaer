@@ -12,10 +12,10 @@ import (
 )
 
 // GetCurrentIP checks the current public IP
-func GetCurrentIP(config Configuration) string {
+func GetCurrentIP(ipProviders *[]string) string {
 	rand.Seed(time.Now().UnixNano())
-	providers := config.IPProviders
-	rand.Shuffle(len(config.IPProviders), func(i, j int) { providers[i], providers[j] = providers[j], providers[i] })
+	providers := *ipProviders
+	rand.Shuffle(len(providers), func(i, j int) { providers[i], providers[j] = providers[j], providers[i] })
 
 	var success bool
 	var currentIP string

@@ -53,7 +53,7 @@ func maskValue(value string) string {
 }
 
 // GetConfig creates a global var holding the configuration
-func GetConfig(configFilePath string) Configuration {
+func GetConfig(configFilePath string) *Configuration {
 	log.Debugf("Loading config file %s", configFilePath)
 	configFile, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
@@ -157,5 +157,5 @@ func GetConfig(configFilePath string) Configuration {
 		log.Fatal("Supported Cloudflare default types are A or CNAME")
 	}
 
-	return config
+	return &config
 }

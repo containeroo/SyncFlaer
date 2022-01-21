@@ -39,9 +39,9 @@ func main() {
 
 	config := internal.GetConfig(configFilePath)
 
-	cf := internal.SetupCloudflareClient(config)
-	zoneIDs := internal.CreateCloudflareZoneMap(config, cf)
-	currentIP := internal.GetCurrentIP(config)
+	cf := internal.SetupCloudflareClient(&config.Cloudflare.APIToken)
+	zoneIDs := internal.CreateCloudflareZoneMap(&config.Cloudflare.ZoneNames, cf)
+	currentIP := internal.GetCurrentIP(&config.IPProviders)
 
 	for zoneName, zoneID := range zoneIDs {
 		cloudflareDNSRecords := internal.GetCloudflareDNSRecords(cf, zoneID)
