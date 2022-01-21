@@ -5,19 +5,20 @@ import (
 	"github.com/slack-go/slack"
 )
 
-var slackMessages []slack.Attachment
-
-func addSlackMessage(message, color string) {
-	newMessage := slack.Attachment{
-		Color: color,
-		Text:  message,
-	}
-	slackMessages = append(slackMessages, newMessage)
+type SlackHandler struct {
+	messages []slack.Attachment
 }
 
-// SendSlackMessage sends a Slack message if configured
-func SendSlackMessage() {
-	if config.Notifications.Slack.WebhookURL == "" || len(slackMessages) == 0 {
+func (s *SlackHandler) AddSlackMessage(message, color string) {
+	newMessage := slack.Attachment{
+		Text:  message,
+		Color: color,
+	}
+	s.messages = append(s.messages, newMessage)
+}
+
+func (s *SlackHandler) SendSlackMessage(config *Configuration) {
+	if config.Notifications.Slack.WebhookURL == "" || len(s.messages) == 0 {
 		return
 	}
 
@@ -25,11 +26,16 @@ func SendSlackMessage() {
 		Username:    config.Notifications.Slack.Username,
 		IconURL:     config.Notifications.Slack.IconURL,
 		Channel:     config.Notifications.Slack.Channel,
-		Attachments: slackMessages,
+		Attachments: s.messages,
 	}
 
 	err := slack.PostWebhook(config.Notifications.Slack.WebhookURL, &msg)
 	if err != nil {
-		log.Errorf("Unable to send Slack message: %s", err)
+		log.Errorf("Error sending slack message: %s", err)
 	}
+}
+
+// NewSlackHandler creates a new slack handler
+func NewSlackHandler() *SlackHandler {
+	return &SlackHandler{}
 }

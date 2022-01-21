@@ -13,7 +13,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var re = regexp.MustCompile(`(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]`)
+var traefikRegex = regexp.MustCompile(`(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]`)
 
 // TraefikRouter is a struct to store a router object of Traefik
 type TraefikRouter struct {
@@ -45,7 +45,7 @@ func checkDuplicateRule(rule string, rules []cloudflare.DNSRecord) bool {
 }
 
 // GetTraefikRules gathers and formats all Traefik http routers
-func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+func GetTraefikRules(config *Configuration, currentIP, zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	for _, traefikInstance := range config.TraefikInstances {
 		traefikURL, err := url.Parse(traefikInstance.URL)
 		if err != nil {
@@ -99,7 +99,7 @@ func GetTraefikRules(zoneName string, userRecords []cloudflare.DNSRecord) []clou
 			if !strings.Contains(router.Rule, zoneName) {
 				continue
 			}
-			matches := re.FindAllStringSubmatch(router.Rule, -1)
+			matches := traefikRegex.FindAllStringSubmatch(router.Rule, -1)
 			for _, match := range matches {
 				if match[0] == zoneName {
 					continue

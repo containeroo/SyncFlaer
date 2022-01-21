@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cloudflare/cloudflare-go"
 	"os"
+	"strconv"
 
 	internal "github.com/containeroo/syncflaer/internal"
 
@@ -34,25 +35,26 @@ func main() {
 
 	log.Debugf("SyncFlaer %s", version)
 
+	slackHandler := internal.NewSlackHandler()
+
 	config := internal.GetConfig(configFilePath)
 
-	internal.SetupCloudflareClient()
-	zoneIDs := internal.CreateCloudflareZoneMap()
-
-	internal.GetCurrentIP()
+	cf := internal.SetupCloudflareClient(&config.Cloudflare.APIToken)
+	zoneIDs := internal.CreateCloudflareZoneMap(&config.Cloudflare.ZoneNames, cf)
+	currentIP := internal.GetCurrentIP(&config.IPProviders)
 
 	for zoneName, zoneID := range zoneIDs {
-		cloudflareDNSRecords := internal.GetCloudflareDNSRecords(zoneID)
-		deleteGraceRecords := internal.GetDeleteGraceRecords(zoneID)
+		cloudflareDNSRecords := internal.GetCloudflareDNSRecords(cf, zoneID)
+		deleteGraceRecords := internal.GetDeleteGraceRecords(cf, zoneID)
 
 		var userRecords []cloudflare.DNSRecord
-		userRecords = internal.GetTraefikRules(zoneName, userRecords)
-		userRecords = internal.GetAdditionalRecords(zoneName, userRecords)
+		userRecords = internal.GetTraefikRules(config, currentIP, zoneName, userRecords)
+		userRecords = internal.GetAdditionalRecords(config, currentIP, zoneName, userRecords)
 
 		missingRecords := internal.GetMissingDNSRecords(cloudflareDNSRecords, userRecords)
 		if missingRecords != nil {
 			for _, missingRecord := range missingRecords {
-				internal.CreateCloudflareDNSRecord(zoneID, missingRecord)
+				internal.CreateCloudflareDNSRecord(cf, zoneID, missingRecord, slackHandler)
 			}
 		} else {
 			log.Debug("No missing DNS records")
@@ -61,28 +63,41 @@ func main() {
 		orphanedRecords := internal.GetOrphanedDNSRecords(cloudflareDNSRecords, userRecords)
 		if orphanedRecords != nil {
 			for _, orphanedRecord := range orphanedRecords {
-				if config.Cloudflare.DeleteGrace != 0 {
-					deleteGraceRecord := internal.GetDeleteGraceRecord(orphanedRecord.Name, deleteGraceRecords)
-					if deleteGraceRecord.Name == "" {
-						internal.CreateDeleteGraceRecord(zoneID, orphanedRecord.Name)
-						continue
-					}
-					if deleteGraceRecord.Content != "1" {
-						internal.UpdateDeleteGraceRecord(zoneID, deleteGraceRecord, orphanedRecord.Name)
-						continue
-					}
-					internal.DeleteCloudflareDNSRecord(zoneID, deleteGraceRecord)
+				if config.Cloudflare.DeleteGrace == 0 {
+					internal.DeleteCloudflareDNSRecord(cf, zoneID, orphanedRecord, slackHandler)
+					continue
 				}
-				internal.DeleteCloudflareDNSRecord(zoneID, orphanedRecord)
+
+				existingDeleteGraceRecord := internal.GetDeleteGraceRecord(cf, orphanedRecord.Name, deleteGraceRecords)
+				if existingDeleteGraceRecord.Name == "" {
+					falseVar := false
+					deleteGraceRecord := cloudflare.DNSRecord{
+						Type:    "TXT",
+						Name:    fmt.Sprintf("%s.%s", cf.DeleteGraceRecordPrefix(), orphanedRecord.Name),
+						Content: strconv.Itoa(config.Cloudflare.DeleteGrace),
+						Proxied: &falseVar,
+					}
+					internal.CreateCloudflareDNSRecord(cf, zoneID, deleteGraceRecord, slackHandler)
+					continue
+				}
+
+				deleteGraceRecordContent, _ := strconv.Atoi(existingDeleteGraceRecord.Content)
+				if deleteGraceRecordContent > 1 {
+					internal.UpdateDeleteGraceRecord(cf, zoneID, existingDeleteGraceRecord, orphanedRecord.Name)
+					continue
+				}
+
+				internal.DeleteCloudflareDNSRecord(cf, zoneID, orphanedRecord, slackHandler)
+				internal.DeleteCloudflareDNSRecord(cf, zoneID, existingDeleteGraceRecord, slackHandler)
 			}
 		} else {
 			log.Debug("No orphaned DNS records")
 		}
 
-		internal.CleanupDeleteGraceRecords(zoneID, userRecords, cloudflareDNSRecords, deleteGraceRecords)
+		internal.CleanupDeleteGraceRecords(cf, zoneID, userRecords, cloudflareDNSRecords, deleteGraceRecords, slackHandler)
 
-		internal.UpdateCloudflareDNSRecords(zoneID, cloudflareDNSRecords, userRecords)
+		internal.UpdateCloudflareDNSRecords(cf, zoneID, cloudflareDNSRecords, userRecords, slackHandler)
 	}
 
-	internal.SendSlackMessage()
+	slackHandler.SendSlackMessage(config)
 }
