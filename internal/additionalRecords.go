@@ -8,7 +8,7 @@ import (
 )
 
 // GetAdditionalRecords gathers and checks configured additionalRecords
-func GetAdditionalRecords(zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
+func GetAdditionalRecords(config Configuration, currentIP, zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var additionalRecordNames []string
 
 additionalRecords:

@@ -11,8 +11,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var config Configuration
-
 // Configuration struct holds SyncFlaer configuration
 type Configuration struct {
 	IPProviders   []string `yaml:"ipProviders"`
@@ -62,6 +60,7 @@ func GetConfig(configFilePath string) Configuration {
 		log.Fatalf("Unable to load config file %s from disk: %s", configFilePath, err)
 	}
 
+	var config Configuration
 	err = yaml.Unmarshal(configFile, &config)
 	if err != nil {
 		log.Fatalf("Unable to read config file: %s", err)

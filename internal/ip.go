@@ -11,15 +11,14 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var currentIP string
-
 // GetCurrentIP checks the current public IP
-func GetCurrentIP() {
+func GetCurrentIP(config Configuration) string {
 	rand.Seed(time.Now().UnixNano())
 	providers := config.IPProviders
 	rand.Shuffle(len(config.IPProviders), func(i, j int) { providers[i], providers[j] = providers[j], providers[i] })
 
 	var success bool
+	var currentIP string
 	for _, provider := range providers {
 		success = false
 		resp, err := http.Get(provider)
@@ -48,4 +47,6 @@ func GetCurrentIP() {
 	if !success {
 		log.Fatal("Unable to get public ip from any configured provider")
 	}
+
+	return currentIP
 }
