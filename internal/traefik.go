@@ -15,7 +15,6 @@ import (
 
 var traefikRegex = regexp.MustCompile(`(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]`)
 
-// TraefikRouter is a struct to store a router object of Traefik
 type TraefikRouter struct {
 	EntryPoints []string `json:"entryPoints"`
 	Middlewares []string `json:"middlewares,omitempty"`
@@ -44,7 +43,6 @@ func checkDuplicateRule(rule string, rules []cloudflare.DNSRecord) bool {
 	return false
 }
 
-// GetTraefikRules gathers and formats all Traefik http routers
 func GetTraefikRules(config *Configuration, currentIP, zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	for _, traefikInstance := range config.TraefikInstances {
 		traefikURL, err := url.Parse(traefikInstance.URL)

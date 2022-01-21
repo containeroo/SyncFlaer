@@ -5,23 +5,19 @@ import (
 	"github.com/cloudflare/cloudflare-go"
 	internal "github.com/containeroo/syncflaer/internal"
 	log "github.com/sirupsen/logrus"
-	v1 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"strings"
 )
 
-func GetIngresses(kubeClient kubernetes.Interface) *v1.IngressList {
+func GetIngresses(kubeClient kubernetes.Interface, config *internal.Configuration, currentIP, zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	ingresses, err := kubeClient.NetworkingV1().Ingresses("").List(context.Background(), metav1.ListOptions{})
 	if err != nil {
 		log.Errorf("Error getting ingresses: %s", err)
 	}
 
-	return ingresses
-}
-
-func BuildCloudflareDNSRecordsFromIngresses(config *internal.Configuration, currentIP string, ingresses *v1.IngressList, zoneName string, userRecords []cloudflare.DNSRecord) []cloudflare.DNSRecord {
 	var ingressNames []string
+
 	for _, ingress := range ingresses.Items {
 		if ingress.Annotations["syncflaer.containeroo.ch/ignore"] == "true" {
 			log.Debugf("Ignoring ingress %s/%s", ingress.Namespace, ingress.Name)
@@ -35,7 +31,7 @@ func BuildCloudflareDNSRecordsFromIngresses(config *internal.Configuration, curr
 			}
 			for _, userRecord := range userRecords {
 				if userRecord.Name == rule.Host {
-					log.Warnf("DNS record %s already defined elsewhere (%s/%s). Skipping...", userRecord.Name, ingress.Namespace, ingress.Name)
+					log.Warnf("DNS record %s (%s/%s) already defined elsewhere. Skipping...", userRecord.Name, ingress.Namespace, ingress.Name)
 					continue rules
 				}
 			}

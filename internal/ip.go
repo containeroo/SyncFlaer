@@ -11,7 +11,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// GetCurrentIP checks the current public IP
 func GetCurrentIP(ipProviders *[]string) string {
 	rand.Seed(time.Now().UnixNano())
 	providers := *ipProviders

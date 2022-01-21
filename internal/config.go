@@ -11,7 +11,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Configuration struct holds SyncFlaer configuration
 type Configuration struct {
 	IPProviders   []string `yaml:"ipProviders"`
 	Notifications struct {
@@ -55,7 +54,6 @@ func maskValue(value string) string {
 	return string(rs)
 }
 
-// GetConfig creates a global var holding the configuration
 func GetConfig(configFilePath string) *Configuration {
 	log.Debugf("Loading config file %s", configFilePath)
 	configFile, err := ioutil.ReadFile(configFilePath)

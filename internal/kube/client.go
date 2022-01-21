@@ -1,15 +1,16 @@
 package kube
 
 import (
+	"os"
+	"path"
+
 	log "github.com/sirupsen/logrus"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
-	"os"
 )
 
-// CreateKubernetesClient returns a k8s clientset
-func CreateKubernetesClient() kubernetes.Interface {
+func SetupKubernetesClient() kubernetes.Interface {
 	var kubeClient kubernetes.Interface
 	_, err := rest.InClusterConfig()
 	if err != nil {
@@ -38,9 +39,8 @@ func getClientInCluster() kubernetes.Interface {
 func buildOutOfClusterConfig() (*rest.Config, error) {
 	kubeconfigPath := os.Getenv("KUBECONFIG")
 	if kubeconfigPath == "" {
-		kubeconfigPath = os.Getenv("HOME") + "/.kube/config"
+		kubeconfigPath = path.Join(os.Getenv("HOME"), ".kube", "config")
 	}
-
 	return clientcmd.BuildConfigFromFlags("", kubeconfigPath)
 }
 
