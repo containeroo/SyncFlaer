@@ -213,7 +213,7 @@ func UpdateDeleteGraceRecord(cf *CloudflareClient, zoneID string, deleteGraceRec
 	deleteGraceRecord.Content = strconv.Itoa(newDeleteGrace)
 	err := cf.client.UpdateDNSRecord(context.Background(), zoneID, deleteGraceRecord.ID, deleteGraceRecord)
 	if err != nil {
-		log.Error("Unable to update delete grace DNS record %s: %s", deleteGraceRecord.Name, err)
+		log.Errorf("Unable to update delete grace DNS record %s: %s", deleteGraceRecord.Name, err)
 		return
 	}
 
