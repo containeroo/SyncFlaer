@@ -8,7 +8,7 @@ Synchronize Traefik host rules with Cloudflare®.
 
 ## Why?
 
-- Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules
+- Dynamically create, update or delete Cloudflare® DNS records based on Traefik http rules and/or Kubernetes Ingresses (apiVersion: networking.k8s.io/v1)
 - Supports multiple Traefik instances
 - Supports Kubernetes Ingresses (apiVersion: networking.k8s.io/v1)
 - Supports multiple Cloudflare zones
