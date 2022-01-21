@@ -29,7 +29,7 @@ spec:
                   name: config
                   subPath: config.yml
           restartPolicy: Never
-          automountServiceAccountToken: false
+          serviceAccountName: syncflaer
           volumes:
             - name: config
               configMap:

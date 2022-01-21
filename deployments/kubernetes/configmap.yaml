@@ -9,12 +9,15 @@ data:
     notifications:
       slack:
         webhookURL: env:SLACK_WEBHOOK_URL
-    traefikInstances:
-      - name: main
-        url: https://traefik.example.com
-        ignoredRules:
-          - local.example.com
-          - dev.example.com
+    # traefikInstances:
+    #   - name: main
+    #     url: https://traefik.example.com
+    #     ignoredRules:
+    #       - local.example.com
+    #       - dev.example.com
+
+    kubernetes:
+      enabled: true
 
     additionalRecords:
       - name: vpn.example.com
