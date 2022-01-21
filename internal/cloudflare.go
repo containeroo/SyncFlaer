@@ -88,6 +88,7 @@ func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNS
 	if deleteGraceRecordNames != nil {
 		log.Debugf("Found delete grace DNS records: %s", strings.Join(deleteGraceRecordNames, " ,"))
 	}
+
 	return deleteGraceRecords
 }
 
@@ -204,6 +205,7 @@ func GetDeleteGraceRecord(cf *CloudflareClient, orphanedRecordName string, delet
 			break
 		}
 	}
+
 	return deleteGraceRecordFound
 }
 
