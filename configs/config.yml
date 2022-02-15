@@ -40,7 +40,20 @@ traefikInstances:
     ignoredRules:
       - local.example.com
       - dev.example.com
-    # you can add a second instance
+    # you can define overrides for the default settings for each Traefik rule
+    # this can be useful, if you want to have some rules with different settings than the ones defined in cloudflare.defaults
+    defaultOverrides:
+        # host must match with the host of the Traefik rule
+      - rule: my.example.com
+        # specify the overrides (type, content, proxied, ttl)
+        proxied: false
+        ttl: 120
+      - rule: other.example.com
+        type: A
+        content: 1.1.1.1
+        proxied: false
+        ttl: 300
+  # you can add a second instance
   - name: secondary
     url: https://traefik-secondary.example.com
     username: admin
@@ -82,6 +95,8 @@ cloudflare:
   # every run of SyncFlaer counts as a skip
   deleteGrace: 5
   # define a set of defaults applied to all DNS records
+  # they can be overridden by either specifying them in traefikInstances.defaultOverrides or by using Kubernetes Ingress annotations
+  # check the README for more information
   defaults:
     type: CNAME
     proxied: true
