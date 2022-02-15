@@ -1,5 +1,15 @@
 # Changelog
 
+## [v5.4.0](https://github.com/containeroo/SyncFlaer/tree/v5.4.0) (2022-02-15)
+
+**New features:**
+
+- Add support for overriding defaults in Traefik rules (#102)
+
+**Bug fixes:**
+
+- Improve Traefik rule parsing (#103)
+
 ## [v5.3.0](https://github.com/containeroo/SyncFlaer/tree/v5.3.0) (2022-01-21)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.2.0...v5.3.0)

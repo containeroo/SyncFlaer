@@ -6,14 +6,12 @@ import (
 	"net/http"
 	"net/url"
 	"path"
-	"regexp"
 	"strings"
 
 	"github.com/cloudflare/cloudflare-go"
 	log "github.com/sirupsen/logrus"
+	"github.com/traefik/traefik/v2/pkg/rules"
 )
-
-var traefikRegex = regexp.MustCompile(`(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]`)
 
 type TraefikRouter struct {
 	EntryPoints []string `json:"entryPoints"`
@@ -92,31 +90,55 @@ func GetTraefikRules(config *Configuration, currentIP, zoneName string, userReco
 		}
 
 		var ruleNames []string
-	rules:
 		for _, router := range traefikRouters {
-			if !strings.Contains(router.Rule, zoneName) {
-				continue
+			parsedDomains, err := rules.ParseDomains(router.Rule)
+			if err != nil {
+				log.Fatalf("Unable to parse rule %s for Traefik %s: %s", router.Rule, traefikInstance.Name, err)
 			}
-			matches := traefikRegex.FindAllStringSubmatch(router.Rule, -1)
-			for _, match := range matches {
-				if match[0] == zoneName {
+
+		parsedDomain:
+			for _, parsedDomain := range parsedDomains {
+				if !strings.HasSuffix(parsedDomain, zoneName) {
 					continue
 				}
-				if !checkDuplicateRule(match[0], userRecords) {
-					for _, ignoredRule := range traefikInstance.IgnoredRules {
-						if strings.HasSuffix(match[0], ignoredRule) {
-							continue rules
-						}
-					}
-					userRecords = append(userRecords, cloudflare.DNSRecord{
-						Type:    config.Cloudflare.Defaults.Type,
-						Name:    match[0],
-						Content: content,
-						Proxied: config.Cloudflare.Defaults.Proxied,
-						TTL:     config.Cloudflare.Defaults.TTL,
-					})
-					ruleNames = append(ruleNames, match[0])
+				if parsedDomain == zoneName {
+					continue
 				}
+				if checkDuplicateRule(parsedDomain, userRecords) {
+					continue
+				}
+				for _, ignoredRule := range traefikInstance.IgnoredRules {
+					if strings.HasSuffix(parsedDomain, ignoredRule) {
+						continue parsedDomain
+					}
+				}
+				traefikRecord := cloudflare.DNSRecord{}
+				traefikRecord.Name = parsedDomain
+				traefikRecord.Type = config.Cloudflare.Defaults.Type
+				traefikRecord.Content = content
+				traefikRecord.Proxied = config.Cloudflare.Defaults.Proxied
+				traefikRecord.TTL = config.Cloudflare.Defaults.TTL
+
+				for _, defaultOverride := range traefikInstance.DefaultOverrides {
+					if defaultOverride.Rule != parsedDomain {
+						continue
+					}
+					if defaultOverride.Type != "" {
+						traefikRecord.Type = defaultOverride.Type
+					}
+					if defaultOverride.Content != "" {
+						traefikRecord.Content = defaultOverride.Content
+					}
+					if defaultOverride.Proxied != nil {
+						traefikRecord.Proxied = defaultOverride.Proxied
+					}
+					if defaultOverride.TTL != 0 {
+						traefikRecord.TTL = defaultOverride.TTL
+					}
+				}
+
+				userRecords = append(userRecords, traefikRecord)
+				ruleNames = append(ruleNames, parsedDomain)
 			}
 		}
 		log.Debugf("Found rules in Traefik %s: %s", traefikInstance.Name, strings.Join(ruleNames, ", "))

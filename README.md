@@ -24,6 +24,7 @@ Synchronize Traefik host rules and/or Kubernetes Ingresses with Cloudflare®.
   - [Overview](#overview)
     - [Config File](#config-file)
     - [Using Multiple Traefik Instances](#using-multiple-traefik-instances)
+    - [Overriding Default Settings](#overriding-default-settings)
     - [Kubernetes Ingress Support](#kubernetes-ingress-support)
     - [Environment Variables](#environment-variables)
     - [Defaults](#defaults)
@@ -94,6 +95,35 @@ traefikInstances:
 ```
 
 Every instance can be configured to use different HTTP basic auth, custom request headers and ignored rules.
+
+#### Overriding Default Settings
+
+Let's say you have the following Cloudflare defaults defined in config file:
+
+```yaml
+cloudflare:
+  defaults:
+    type: CNAME
+    ttl: 1
+    proxied: true
+```
+
+Usually, every DNS record created for a Traefik host rule will have those defaults.
+
+If you want to override those defaults, you can do so by specifying them in the `defaultOverrides` section of the config file under `traefikInstances`:
+
+```yaml
+traefikInstances:
+  - name: main
+    url: https://traefik.example.com
+    defaultOverrides:
+      - rule: app.example.com
+        type: A
+        ttl: 60
+        proxied: false
+```
+
+This will override the defaults for the `app.example.com` rule.
 
 #### Kubernetes Ingress Support
 

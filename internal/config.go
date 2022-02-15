@@ -28,6 +28,13 @@ type Configuration struct {
 		Password             string            `yaml:"password"`
 		CustomRequestHeaders map[string]string `yaml:"customRequestHeaders"`
 		IgnoredRules         []string          `yaml:"ignoredRules"`
+		DefaultOverrides     []struct {
+			Rule    string `yaml:"rule"`
+			Type    string `yaml:"type"`
+			Content string `yaml:"content"`
+			Proxied *bool  `yaml:"proxied"`
+			TTL     int    `yaml:"ttl"`
+		} `yaml:"defaultOverrides"`
 	} `yaml:"traefikInstances"`
 	Kubernetes struct {
 		Enabled *bool `yaml:"enabled"`
