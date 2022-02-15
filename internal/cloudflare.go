@@ -90,7 +90,7 @@ func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNS
 func CreateCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloudflare.DNSRecord, slackHandler *SlackHandler) {
 	_, err := cf.client.CreateDNSRecord(context.Background(), zoneID, record)
 	if err != nil {
-		errMsg := fmt.Sprintf("Unable to create DNS record %s: %s", record.Name, err)
+		errMsg := fmt.Sprintf("Unable to create Cloudflare DNS record %s: %s", record.Name, err)
 		slackHandler.AddSlackMessage(errMsg, "danger")
 		log.Error(errMsg)
 		return
@@ -108,7 +108,7 @@ func CreateCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloud
 func DeleteCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloudflare.DNSRecord, slackHandler *SlackHandler) {
 	err := cf.client.DeleteDNSRecord(context.Background(), zoneID, record.ID)
 	if err != nil {
-		errMsg := fmt.Sprintf("Unable to delete DNS record %s: %s", record.Name, err)
+		errMsg := fmt.Sprintf("Unable to delete Cloudflare DNS record %s: %s", record.Name, err)
 		slackHandler.AddSlackMessage(errMsg, "danger")
 		log.Error(errMsg)
 		return
@@ -140,7 +140,7 @@ func UpdateCloudflareDNSRecords(cf *CloudflareClient, zoneID string, cloudflareD
 			}
 			err := cf.client.UpdateDNSRecord(context.Background(), zoneID, dnsRecord.ID, updatedDNSRecord)
 			if err != nil {
-				errMsg := fmt.Sprintf("Unable to update DNS record %s: %s", dnsRecord.Name, err)
+				errMsg := fmt.Sprintf("Unable to update Cloudflare DNS record %s: %s", dnsRecord.Name, err)
 				slackHandler.AddSlackMessage(errMsg, "danger")
 				log.Error(errMsg)
 				continue

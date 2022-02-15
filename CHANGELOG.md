@@ -1,6 +1,16 @@
 # Changelog
 
+## [v5.4.1](https://github.com/containeroo/SyncFlaer/tree/v5.4.1) (2022-02-15)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.4.0...v5.4.1)
+
+**Bug fixes:**
+
+- Improve log messages
+
 ## [v5.4.0](https://github.com/containeroo/SyncFlaer/tree/v5.4.0) (2022-02-15)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.3.0...v5.4.0)
 
 **New features:**
 

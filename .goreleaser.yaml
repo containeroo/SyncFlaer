@@ -80,6 +80,7 @@ brews:
   - tap:
       owner: containeroo
       name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
     folder: Formula
     homepage: https://containeroo.ch
     description: Synchronize Traefik host rules and/or Kubernetes Ingresses with Cloudflare

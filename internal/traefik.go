@@ -53,7 +53,7 @@ func GetTraefikRules(config *Configuration, currentIP, zoneName string, userReco
 		client := &http.Client{}
 		req, err := http.NewRequest("GET", traefikHost, nil)
 		if err != nil {
-			log.Fatalf("Error creating http request for Traefik %s: %s", traefikInstance.Name, err)
+			log.Fatalf("Error creating http client for Traefik %s: %s", traefikInstance.Name, err)
 		}
 		if traefikInstance.Username != "" && traefikInstance.Password != "" {
 			req.SetBasicAuth(traefikInstance.Username, traefikInstance.Password)

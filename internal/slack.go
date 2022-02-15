@@ -31,7 +31,7 @@ func (s *SlackHandler) SendSlackMessage(config *Configuration) {
 
 	err := slack.PostWebhook(config.Notifications.Slack.WebhookURL, &msg)
 	if err != nil {
-		log.Errorf("Error sending slack message: %s", err)
+		log.Errorf("Unable to send Slack message: %s", err)
 	}
 }
 
