@@ -77,7 +77,8 @@ docker_manifests:
       - ghcr.io/containeroo/syncflaer:{{ .Tag }}-amd64
       - ghcr.io/containeroo/syncflaer:{{ .Tag }}-arm64
 brews:
-  - tap:
+  - name: syncflaer
+    tap:
       owner: containeroo
       name: homebrew-tap
       token: "{{ .Env.TAP_GITHUB_TOKEN }}"
