@@ -9,8 +9,8 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/traefik/traefik/v2 v2.6.1
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/apimachinery v0.23.2
-	k8s.io/client-go v0.23.2
+	k8s.io/apimachinery v0.23.4
+	k8s.io/client-go v0.23.4
 )
 
 require (
