@@ -1,5 +1,13 @@
 # Changelog
 
+## [v5.4.2](https://github.com/containeroo/SyncFlaer/tree/v5.4.2) (2022-03-22)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.4.1...v5.4.2)
+
+**Dependencies:**
+
+- Bump several dependencies
+
 ## [v5.4.1](https://github.com/containeroo/SyncFlaer/tree/v5.4.1) (2022-02-15)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.4.0...v5.4.1)
