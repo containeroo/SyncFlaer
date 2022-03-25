@@ -34,7 +34,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/traefik/paerser v0.1.4 // indirect
+	github.com/traefik/paerser v0.1.5 // indirect
 	github.com/vulcand/predicate v1.1.0 // indirect
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/mod v0.4.2 // indirect
