@@ -250,8 +250,8 @@ github.com/cloudflare/backoff v0.0.0-20161212185259-647f3cdfc87a/go.mod h1:rzgs2
 github.com/cloudflare/cfssl v0.0.0-20181213083726-b94e044bb51e/go.mod h1:yMWuSON2oQp+43nFtAV/uvKQIFpSPerB57DCt9t8sSA=
 github.com/cloudflare/cfssl v1.4.1/go.mod h1:KManx/OJPb5QY+y0+o/898AMcM128sF0bURvoVUSjTo=
 github.com/cloudflare/cloudflare-go v0.20.0/go.mod h1:sPWL/lIC6biLEdyGZwBQ1rGQKF1FhM7N60fuNiFdYTI=
-github.com/cloudflare/cloudflare-go v0.36.0 h1:GIDxQz61fYUFKs5Cr4mCbZlMz+GepX9+23W4/mjaQdk=
-github.com/cloudflare/cloudflare-go v0.36.0/go.mod h1:EfqOgbgOTf9U+67Z5MR2t/MuVj5OjLlXs+dN6DBh6C8=
+github.com/cloudflare/cloudflare-go v0.37.0 h1:8LUyAtev5PZ92Wzxzsm9jOQj0ZTz3BBc5F1ISfwgxvk=
+github.com/cloudflare/cloudflare-go v0.37.0/go.mod h1:EfqOgbgOTf9U+67Z5MR2t/MuVj5OjLlXs+dN6DBh6C8=
 github.com/cloudflare/go-metrics v0.0.0-20151117154305-6a9aea36fb41/go.mod h1:eaZPlJWD+G9wseg1BuRXlHnjntPMrywMsyxf+LTOdP4=
 github.com/cloudflare/redoctober v0.0.0-20171127175943-746a508df14c/go.mod h1:6Se34jNoqrd8bTxrmJB2Bg2aoZ2CdSXonils9NsiNgo=
 github.com/cnabio/cnab-go v0.10.0-beta1/go.mod h1:5c4uOP6ZppR4nUGtCMAElscRiYEUi44vNQwtSAvISXk=
