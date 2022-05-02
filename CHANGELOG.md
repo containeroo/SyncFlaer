@@ -6,7 +6,7 @@
 
 **New features:**
 
-- Added update checker
+- Added update checker. Can be disabled by setting `skipUpdateCheck` to `true`.
 
 **Dependencies:**
 

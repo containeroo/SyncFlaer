@@ -56,7 +56,9 @@ func main() {
 
 	config := internal.GetConfig(configFilePath)
 
-	go checkVersionUpdate()
+	if !*config.SkipUpdateCheck {
+		go checkVersionUpdate()
+	}
 
 	cf := internal.SetupCloudflareClient(&config.Cloudflare.APIToken)
 	zoneIDs := internal.CreateCloudflareZoneMap(&config.Cloudflare.ZoneNames, cf)

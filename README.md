@@ -159,6 +159,7 @@ If not specified, the following defaults apply:
 
 | Name                           | Default Value                                                                                                                            |
 |--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `skipUpdateCheck`              | `false`                                                                                                                                  |
 | `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip", "https://checkip.amazonaws.com", "https://api.ipify.org"]` |
 | `kubernetes.enabled`           | `false`                                                                                                                                  |
 | `managedRootRecord`            | `true`                                                                                                                                   |
