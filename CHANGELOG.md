@@ -1,5 +1,17 @@
 # Changelog
 
+## [v5.5.0](https://github.com/containeroo/SyncFlaer/tree/v5.5.0) (2022-05-02)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.4.2...v5.5.0)
+
+**New features:**
+
+- Added update checker
+
+**Dependencies:**
+
+- Bump several dependencies
+
 ## [v5.4.2](https://github.com/containeroo/SyncFlaer/tree/v5.4.2) (2022-03-22)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.4.1...v5.4.2)
