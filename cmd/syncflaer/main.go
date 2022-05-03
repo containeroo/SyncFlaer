@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/cloudflare/cloudflare-go"
 	"github.com/containeroo/syncflaer/internal/kube"
+	"github.com/google/go-github/v44/github"
 	"os"
 	"strconv"
 
@@ -12,7 +14,21 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "5.4.2"
+const version string = "5.5.0"
+
+var latestVersion string
+
+func checkVersionUpdate() {
+	githubClient := github.NewClient(nil)
+	latestRelease, _, err := githubClient.Repositories.GetLatestRelease(context.Background(), "containeroo", "syncflaer")
+	if err != nil {
+		log.Errorf("Failed to get latest release: %s", err)
+		return
+	}
+	if latestRelease.GetTagName() != fmt.Sprintf("v%s", version) {
+		latestVersion = latestRelease.GetTagName()
+	}
+}
 
 func main() {
 	log.SetOutput(os.Stdout)
@@ -39,6 +55,10 @@ func main() {
 	slackHandler := internal.NewSlackHandler()
 
 	config := internal.GetConfig(configFilePath)
+
+	if !*config.SkipUpdateCheck {
+		go checkVersionUpdate()
+	}
 
 	cf := internal.SetupCloudflareClient(&config.Cloudflare.APIToken)
 	zoneIDs := internal.CreateCloudflareZoneMap(&config.Cloudflare.ZoneNames, cf)
@@ -109,4 +129,8 @@ func main() {
 	}
 
 	slackHandler.SendSlackMessage(config)
+
+	if latestVersion != "" {
+		log.Infof("New version available: %s, download here: https://github.com/containeroo/syncflaer/releases/tag/%s", latestVersion, latestVersion)
+	}
 }

@@ -1,4 +1,7 @@
 ---
+# enable or disable update check
+skipUpdateCheck: false
+
 # a list of services that return the public IP
 ipProviders:
   - https://ifconfig.me/ip

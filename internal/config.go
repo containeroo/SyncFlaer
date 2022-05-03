@@ -12,8 +12,9 @@ import (
 )
 
 type Configuration struct {
-	IPProviders   []string `yaml:"ipProviders"`
-	Notifications struct {
+	SkipUpdateCheck *bool    `yaml:"skipUpdateCheck"`
+	IPProviders     []string `yaml:"ipProviders"`
+	Notifications   struct {
 		Slack struct {
 			WebhookURL string `yaml:"webhookURL"`
 			Username   string `yaml:"username"`
@@ -107,6 +108,7 @@ func GetConfig(configFilePath string) *Configuration {
 
 	// Set default values
 	trueVar := true
+	falseVar := false
 	if config.ManagedRootRecord == nil {
 		config.ManagedRootRecord = &trueVar
 		log.Debugf("ManagedRootRecord is not set, defaulting to %t", *config.ManagedRootRecord)
@@ -136,6 +138,11 @@ func GetConfig(configFilePath string) *Configuration {
 	if config.IPProviders == nil {
 		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/", "https://checkip.amazonaws.com", "https://api.ipify.org")
 		log.Debugf("IP providers is empty, defaulting to %s", strings.Join(config.IPProviders, ", "))
+	}
+
+	if config.SkipUpdateCheck == nil {
+		config.SkipUpdateCheck = &falseVar
+		log.Debugf("SkipUpdateCheck is not set, defaulting to %t", *config.SkipUpdateCheck)
 	}
 
 	if config.Notifications.Slack.Username == "" {
