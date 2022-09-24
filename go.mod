@@ -6,7 +6,7 @@ require (
 	github.com/cloudflare/cloudflare-go v0.40.0
 	github.com/google/go-github/v44 v44.1.0
 	github.com/sirupsen/logrus v1.8.1
-	github.com/slack-go/slack v0.10.3
+	github.com/slack-go/slack v0.11.3
 	github.com/spf13/pflag v1.0.5
 	github.com/traefik/traefik/v2 v2.7.0
 	gopkg.in/yaml.v2 v2.4.0
