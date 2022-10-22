@@ -2,7 +2,8 @@ package sf
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"github.com/traefik/traefik/v2/pkg/rules"
+	"io"
 	"net/http"
 	"net/url"
 	"path"
@@ -10,7 +11,6 @@ import (
 
 	"github.com/cloudflare/cloudflare-go"
 	log "github.com/sirupsen/logrus"
-	"github.com/traefik/traefik/v2/pkg/rules"
 )
 
 type TraefikRouter struct {
@@ -70,7 +70,7 @@ func GetTraefikRules(config *Configuration, currentIP, zoneName string, userReco
 			log.Fatalf("Unable to get Traefik %s rules: http status code %d", traefikInstance.Name, resp.StatusCode)
 		}
 
-		respData, err := ioutil.ReadAll(resp.Body)
+		respData, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatalf("Unable to read Traefik %s rules: %s", traefikInstance.Name, err)
 		}
