@@ -1,6 +1,6 @@
 module github.com/containeroo/syncflaer
 
-go 1.18
+go 1.19
 
 require (
 	github.com/cloudflare/cloudflare-go v0.52.0
