@@ -3,7 +3,7 @@ module github.com/containeroo/syncflaer
 go 1.19
 
 require (
-	github.com/cloudflare/cloudflare-go v0.52.0
+	github.com/cloudflare/cloudflare-go v0.53.0
 	github.com/google/go-github/v44 v44.1.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/slack-go/slack v0.11.3
@@ -44,7 +44,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/traefik/paerser v0.1.5 // indirect
 	github.com/vulcand/predicate v1.2.0 // indirect
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f // indirect
