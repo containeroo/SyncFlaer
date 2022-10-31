@@ -22,7 +22,7 @@ func checkVersionUpdate() {
 	githubClient := github.NewClient(nil)
 	latestRelease, _, err := githubClient.Repositories.GetLatestRelease(context.Background(), "containeroo", "syncflaer")
 	if err != nil {
-		log.Errorf("Failed to get latest release: %s", err)
+		log.Debugf("Failed to get latest release: %s", err)
 		return
 	}
 	if latestRelease.GetTagName() != fmt.Sprintf("v%s", version) {
