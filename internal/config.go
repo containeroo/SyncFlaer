@@ -136,7 +136,7 @@ func GetConfig(configFilePath string) *Configuration {
 	}
 
 	if config.IPProviders == nil {
-		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://myip.is/ip/", "https://checkip.amazonaws.com", "https://api.ipify.org")
+		config.IPProviders = append(config.IPProviders, "https://ifconfig.me/ip", "https://ipecho.net/plain", "https://checkip.amazonaws.com", "https://api.ipify.org")
 		log.Debugf("IP providers is empty, defaulting to %s", strings.Join(config.IPProviders, ", "))
 	}
 
