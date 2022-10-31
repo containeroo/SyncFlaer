@@ -1,5 +1,18 @@
 # Changelog
 
+## [v5.5.1](https://github.com/containeroo/SyncFlaer/tree/v5.5.1) (2022-10-31)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.5.0...v5.5.1)
+
+**Bug fixes:**
+
+- GitHub API errors are now debug messages (#141)
+- Remove `myip.is` from default ip providers list since it now returns a 404 (#142)
+
+**Dependencies:**
+
+- Bump several dependencies
+
 ## [v5.5.0](https://github.com/containeroo/SyncFlaer/tree/v5.5.0) (2022-05-02)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.4.2...v5.5.0)

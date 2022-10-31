@@ -1,7 +1,7 @@
 package sf
 
 import (
-	"io/ioutil"
+	"io"
 	"math/rand"
 	"net"
 	"net/http"
@@ -29,7 +29,7 @@ func GetCurrentIP(ipProviders *[]string) string {
 			log.Errorf("Unable to get public ip from %s: http status code %d", provider, resp.StatusCode)
 			continue
 		}
-		ip, err := ioutil.ReadAll(resp.Body)
+		ip, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Errorf("Unable to get public ip from %s: %s", provider, err)
 			continue

@@ -1,7 +1,6 @@
 package sf
 
 import (
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -64,7 +63,7 @@ func maskValue(value string) string {
 
 func GetConfig(configFilePath string) *Configuration {
 	log.Debugf("Loading config file %s", configFilePath)
-	configFile, err := ioutil.ReadFile(configFilePath)
+	configFile, err := os.ReadFile(configFilePath)
 	if err != nil {
 		log.Fatalf("Unable to load config file %s from disk: %s", configFilePath, err)
 	}
