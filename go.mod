@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/cloudflare/cloudflare-go v0.53.0
 	github.com/google/go-github/v44 v44.1.0
+	github.com/google/go-github/v48 v48.2.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/slack-go/slack v0.11.3
 	github.com/spf13/pflag v1.0.5
