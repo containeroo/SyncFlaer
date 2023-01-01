@@ -1,5 +1,17 @@
 # Changelog
 
+## [v5.5.2](https://github.com/containeroo/SyncFlaer/tree/v5.5.2) (2023-01-01)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.5.1...v5.5.2)
+
+**Bug fixes:**
+
+- Remove trailing dot from `additionalRecords` (#158)
+
+**Dependencies:**
+
+- Bump several dependencies
+
 ## [v5.5.1](https://github.com/containeroo/SyncFlaer/tree/v5.5.1) (2022-10-31)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.5.0...v5.5.1)

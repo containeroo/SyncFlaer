@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/cloudflare/cloudflare-go"
 	"github.com/containeroo/syncflaer/internal/kube"
-	"github.com/google/go-github/v44/github"
+	"github.com/google/go-github/v48/github"
 	"os"
 	"strconv"
 
