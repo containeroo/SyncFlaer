@@ -9,7 +9,7 @@ require (
 	github.com/slack-go/slack v0.12.1
 	github.com/spf13/pflag v1.0.5
 	github.com/traefik/traefik/v2 v2.6.7
-	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/apimachinery v0.26.0
 	k8s.io/client-go v0.26.0
 )
@@ -57,7 +57,7 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	k8s.io/api v0.26.0 // indirect
 	k8s.io/klog/v2 v2.80.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20221012153701-172d655c2280 // indirect
