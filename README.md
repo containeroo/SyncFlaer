@@ -216,7 +216,7 @@ Everything after the `env:` part will be used as the name of the environment var
 
 ## Copyright
 
-2022 containeroo
+2023 containeroo
 
 Cloudflare and the Cloudflare logo are registered trademarks owned by Cloudflare Inc.
 This project is not affiliated with Cloudflare®.
