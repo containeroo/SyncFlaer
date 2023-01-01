@@ -25,6 +25,7 @@ additionalRecords:
 				continue additionalRecords
 			}
 		}
+		additionalRecord.Name = strings.TrimSuffix(additionalRecord.Name, ".")
 		if additionalRecord.Type == "" {
 			additionalRecord.Type = config.Cloudflare.Defaults.Type
 		}
