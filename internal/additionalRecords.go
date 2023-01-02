@@ -21,7 +21,7 @@ additionalRecords:
 		}
 		for _, userRecord := range userRecords {
 			if userRecord.Name == additionalRecord.Name {
-				log.Warnf("DNS record %s is already defined in a Traefik route. Skipping...", userRecord.Name)
+				log.Warnf("DNS record %s already exists. Skipping...", userRecord.Name)
 				continue additionalRecords
 			}
 		}
