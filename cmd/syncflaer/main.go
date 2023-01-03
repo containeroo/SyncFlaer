@@ -14,7 +14,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const version string = "5.5.1"
+const version string = "5.5.3"
 
 var latestVersion string
 

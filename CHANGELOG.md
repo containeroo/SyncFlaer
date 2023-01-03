@@ -1,5 +1,14 @@
 # Changelog
 
+## [v5.5.3](https://github.com/containeroo/SyncFlaer/tree/v5.5.3) (2023-01-02)
+
+[All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.5.2...v5.5.3)
+
+**Bug fixes:**
+
+- Improve log message for duplicated DNS records
+- Fix version output
+
 ## [v5.5.2](https://github.com/containeroo/SyncFlaer/tree/v5.5.2) (2023-01-01)
 
 [All Commits](https://github.com/containeroo/SyncFlaer/compare/v5.5.1...v5.5.2)
