@@ -82,7 +82,7 @@ additionalRecords:
   - name: a.example.com
     proxied: true
     type: A
-    contents: 1.1.1.1
+    content: 1.1.1.1
 
 cloudflare:
   # global Cloudflare API token
