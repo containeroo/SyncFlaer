@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/cloudflare/cloudflare-go"
-	"github.com/containeroo/syncflaer/internal/kube"
-	"github.com/google/go-github/v49/github"
 	"os"
 	"strconv"
+
+	"github.com/cloudflare/cloudflare-go"
+	"github.com/containeroo/syncflaer/internal/kube"
+	"github.com/google/go-github/v50/github"
 
 	internal "github.com/containeroo/syncflaer/internal"
 
