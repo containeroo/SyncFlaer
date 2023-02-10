@@ -21,7 +21,7 @@ notifications:
     iconURL: https://url.to/image.png
 
 traefikInstances:
-    # the name of the Traefik instance
+  # the name of the Traefik instance
   - name: main
     # base URL for Traefik dashboard and API (https://doc.traefik.io/traefik/operations/api/)
     url: https://traefik.example.com
@@ -37,7 +37,7 @@ traefikInstances:
       # headers can either be key value pairs in plain text
       X-Example-Header: Example-Value
       # or the value can be imported from environment variables using the 'env:' prefix
-      Authorization: env:MY_AUTH_VAR  # in this case the contents of $MY_AUTH_VAR environment variable will be used as the value
+      Authorization: env:MY_AUTH_VAR # in this case the contents of $MY_AUTH_VAR environment variable will be used as the value
     # a list of rules which will be ignored
     # these rules are matched as a substring of the entire Traefik rule (i.e test.local.example.com would also match)
     ignoredRules:
@@ -46,7 +46,7 @@ traefikInstances:
     # you can define overrides for the default settings for each Traefik rule
     # this can be useful, if you want to have some rules with different settings than the ones defined in cloudflare.defaults
     defaultOverrides:
-        # host must match with the host of the Traefik rule
+      # host must match with the host of the Traefik rule
       - rule: my.example.com
         # specify the overrides (type, content, proxied, ttl)
         proxied: false
@@ -69,9 +69,10 @@ traefikInstances:
 kubernetes:
   enabled: true
 
-# set whether you want to have the root record managed by SyncFlaer
-# if you don't need a root record, you can set this to false
-# it is also helpful to set this to false if your root record points to a different server
+# set whether you want to have the root record automatically managed by SyncFlaer
+# if you don't need a root record, you can set this to false, the root record gets deleted automatically
+# you also have to set this to false, if your root record points to a different server
+# you can then use additionalRecords to configure your root record by yourself
 managedRootRecord: true
 
 # specify additional DNS records for services absent in Traefik (i.e. vpn server)
