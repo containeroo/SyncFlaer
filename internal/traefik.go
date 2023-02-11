@@ -2,7 +2,6 @@ package sf
 
 import (
 	"encoding/json"
-	"github.com/traefik/traefik/v2/pkg/rules"
 	"io"
 	"net/http"
 	"net/url"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/cloudflare/cloudflare-go"
 	log "github.com/sirupsen/logrus"
+	httpmuxer "github.com/traefik/traefik/v2/pkg/muxer/http"
 )
 
 type TraefikRouter struct {
@@ -91,7 +91,7 @@ func GetTraefikRules(config *Configuration, currentIP, zoneName string, userReco
 
 		var ruleNames []string
 		for _, router := range traefikRouters {
-			parsedDomains, err := rules.ParseDomains(router.Rule)
+			parsedDomains, err := httpmuxer.ParseDomains(router.Rule)
 			if err != nil {
 				log.Fatalf("Unable to parse rule %s for Traefik %s: %s", router.Rule, traefikInstance.Name, err)
 			}
