@@ -19,7 +19,7 @@ github.com/emicklei/go-restful/v3 v3.9.0/go.mod h1:6n3XBCmQQb25CM2LCACGz8ukIrRry
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/fatih/color v1.13.0 h1:8LOYc1KYPPmyKMuN8QV2DNRWNbLo6LZ0iLs8+mlH53w=
-github.com/go-acme/lego/v4 v4.10.0 h1:G4Cgq4lsPxCjqsTKsqhUjRs3oKAGVMFPhvrl6kzzs44=
+github.com/go-acme/lego/v4 v4.10.2 h1:5eW3qmda5v/LP21v1Hj70edKY1jeFZQwO617tdkwp6Q=
 github.com/go-jose/go-jose/v3 v3.0.0 h1:s6rrhirfEP/CGIoc6p+PZAeogN2SxKav6Wp7+dyMWVo=
 github.com/go-kit/kit v0.10.1-0.20200915143503-439c4d2ed3ea h1:CnEQOUv4ilElSwFB9g/lVmz206oLE4aNZDYngIY1Gvg=
 github.com/go-logr/logr v1.2.0/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
@@ -140,8 +140,8 @@ github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=
 github.com/traefik/paerser v0.2.0 h1:zqCLGSXoNlcBd+mzqSCLjon/I6phqIjeJL2xFB2ysgQ=
 github.com/traefik/paerser v0.2.0/go.mod h1:afzaVcgF8A+MpTnPG4wBr4whjanCSYA6vK5RwaYVtRc=
-github.com/traefik/traefik/v2 v2.9.8 h1:vRdhEJc+qLICTXsOwcV+q8z25HFxqS7YeCkf1X08+CE=
-github.com/traefik/traefik/v2 v2.9.8/go.mod h1:PqqD+i1/9HprbfjSRXmSC3gk8IXR47fnKdf+dDq2nWI=
+github.com/traefik/traefik/v2 v2.9.10 h1:lnUb167XG/2hbVMYi3YyI8dkm4PZ1NrttPq2R2lLbsc=
+github.com/traefik/traefik/v2 v2.9.10/go.mod h1:V1Xf/2ht2NyeYXEPWaA/5C+up4aPYxxcU4ajIyhzERU=
 github.com/vulcand/predicate v1.2.0 h1:uFsW1gcnnR7R+QTID+FVcs0sSYlIGntoGOTb3rQJt50=
 github.com/vulcand/predicate v1.2.0/go.mod h1:VipoNYXny6c8N381zGUWkjuuNHiRbeAZhE7Qm9c+2GA=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
