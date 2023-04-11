@@ -966,6 +966,11 @@ github.com/traefik/paerser v0.2.1 h1:LFgeak1NmjEHF53c9ENdXdL1UMkF/lD5t+7Evsz4hH4
 github.com/traefik/paerser v0.2.1/go.mod h1:7BBDd4FANoVgaTZG+yh26jI6CA2nds7D/4VTEdIsh24=
 github.com/traefik/traefik/v2 v2.11.10 h1:QQY4XAKcjXhuXHs8VO8Y/l01pP5LLFxRxQV/ezUL+KQ=
 github.com/traefik/traefik/v2 v2.11.10/go.mod h1:fZvS5aKAK7pB1BPTr/ENxC/LsBMuerrxcO+y4bjp/2M=
+github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=
+github.com/traefik/paerser v0.2.0 h1:zqCLGSXoNlcBd+mzqSCLjon/I6phqIjeJL2xFB2ysgQ=
+github.com/traefik/paerser v0.2.0/go.mod h1:afzaVcgF8A+MpTnPG4wBr4whjanCSYA6vK5RwaYVtRc=
+github.com/traefik/traefik/v2 v2.9.10 h1:lnUb167XG/2hbVMYi3YyI8dkm4PZ1NrttPq2R2lLbsc=
+github.com/traefik/traefik/v2 v2.9.10/go.mod h1:V1Xf/2ht2NyeYXEPWaA/5C+up4aPYxxcU4ajIyhzERU=
 github.com/vulcand/predicate v1.2.0 h1:uFsW1gcnnR7R+QTID+FVcs0sSYlIGntoGOTb3rQJt50=
 github.com/vulcand/predicate v1.2.0/go.mod h1:VipoNYXny6c8N381zGUWkjuuNHiRbeAZhE7Qm9c+2GA=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
