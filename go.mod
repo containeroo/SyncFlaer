@@ -6,7 +6,7 @@ toolchain go1.23.1
 
 require (
 	github.com/cloudflare/cloudflare-go v0.97.0
-	github.com/google/go-github/v50 v50.1.0
+	github.com/google/go-github/v50 v50.2.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/slack-go/slack v0.12.1
 	github.com/spf13/pflag v1.0.5
@@ -17,6 +17,8 @@ require (
 )
 
 require (
+	github.com/ProtonMail/go-crypto v0.0.0-20230217124315-7d5c6f04bbb8 // indirect
+	github.com/cloudflare/circl v1.1.0 // indirect
 	github.com/containous/alice v0.0.0-20181107144136-d83ebdd94cbd // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
