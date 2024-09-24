@@ -5,7 +5,8 @@ go 1.23.0
 toolchain go1.23.1
 
 require (
-	github.com/cloudflare/cloudflare-go v0.104.0
+	github.com/cloudflare/cloudflare-go v0.97.0
+	github.com/cloudflare/cloudflare-go/v3 v3.1.0
 	github.com/google/go-github/v50 v50.2.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/slack-go/slack v0.14.0
@@ -38,6 +39,8 @@ require (
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/gravitational/trace v1.1.16-0.20220114165159-14a9a7dd6aaf // indirect
+	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
+	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/jonboulle/clockwork v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
