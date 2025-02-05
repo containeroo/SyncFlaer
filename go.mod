@@ -9,7 +9,7 @@ require (
 	github.com/google/go-github/v50 v50.2.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/slack-go/slack v0.14.0
-	github.com/spf13/pflag v1.0.5
+	github.com/spf13/pflag v1.0.6
 	github.com/traefik/traefik/v2 v2.11.10
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/apimachinery v0.31.1
