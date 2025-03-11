@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine as builder
+FROM golang:1.24-alpine as builder
 
 RUN mkdir -p /go/src/github.com/containeroo/syncflaer
 WORKDIR /go/src/github.com/containeroo/syncflaer
