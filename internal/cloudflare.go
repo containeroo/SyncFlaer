@@ -3,10 +3,11 @@ package sf
 import (
 	"context"
 	"fmt"
-	"github.com/cloudflare/cloudflare-go"
-	log "github.com/sirupsen/logrus"
 	"strconv"
 	"strings"
+
+	"github.com/cloudflare/cloudflare-go"
+	log "github.com/sirupsen/logrus"
 )
 
 type CloudflareClient struct {
@@ -42,7 +43,8 @@ func CreateCloudflareZoneMap(zoneNames *[]string, cf *CloudflareClient) map[stri
 }
 
 func GetCloudflareDNSRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNSRecord {
-	dnsRecords, err := cf.client.DNSRecords(context.Background(), zoneID, cloudflare.DNSRecord{})
+	zoneResource := cloudflare.ZoneIdentifier(zoneID)
+	dnsRecords, _, err := cf.client.ListDNSRecords(context.Background(), zoneResource, cloudflare.ListDNSRecordsParams{})
 	if err != nil {
 		log.Fatalf("Unable to get Cloudflare DNS records: %s", err)
 	}
@@ -50,6 +52,7 @@ func GetCloudflareDNSRecords(cf *CloudflareClient, zoneID string) []cloudflare.D
 	var cloudflareDNSRecords []cloudflare.DNSRecord
 	var cloudflareDNSRecordNames []string
 
+	// Iterate over the DNS records
 	for _, dnsRecord := range dnsRecords {
 		if dnsRecord.Type != "CNAME" && dnsRecord.Type != "A" {
 			continue
@@ -57,15 +60,18 @@ func GetCloudflareDNSRecords(cf *CloudflareClient, zoneID string) []cloudflare.D
 		cloudflareDNSRecords = append(cloudflareDNSRecords, dnsRecord)
 		cloudflareDNSRecordNames = append(cloudflareDNSRecordNames, dnsRecord.Name)
 	}
+
 	log.Debugf("Found Cloudflare DNS records: %s", strings.Join(cloudflareDNSRecordNames, ", "))
 
 	return cloudflareDNSRecords
 }
 
 func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNSRecord {
-	dnsRecords, err := cf.client.DNSRecords(context.Background(), zoneID, cloudflare.DNSRecord{
+	filter := cloudflare.ListDNSRecordsParams{
 		Type: "TXT",
-	})
+	}
+	zoneResource := cloudflare.ZoneIdentifier(zoneID)
+	dnsRecords, _, err := cf.client.ListDNSRecords(context.Background(), zoneResource, filter)
 	if err != nil {
 		log.Fatalf("Unable to get delete grace DNS records: %s", err)
 	}
@@ -88,7 +94,16 @@ func GetDeleteGraceRecords(cf *CloudflareClient, zoneID string) []cloudflare.DNS
 }
 
 func CreateCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloudflare.DNSRecord, slackHandler *SlackHandler) {
-	_, err := cf.client.CreateDNSRecord(context.Background(), zoneID, record)
+	createParams := cloudflare.CreateDNSRecordParams{
+		Type:    record.Type,
+		Name:    record.Name,
+		Content: record.Content,
+		TTL:     record.TTL,
+		Proxied: record.Proxied,
+	}
+	zoneResource := cloudflare.ZoneIdentifier(zoneID)
+
+	_, err := cf.client.CreateDNSRecord(context.Background(), zoneResource, createParams)
 	if err != nil {
 		errMsg := fmt.Sprintf("Unable to create Cloudflare DNS record %s: %s", record.Name, err)
 		slackHandler.AddSlackMessage(errMsg, "danger")
@@ -106,7 +121,8 @@ func CreateCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloud
 }
 
 func DeleteCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloudflare.DNSRecord, slackHandler *SlackHandler) {
-	err := cf.client.DeleteDNSRecord(context.Background(), zoneID, record.ID)
+	zoneResource := cloudflare.ZoneIdentifier(zoneID)
+	err := cf.client.DeleteDNSRecord(context.Background(), zoneResource, record.ID)
 	if err != nil {
 		errMsg := fmt.Sprintf("Unable to delete Cloudflare DNS record %s: %s", record.Name, err)
 		slackHandler.AddSlackMessage(errMsg, "danger")
@@ -124,6 +140,7 @@ func DeleteCloudflareDNSRecord(cf *CloudflareClient, zoneID string, record cloud
 }
 
 func UpdateCloudflareDNSRecords(cf *CloudflareClient, zoneID string, cloudflareDNSRecords, userRecords []cloudflare.DNSRecord, slackHandler *SlackHandler) {
+	zoneResource := cloudflare.ZoneIdentifier(zoneID)
 	for _, dnsRecord := range cloudflareDNSRecords {
 		for _, userRecord := range userRecords {
 			if dnsRecord.Name != userRecord.Name {
@@ -132,13 +149,16 @@ func UpdateCloudflareDNSRecords(cf *CloudflareClient, zoneID string, cloudflareD
 			if *dnsRecord.Proxied == *userRecord.Proxied && dnsRecord.TTL == userRecord.TTL && dnsRecord.Content == userRecord.Content {
 				continue
 			}
-			updatedDNSRecord := cloudflare.DNSRecord{
+			updatedDNSRecord := cloudflare.UpdateDNSRecordParams{
+				ID:      dnsRecord.ID,
 				Type:    userRecord.Type,
+				Name:    userRecord.Name,
 				Content: userRecord.Content,
 				Proxied: userRecord.Proxied,
 				TTL:     userRecord.TTL,
 			}
-			err := cf.client.UpdateDNSRecord(context.Background(), zoneID, dnsRecord.ID, updatedDNSRecord)
+
+			_, err := cf.client.UpdateDNSRecord(context.Background(), zoneResource, updatedDNSRecord)
 			if err != nil {
 				errMsg := fmt.Sprintf("Unable to update Cloudflare DNS record %s: %s", dnsRecord.Name, err)
 				slackHandler.AddSlackMessage(errMsg, "danger")
@@ -207,7 +227,19 @@ func UpdateDeleteGraceRecord(cf *CloudflareClient, zoneID string, deleteGraceRec
 	newDeleteGrace, _ := strconv.Atoi(deleteGraceRecord.Content)
 	newDeleteGrace--
 	deleteGraceRecord.Content = strconv.Itoa(newDeleteGrace)
-	err := cf.client.UpdateDNSRecord(context.Background(), zoneID, deleteGraceRecord.ID, deleteGraceRecord)
+
+	updateParams := cloudflare.UpdateDNSRecordParams{
+		ID:      deleteGraceRecord.ID,
+		Type:    deleteGraceRecord.Type,
+		Name:    deleteGraceRecord.Name,
+		Content: deleteGraceRecord.Content,
+		TTL:     deleteGraceRecord.TTL,
+		Proxied: deleteGraceRecord.Proxied,
+	}
+
+	zoneResource := cloudflare.ZoneIdentifier(zoneID)
+
+	_, err := cf.client.UpdateDNSRecord(context.Background(), zoneResource, updateParams)
 	if err != nil {
 		log.Errorf("Unable to update delete grace DNS record %s: %s", deleteGraceRecord.Name, err)
 		return
