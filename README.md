@@ -1,5 +1,10 @@
 # SyncFlaer
 
+> **Deprecation/Archival Notice**
+> Thanks for using SyncFlaer! This project is archived and no longer maintained.
+> It is deprecated in favor of our Kubernetes operator [cloudflare-operator](https://github.com/containeroo/cloudflare-operator), which continues to get updates and support.
+> If possible, please migrate to using cloudflare-operator for managing your Cloudflare DNS records in Kubernetes environments.
+
 Synchronize Traefik host rules and/or Kubernetes Ingresses with Cloudflare®.
 
 ## Why?
@@ -67,7 +72,7 @@ The full configuration file can be found at `configs/config.yml`.
 
 #### Using Multiple Traefik Instances
 
-You can configure SyncFlaer to gather host rules from multiple Traefik instances.  
+You can configure SyncFlaer to gather host rules from multiple Traefik instances.
 The configuration for two instances would look like this:
 
 ```yaml
@@ -125,8 +130,8 @@ This will override the defaults for the `app.example.com` rule.
 
 SyncFlaer can be configured to support Kubernetes Ingresses. By default, SyncFlaer will sync all Ingresses.
 
-If you run SyncFlaer in a Kubernetes cluster, please refer to the `deployments/kubernetes` folder for an example deployment.  
-If you run SyncFlaer outside a Kubernetes cluster, you can use the `KUBECONFIG` environment variable to configure a specific kubeconfig file.  
+If you run SyncFlaer in a Kubernetes cluster, please refer to the `deployments/kubernetes` folder for an example deployment.
+If you run SyncFlaer outside a Kubernetes cluster, you can use the `KUBECONFIG` environment variable to configure a specific kubeconfig file.
 If the `KUBECONFIG` environment variable is not set, SyncFlaer will use the default kubeconfig file located at `$HOME/.kube/config`.
 
 If you want to ignore specific Ingresses, use the annotation `syncflaer.containeroo.ch/ignore=true`.
@@ -134,7 +139,7 @@ If you want to ignore specific Ingresses, use the annotation `syncflaer.containe
 To overwrite the default configuration for DNS records, you can specify the following annotations for each Ingress:
 
 | Annotation                         | Example        |
-|------------------------------------|----------------|
+| ---------------------------------- | -------------- |
 | `syncflaer.containeroo.ch/type`    | `A` or `CNAME` |
 | `syncflaer.containeroo.ch/content` | `example.com`  |
 | `syncflaer.containeroo.ch/proxied` | `true`         |
@@ -147,7 +152,7 @@ Instead of putting secrets in the config file, SyncFlaer can grab secrets from e
 You can define the names of the environment variables by using the `env:` prefix.
 
 | Configuration                                | Example                   |
-|----------------------------------------------|---------------------------|
+| -------------------------------------------- | ------------------------- |
 | `notifications.slack.webhookURL`             | `env:SLACK_TOKEN`         |
 | `password` in `traefikInstances`             | `env:TRAEFIK_K8S_PW`      |
 | `customRequestHeaders` in `traefikInstances` | `env:TRAEFIK_AUTH_HEADER` |
@@ -158,7 +163,7 @@ You can define the names of the environment variables by using the `env:` prefix
 If not specified, the following defaults apply:
 
 | Name                           | Default Value                                                                                                      |
-|--------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | `skipUpdateCheck`              | `false`                                                                                                            |
 | `ipProviders`                  | `["https://ifconfig.me/ip", "https://ipecho.net/plain", "https://checkip.amazonaws.com", "https://api.ipify.org"]` |
 | `kubernetes.enabled`           | `false`                                                                                                            |
@@ -177,7 +182,7 @@ You can specify additional DNS records which are not configured as Traefik hosts
 #### Example A Record
 
 | Key       | Example         | Default Value                 | Required |
-|-----------|-----------------|-------------------------------|----------|
+| --------- | --------------- | ----------------------------- | -------- |
 | `name`    | `a.example.com` | none                          | yes      |
 | `type`    | `A`             | `cloudflare.defaults.type`    | no       |
 | `proxied` | `true`          | `cloudflare.defaults.proxied` | no       |
@@ -187,7 +192,7 @@ You can specify additional DNS records which are not configured as Traefik hosts
 #### Example CNAME Record
 
 | Key       | Example           | Default Value                 | Required |
-|-----------|-------------------|-------------------------------|----------|
+| --------- | ----------------- | ----------------------------- | -------- |
 | `name`    | `vpn.example.com` | none                          | yes      |
 | `type`    | `CNAME`           | `cloudflare.defaults.type`    | no       |
 | `proxied` | `false`           | `cloudflare.defaults.proxied` | no       |
@@ -200,17 +205,19 @@ To create an API token visit https://dash.cloudflare.com/profile/api-tokens, cli
 
 Select the following settings:
 
-**Permissions:**  
+**Permissions:**
+
 - `Zone` - `DNS` - `Edit`
 
-**Zone Resources:**  
+**Zone Resources:**
+
 - `Include` - `All Zones`
 
 ## Upgrade Notes
 
 ### From 4.x to 5.x
 
-The `cloudflare.apiToken` config is now required to be present in config file.  
+The `cloudflare.apiToken` config is now required to be present in config file.
 If you want to use environment variables for Slack webhook URL, Traefik HTTP basic auth password and Cloudflare API token, you have to use the `env:` prefix.
 Everything after the `env:` part will be used as the name of the environment variable.
 
