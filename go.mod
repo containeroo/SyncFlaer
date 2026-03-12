@@ -8,7 +8,7 @@ require (
 	github.com/cloudflare/cloudflare-go v0.104.0
 	github.com/google/go-github/v50 v50.2.0
 	github.com/sirupsen/logrus v1.9.3
-	github.com/slack-go/slack v0.14.0
+	github.com/slack-go/slack v0.17.3
 	github.com/spf13/pflag v1.0.5
 	github.com/traefik/traefik/v2 v2.11.10
 	gopkg.in/yaml.v3 v3.0.1
@@ -36,7 +36,7 @@ require (
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
-	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/gravitational/trace v1.1.16-0.20220114165159-14a9a7dd6aaf // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/jonboulle/clockwork v0.4.0 // indirect
